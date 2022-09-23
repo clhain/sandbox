@@ -1,0 +1,9 @@
+enableDashboard: true
+enableServiceMonitor: true
+enableRBAC: true
+
+enableDeployment: true
+opentelemetry-operator:
+  manager:
+    serviceMonitor:
+      enabled: true

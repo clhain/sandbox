@@ -1,0 +1,37 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: sandbox-cluster-apps
+  namespace: argocd   ## YOUR ARGOCD NAMESPACE
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd   ## YOUR ARGOCD NAMESPACE
+  project: default      ## YOUR ARGOCD PROJECT
+  source:
+    repoURL: https://github.com/clhain/sandbox-helm-charts.git
+    path: charts/sandbox-apps
+    targetRevision: HEAD
+    helm:
+      parameters:
+        - name: clusterDomain
+          value:                              # YOUR CLUSTER DOMAIN (e.g. example.com)
+        - name: clusterIngressIP
+          value:                              # YOUR CLUSTER Ingress IP (e.g. 1.2.3.4)
+        - name: oidcClientID
+          value:                              # YOUR OIDC Client ID String
+        - name: oidcClientSecret
+          value:                              # YOUR OIDC Client Secret String
+        - name: oidcIssuerURL
+          value:                              # YOUR OIDC ISSUER URL (e.g. "https://login.microsoftonline.com/TENANT/v2.0") 
+        - name: oidcPermittedEmailDomains
+          value: "*"                          # YOUR PERMITTED OIDC EMAIL DOMAINS (e.g. example.com)
+        - name: letsEncryptContactEmail
+          value:                              # YOUR LETS ENCRYPT CONTACT EMAIL (e.g. nobody@example.com)
+        - name: apps.argo-virtual-server.enabled
+          value: false                        # Turn off the ArgoCD Virtual server assuming it's already exposed via manual process.
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

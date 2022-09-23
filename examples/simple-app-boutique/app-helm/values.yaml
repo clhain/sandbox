@@ -1,0 +1,128 @@
+# Configure the host record name prefix e.g. "app" in app.example.com
+hostRecordName: app
+# Configure the host record domain e.g. "example.com" in app.example.com
+hostRecordDomain: example.com
+enablePodLogs: true
+
+# Custom settings for the opentelemetry demo helm chart:
+opentelemetry-demo:
+  # Disable otel collector and jaeger as the sandbox cluster already has these.
+  observability:
+    otelcol:
+      enabled: false
+    jaeger:
+      enabled: false
+
+  default:
+
+  # Individual component settings to customize pod annotations for sidecar injection and otel SDK exporter settings.
+  components:
+    redis:
+      enabled: true
+      image: redis:alpine
+      ports:
+      - name: redis
+        value: 6379
+      podAnnotations:
+        injector.nsm.nginx.com/auto-inject: "false"
+        config.nsm.nginx.com/ignore-outgoing-ports: "4317,4318,14268"
+
+    adService:
+      env:
+        - name: OTEL_EXPORTER_OTLP_TRACES_ENDPOINT
+          value: http://otc-collector-headless.opentelemetry-operator.svc:4317
+        - name: OTEL_EXPORTER_OTLP_METRICS_ENDPOINT
+          value: http://otc-collector-headless.opentelemetry-operator.svc:4317
+      podAnnotations:
+        injector.nsm.nginx.com/auto-inject: "false"
+        config.nsm.nginx.com/ignore-incoming-ports: "4317,4318,14268"
+        config.nsm.nginx.com/ignore-outgoing-ports: "4317,4318,14268"
+
+    cartService:
+      env:
+        - name: ASPNETCORE_URLS
+          value: http://*:8080
+        - name: OTEL_EXPORTER_OTLP_ENDPOINT
+          value: http://otc-collector-headless.opentelemetry-operator.svc:4317
+      podAnnotations:
+        injector.nsm.nginx.com/auto-inject: "false"
+        config.nsm.nginx.com/ignore-incoming-ports: "4317,4318,14268"
+        config.nsm.nginx.com/ignore-outgoing-ports: "4317,4318,14268"
+
+    checkoutService:
+      env:
+        - name: OTEL_EXPORTER_OTLP_TRACES_ENDPOINT
+          value: http://otc-collector-headless.opentelemetry-operator.svc:4317
+      podAnnotations:
+        injector.nsm.nginx.com/auto-inject: "false"
+        config.nsm.nginx.com/ignore-incoming-ports: "4317,4318,14268"
+        config.nsm.nginx.com/ignore-outgoing-ports: "4317,4318,14268"
+
+    currencyService:
+      env:
+        - name: OTEL_EXPORTER_OTLP_TRACES_ENDPOINT
+          value: http://otc-collector-headless.opentelemetry-operator.svc:4317
+        - name: PORT
+          value: '8080'
+      podAnnotations:
+        injector.nsm.nginx.com/auto-inject: "false"
+        config.nsm.nginx.com/ignore-incoming-ports: "4317,4318,14268"
+        config.nsm.nginx.com/ignore-outgoing-ports: "4317,4318,14268"
+
+    emailService:
+      env:
+        - name: OTEL_EXPORTER_OTLP_TRACES_ENDPOINT
+          value: http://otc-collector-headless.opentelemetry-operator.svc:4318/v1/traces
+        - name: APP_ENV
+          value: production
+        - name: PORT
+          value: '8080'
+
+    frontend:
+      env:
+        - name: OTEL_EXPORTER_OTLP_ENDPOINT
+          value: http://otc-collector-headless.opentelemetry-operator.svc:4317
+        - name: OTEL_EXPORTER_OTLP_TRACES_ENDPOINT
+          value: http://otc-collector-headless.opentelemetry-operator.svc:4317
+        - name: FRONTEND_ADDR
+          value: :8080
+      podAnnotations:
+        injector.nsm.nginx.com/auto-inject: "false"
+        config.nsm.nginx.com/ignore-incoming-ports: "4317,4318,14268"
+        config.nsm.nginx.com/ignore-outgoing-ports: "4317,4318,14268"
+
+    paymentService:
+      env:
+        - name: OTEL_EXPORTER_OTLP_TRACES_ENDPOINT
+          value: http://otc-collector-headless.opentelemetry-operator.svc:4317
+
+    productCatalogService:
+      env:
+        - name: OTEL_EXPORTER_OTLP_TRACES_ENDPOINT
+          value: http://otc-collector-headless.opentelemetry-operator.svc:4317
+      podAnnotations:
+        injector.nsm.nginx.com/auto-inject: "false"
+        config.nsm.nginx.com/ignore-incoming-ports: "4317,4318,14268"
+        config.nsm.nginx.com/ignore-outgoing-ports: "4317,4318,14268"
+
+    recommendationService:
+      env:
+        - name: OTEL_EXPORTER_OTLP_TRACES_ENDPOINT
+          value: http://otc-collector-headless.opentelemetry-operator.svc:4317
+        - name: OTEL_PYTHON_LOG_CORRELATION
+          value: 'true'
+      podAnnotations:
+        injector.nsm.nginx.com/auto-inject: "false"
+        config.nsm.nginx.com/ignore-incoming-ports: "4317,4318,14268"
+        config.nsm.nginx.com/ignore-outgoing-ports: "4317,4318,14268"
+
+    shippingService:
+      env:
+        - name: OTEL_EXPORTER_OTLP_TRACES_ENDPOINT
+          value: http://otc-collector-headless.opentelemetry-operator.svc:4317
+        - name: PORT
+          value: '8080'
+      podAnnotations:
+        injector.nsm.nginx.com/auto-inject: "false"
+        config.nsm.nginx.com/ignore-incoming-ports: "4317,4318,14268"
+        config.nsm.nginx.com/ignore-outgoing-ports: "4317,4318,14268"

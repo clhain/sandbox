@@ -1,0 +1,261 @@
+schemaVersion: 1.0.0-alpha.1
+name: sandbox
+version: 0.0.1
+description: "Sandbox GKE Cluster Porter Bundle"
+registry: ghcr.io/clhain
+dockerfile: Dockerfile.tmpl
+
+mixins:
+  - terraform:
+      clientVersion: 1.1.5
+  - exec:
+  - helm3:
+      clientVersion: v3.7.2
+      repositories:
+        sandbox-charts:
+          url: "https://clhain.github.io/sandbox-helm-charts"
+  - kubernetes:
+      clientVersion: v1.20.13
+
+state:
+  - name: tfstate
+    path: terraform/terraform.tfstate
+  - name: tfvars
+    path: terraform/terraform.tfvars.json
+
+outputs:
+  - name: tfoutput.json
+    type: file
+    path: /cnab/app/tfoutput.json
+    applyTo:
+      - install
+      - upgrade
+  - name: cluster_name
+    type: string
+    applyTo:
+      - install
+      - upgrade
+  - name: cluster_ingress_ip
+    type: string
+    applyTo:
+      - install
+      - upgrade
+  - name: kubeconfig_content
+    type: string
+    applyTo:
+      - install
+      - upgrade
+
+credentials:
+  - name: gcloud_key_file
+    path: /cnab/app/gcloud.json
+    description: The Service Account Key file (json format) to use for deploying.
+  - name: oidc_client_secret
+    env: oidc_client_secret
+    description: The oidc client secret to use for Oauth2 Proxy + ArgoCD
+
+parameters:
+#
+#  GCP / Cluster Params
+#
+  - name: name
+    type: string
+    env: TF_VAR_name
+    description: The name to use for the cluster and associated resources (e.g. my-cluster).
+  - name: node_service_account_id
+    type: string
+    env: TF_VAR_node_service_account_id
+    description: The GCP service account to use on the GKE cluster nodes.
+  - name: machine_type
+    type: string
+    default: e2-standard-4
+    env: TF_VAR_machine_type
+    description: The GCP machine type to use for the cluster nodes.
+  - name: gcp_project
+    type: string
+    env: TF_VAR_gcp_project_id
+    description: The GCP project in which to create the cluster and related resources.
+  - name: gcp_region
+    type: string
+    default: us-central1
+    env: TF_VAR_gcp_region
+    description: The GCP region to deploy resources into.
+  - name: network_name
+    type: string
+    env: TF_VAR_network_name
+    default: default
+    description: The GCP network name to deploy cluster nodes into (e.g. default).
+  - name: initial_node_count
+    type: string
+    env: TF_VAR_initial_node_count
+    default: "1"
+    description: The number of GKE nodes to deploy in each region (multiply by 3 for cluster size).
+  - name: preemptible_nodes
+    type: string
+    env: TF_VAR_preemptible_nodes
+    default: "true"
+    description: Whether to use GKE pre-emtible nodes.
+  - name: kubeconfig_path
+    type: string
+    env: KUBECONFIG
+    default: "/cnab/app/terraform/kubeconfig"
+    description: The location to write the GKE kubeconfig after installed.
+  - name: loadbalancer-type
+    type: string
+    default: "External"
+    env: TF_VAR_cluster_ingress_ip_type
+    description: The GCP loadbalancer type to use with KIC (Internal or External).
+
+  ## Sandbox-Base PARAMS
+  - name: installation-namespace
+    type: string
+    default: "argocd"
+    description: The namespace to install Argo CD into.
+
+  #
+  #  Helm Override Values Files
+  #
+  - name: sandbox-values
+    type: string
+    default: ''
+    path: /cnab/app/helm/sandbox-base/extra-values.yaml
+
+  #
+  #  Sandbox Service Parameters
+  #
+  - name: domain
+    type: string
+    description: The domain under which all proxied host records will be created.
+
+  - name: oidc_client_id
+    env: oidc_client_id
+    description: The oidc client id to use
+
+  - name: oidc_issuer_url
+    tpye: string
+    default: ''
+    description: The oidc issuer to use for validating tokens.
+
+  - name: oidc_email_domains
+    env: oidc_email_domains
+    description: The list of oidc permitted user email domains.
+    default: "*"
+
+  - name: letsencrypt-contact-email
+    type: string
+    description: The email address to use as contact for letsencrypt certs.
+
+install:
+  #
+  # Base Cluster Install Steps
+  #
+  - terraform:
+      description: "Install Terraform assets"
+      outputs:
+        - name: cluster_name
+        - name: kubeconfig_content
+        - name: cluster_ingress_ip
+        - name: kubeconfig_file
+  - exec:
+      description: "terraform output to file"
+      command: ./helpers.sh
+      arguments:
+        - "tf_output"
+
+  #
+  # Sandbox Base Helm Install Steps
+  #
+  - exec:
+      description: "Update the Argo-CD chart dependencies"
+      command: helm3
+      arguments:
+        - dependency
+        - update
+        - ./helm/sandbox-base
+  - helm3:
+      description: "Update Sandbox Base Apps on the cluster"
+      name: sandbox-base
+      namespace: "{{ bundle.parameters.installation-namespace }}"
+      chart: sandbox-charts/sandbox-base
+      upsert: true
+      wait: true
+      set:
+        clusterIngressIP: "{{ bundle.outputs.cluster_ingress_ip }}"
+        clusterDomain: "{{ bundle.parameters.domain }}"
+        oidcClientID: "{{ bundle.parameters.oidc_client_id }}"
+        oidcClientSecret: "{{ bundle.credentials.oidc_client_secret }}"
+        oidcIssuerURL: "{{ bundle.parameters.oidc_issuer_url }}"
+        letsEncryptContactEmail: "{{ bundle.parameters.letsencrypt-contact-email }}"
+        oidcPermittedEmailDomains: "{{ bundle.parameters.oidc_email_domains }}"
+      values:
+        - /cnab/app/helm/sandbox-base/extra-values.yaml
+
+  - exec:
+      description: "Print success message"
+      command: ./helpers.sh
+      arguments:
+        - "success-message"
+      envs: # Environment variables to be added to the command execution environment
+        CLUSTER_NAME: "{{ bundle.parameters.name }}"
+        CLUSTER_DOMAIN: "{{ bundle.parameters.domain }}"
+        INSTALL_NS: "{{ bundle.parameters.installation-namespace }}"
+        INGRESS_IP: "{{ bundle.outputs.cluster_ingress_ip }}"
+
+upgrade:
+  #
+  # Base Cluster upgrade Steps
+  #
+  - terraform:
+      description: "Upgrade Terraform assets"
+      outputs:
+        - name: cluster_name
+        - name: kubeconfig_content
+        - name: cluster_ingress_ip
+  - exec:
+      description: "terraform output to file"
+      command: ./helpers.sh
+      arguments:
+        - "tf_output"
+
+  #
+  # Sandbox Base Helm Upgrade Steps
+  #
+  - exec:
+      description: "Update the Argo-CD chart dependencies"
+      command: helm3
+      arguments:
+        - dependency
+        - update
+        - ./helm/sandbox-base
+  - helm3:
+      description: "Update Sandbox Base Apps on the cluster"
+      name: sandbox-base
+      namespace: "{{ bundle.parameters.installation-namespace }}"
+      chart: sandbox-charts/sandbox-base
+      upsert: true
+      wait: true
+      set:
+        clusterIngressIP: "{{ bundle.outputs.cluster_ingress_ip }}"
+        clusterDomain: "{{ bundle.parameters.domain }}"
+        oidcClientID: "{{ bundle.parameters.oidc_client_id }}"
+        oidcClientSecret: "{{ bundle.credentials.oidc_client_secret }}"
+        oidcIssuerURL: "{{ bundle.parameters.oidc_issuer_url }}"
+        letsEncryptContactEmail: "{{ bundle.parameters.letsencrypt-contact-email }}"
+        oidcPermittedEmailDomains: "{{ bundle.parameters.oidc_email_domains }}"
+      values:
+        - /cnab/app/helm/sandbox-base/extra-values.yaml
+
+  - exec:
+      description: "Print success message"
+      command: ./helpers.sh
+      arguments:
+        - "success-message"
+      envs: # Environment variables to be added to the command execution environment
+        CLUSTER_NAME: "{{ bundle.parameters.name }}"
+        CLUSTER_DOMAIN: "{{ bundle.parameters.domain }}"
+        INSTALL_NS: "{{ bundle.parameters.installation-namespace }}"
+        INGRESS_IP: "{{ bundle.outputs.cluster_ingress_ip }}"
+
+uninstall:
+  - terraform:
+      description: "Uninstall Terraform assets"

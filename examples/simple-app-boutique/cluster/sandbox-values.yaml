@@ -1,0 +1,35 @@
+# The following 7 parameters are used in Bring Your Own Cluster mode only - Use the porter params.yaml file to set these
+# values in an all-in-one installation since these values are overridden.
+clusterDomain:             ### SET IN BRING YOUR OWN CLUSTER MODE ONLY # e.g. yourdomain.com
+clusterIngressIP:          ### SET IN BRING YOUR OWN CLUSTER MODE ONLY # e.g. 1.2.3.4
+oidcClientID:              ### SET IN BRING YOUR OWN CLUSTER MODE ONLY # e.g. 
+oidcClientSecret:          ### SET IN BRING YOUR OWN CLUSTER MODE ONLY # e.g. 
+oidcIssuerURL:             ### SET IN BRING YOUR OWN CLUSTER MODE ONLY # e.g. "https://login.microsoftonline.com/TENANT/v2.0"
+oidcPermittedEmailDomains: ### SET IN BRING YOUR OWN CLUSTER MODE ONLY # e.g. "yourdomain.com"
+letsEncryptContactEmail:   ### SET IN BRING YOUR OWN CLUSTER MODE ONLY # e.g. #"someone@yourdomain.com"
+
+
+## Any application specifc parameter overrides can be passed to the cluster here.
+## See the documentation section for customizing installation parameters for more info.
+## This sets the nginx-ingress helm chart controller.image.tag to 2.3.0.
+# paramOverrides:
+#   apps.nginx-ingress.source.helm.params.nginx-ingress.controller.image.tag: 2.3.0
+
+## Uncommenting the following and update with your OIDDC ISSUER URL and ARGOCD HOSTNAME is strongly recommended
+# argo-cd:
+#   server:
+#     rbacConfig:
+#     config:
+#       url: ### YOUR ARGOCD HOSTNAME (https://argocd.YOUR_DOMAIN/ with default settings)
+#       oidc.config: |
+#         name: AzureAD
+#         issuer: ### YOUR OIDC ISSUER URL ####
+#         clientID: $oauth-secret:oidc.clientId
+#         clientSecret: $oauth-secret:oidc.clientSecret
+#         requestedIDTokenClaims:
+#           groups:
+#             essential: true
+#         requestedScopes:
+#           - openid
+#           - profile
+#           - email

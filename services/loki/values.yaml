@@ -1,0 +1,20 @@
+enableGrafanaDatasource: true
+enablePodLogs: true
+podLogsEnabledNamespaces:
+  - nginx-ingress
+
+loki:
+  loki:
+    auth_enabled: false
+    commonConfig:
+      replication_factor: 1
+    storage:
+      type: 'filesystem'
+  monitoring:
+    dashboards:
+      labels:
+        grafana_dashboard: "1"
+      annotations:
+        grafana_folder: "Loki"
+    selfMonitoring:
+      enabled: true

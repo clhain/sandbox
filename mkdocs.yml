@@ -1,0 +1,22 @@
+site_name: Sandbox Documentation
+site_url: https://clhain.github.io/sandbox
+nav:
+    - Home: index.md
+    - Getting Started:
+        - Choose An Installation Method: installation/choose-a-method.md
+        - Common Pre-Reqs: installation/pre-reqs.md
+        - DNS Configuration: installation/dns.md
+        - Bring Your Own Cluster (Helm): installation/byoc-helm.md
+        - Bring Your Own Cluster (ArgoCD): installation/byoc-argocd.md
+        - All-In-One (GKE): installation/all-in-one-gke.md
+    - Customization:
+        - Default Services: customization/default-services.md
+        - Adding Services: customization/add-services.md
+        - Replacing Services: customization/replace-services.md
+    - Services:
+        - Cert Manager: services/cert-manager.md
+    - Misc:
+        - Troubleshooting: troubleshooting.md
+        - Frequently Asked Questions: faq.md
+theme:
+  name: readthedocs

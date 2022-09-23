@@ -1,0 +1,57 @@
+apiVersion: opentelemetry.io/v1alpha1
+kind: OpenTelemetryCollector
+metadata:
+  name: otc
+  namespace: opentelemetry-operator
+spec:
+  mode: deployment
+  image: otel/opentelemetry-collector-contrib:0.56.0 # modified here, changed to regular OTEL image
+  config: |
+    receivers:
+      otlp:
+        protocols:
+          grpc:
+          http:
+      zipkin:
+        endpoint: 0.0.0.0:9411
+      jaeger:
+        protocols:
+          thrift_http:
+            endpoint: 0.0.0.0:14268
+    processors:
+      batch:
+        send_batch_size: 10000
+        timeout: 10s
+      k8sattributes:
+        passthrough: false
+        extract:
+          metadata:
+            - k8s.pod.name
+            - k8s.namespace.name
+        pod_association:
+          - from: resource_attribute
+            name: k8s.pod.ip
+          - from: connection
+    exporters:
+      logging:
+      logging/debug:
+        loglevel: debug
+      jaeger_thrift:
+        endpoint: "http://jaeger-collector.jaeger.svc:14268/api/traces"
+      prometheusremotewrite:
+        endpoint:  "http://prometheus-operator-kube-p-prometheus.prometheus-operator.svc:9090/api/v1/write" 
+
+    service:
+      telemetry:
+        metrics:
+          level: detailed
+          address: 0.0.0.0:8888
+      pipelines:
+        traces:
+          receivers: [jaeger, zipkin, otlp]
+          processors: [k8sattributes, batch]
+          exporters: [logging, jaeger_thrift]
+        metrics: 
+          receivers: [otlp]
+          processors: []
+          exporters: [logging, prometheusremotewrite]

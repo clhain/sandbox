@@ -1,0 +1,18 @@
+{{ if .Values.enablePodLogs }}
+apiVersion: monitoring.grafana.com/v1alpha1
+kind: PodLogs
+metadata:
+  labels:
+    instance: primary
+  name: kubernetes-pods
+spec:  
+  pipelineStages:
+    - cri: {}
+  namespaceSelector:
+    matchNames:
+    {{- range $i,$v := .Values.podLogsEnabledNamespaces }}
+    - {{ $v }}
+    {{- end }}
+  selector:
+    matchLabels: {}
+{{- end }}

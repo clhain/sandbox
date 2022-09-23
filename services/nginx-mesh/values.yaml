@@ -1,0 +1,13 @@
+enableMeshDashboards: true
+
+nginx-service-mesh:
+  autoInjection:
+    disable: true
+  telemetry:
+    samplerRatio: 1
+    exporters:
+      otlp:
+        host: "otc-collector.opentelemetry-operator.svc"
+        port: 4317
+  mtls:
+    persistentStorage: "off"

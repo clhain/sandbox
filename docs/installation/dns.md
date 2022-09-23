@@ -1,0 +1,16 @@
+# Sandbox DNS Records
+In order to direct traffic to the default services enabled by the Sandbox project,
+DNS records must exist which point the service names to your cluster ingress IP. For
+ease of management, it's suggested that a single A record be created for the cluster,
+and then additional CNAME records for the services which point at that cluster A record.
+
+
+## Sample Zone File
+Example records for yourzone.com:
+```
+ingress        IN      A       <ingress ip address (kubectl get service -n nginx-ingress)>
+auth           IN      CNAME   ingress.yourzone.com.   # Required for oauth2 proxy
+argocd         IN      CNAME   ingress.yourzone.com.   # ArgoCD UI
+grafana        IN      CNAME   ingress.yourzone.com.   # Grafana UI
+your-app       IN      CNAME   ingress.yourzone.com.   # Add any additional services
+```

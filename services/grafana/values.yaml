@@ -1,0 +1,25 @@
+enableVirtualServer: true
+enableOauthRoute: true
+clusterDomain: example.com
+
+grafana:
+  grafana.ini:
+    auth.proxy:
+      enabled: true
+      header_name: X-Auth-Request-Email
+      headers: Email:X-Auth-Request-Email Name:X-Auth-Request-Email
+    users:
+      viewers_can_edit: true
+  sidecar:
+    datasources:
+      enabled: true
+      searchNamespace: ALL
+    dashboards:
+      enabled: true
+      searchNamespace: ALL
+      folderAnnotation: grafana_folder
+      provider:
+        foldersFromFilesStructure: true
+        
+  serviceMonitor:
+    enabled: true

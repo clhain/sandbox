@@ -1,0 +1,39 @@
+# The following 7 parameters are used in Bring Your Own Cluster mode only - Use the porter params.yaml file to set these
+# values in an all-in-one installation since these values are overridden.
+clusterDomain:             ### SET IN BRING YOUR OWN CLUSTER MODE ONLY # e.g. yourdomain.com
+clusterIngressIP:          ### SET IN BRING YOUR OWN CLUSTER MODE ONLY # e.g. 1.2.3.4
+oidcClientID:              ### SET IN BRING YOUR OWN CLUSTER MODE ONLY # e.g. 
+oidcClientSecret:          ### SET IN BRING YOUR OWN CLUSTER MODE ONLY # e.g. 
+oidcIssuerURL:             ### SET IN BRING YOUR OWN CLUSTER MODE ONLY # e.g. "https://login.microsoftonline.com/TENANT/v2.0"
+oidcPermittedEmailDomains: ### SET IN BRING YOUR OWN CLUSTER MODE ONLY # e.g. "yourdomain.com"
+letsEncryptContactEmail:   ### SET IN BRING YOUR OWN CLUSTER MODE ONLY # e.g. #"someone@yourdomain.com"
+
+paramOverrides:
+  apps.tempo.enabled: false            # Disable the default temp installation
+  apps.jaeger.enabled: true            # Enable a new installation named jaeger
+  apps.jaeger.source.path: examples/override-cluster-service/jaeger           # Set the path to the helm charts to use for the new jaeger installation
+  apps.jaeger.source.repoURL: https://github.com/clhain/sandbox.git  # Set the repo containing the helm charts to use for the new jaeger installation
+  apps.jaeger.source.targetRevision: HEAD                            # Set the branch / revision of the repo to use for the new jaeger installation
+  apps.jaeger.source.helm.params.clusterDomain: ### YOUR CLUSTER DOMAIN HERE   # Set the domain to place the new jaeger.<your_domain> ingress under.
+  apps.jaeger.destination.namespace: jaeger                          # Specify the k8s namespace where the new installation will be placed
+  apps.jaeger.syncWave: "3"                                          # Specify the order in which the jaeger install will be performed.
+  apps.opentelemetry-operator.source.helm.params.enableDeployment: false  # Disable deployment of the default Otel Collector so we can override the config.
+
+## Uncommenting the following and update with your OIDDC ISSUER URL and ARGOCD HOSTNAME is strongly recommended
+# argo-cd:
+#   server:
+#     rbacConfig:
+#     config:
+#       url: ### YOUR ARGOCD HOSTNAME (https://argocd.YOUR_DOMAIN/ with default settings)
+#       oidc.config: |
+#         name: AzureAD
+#         issuer: ### YOUR OIDC ISSUER URL ####
+#         clientID: $oauth-secret:oidc.clientId
+#         clientSecret: $oauth-secret:oidc.clientSecret
+#         requestedIDTokenClaims:
+#           groups:
+#             essential: true
+#         requestedScopes:
+#           - openid
+#           - profile
+#           - email

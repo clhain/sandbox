@@ -1,0 +1,47 @@
+enableIngressDashboard: true
+enableAppProtectDashboard: false
+
+nginx-ingress:
+  controller:
+    enableCertManager: true
+    enableSnippets: true
+    enablePreviewPolicies: true
+    healthStatus: true
+    nginxplus: false
+    appprotect:
+      enable: false
+    config:
+      name: nginx-config
+      entries:
+        # For oauth2 proxy azure integration
+        proxy-buffer-size: "8k"
+        # For GRPC support
+        http2: "true"
+        # Boutique app session cookie
+        http-snippets: |
+          map $http_cookie $session_id_header {
+            default "";
+            "~*shop_session-id=(?<variable>[^;]+)" "$variable";
+          }
+        # Opentracing configs
+        opentracing: "true"
+        opentracing-tracer: /usr/local/lib/libjaegertracing_plugin.so
+        location-snippets: "opentracing_propagate_context;"
+        opentracing-tracer-config: '{"service_name": "nginx-ingress","diabled": false,"propagation_format": "w3c","reporter": {"logSpans": true,"endpoint": "http://otc-collector.opentelemetry-operator.svc:14268/api/traces"},"sampler": {"type": "const","param": "1"}}'
+        # Additional Logging config / format
+        log-format-escape-json: "true"
+        log-format: |
+          {"timestamp": "$time_iso8601", "host": "$host", "uri": "$request_uri", "upstreamStatus": "$upstream_status", "upstreamAddr": "$upstream_addr",
+          "requestMethod": "$request_method", "requestUrl": "$host$request_uri", "status": $status, "requestSize":
+          "$request_length", "responseSize": "$upstream_response_length", "userAgent": "$http_user_agent", "xff": "$http_x_forwarded_for", "xfh": "$http_x_forwarded_host", "xfp": "$http_x_forwarded_proto",
+          "remoteIp": "$remote_addr", "referer": "$http_referer", "latency": "$upstream_response_time",
+          "protocol":"$server_protocol", "requestTime": "$request_time", "upstreamConnectTime": "$upstream_connect_time",
+          "upstreamHeaderTime":"$upstream_header_time", "upstreamResponseTime": "$upstream_response_time", "traceParent": "$opentracing_context_traceparent"}
+    service:
+      annotations:
+        networking.gke.io/internal-load-balancer-allow-global-access: "true"
+      extraLabels:
+        app: kic-nginx-ingress
+  prometheus:
+    create: true
+    port: 9113

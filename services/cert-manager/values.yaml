@@ -1,0 +1,8 @@
+enableSelfSignedIssuer: true
+letsEncryptIssuer:
+  enableProd: true
+  enableStage: true
+  contactEmail:
+
+cert-manager:
+  installCRDs: true

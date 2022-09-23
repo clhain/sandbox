@@ -1,0 +1,3 @@
+enableArgoVirtualServer: true
+clusterDomain: example.com
+serviceName: sandbox-base-argocd-server
