@@ -165,13 +165,6 @@ install:
   #
   # Sandbox Base Helm Install Steps
   #
-  - exec:
-      description: "Update the Argo-CD chart dependencies"
-      command: helm3
-      arguments:
-        - dependency
-        - update
-        - ./helm/sandbox-base
   - helm3:
       description: "Update Sandbox Base Apps on the cluster"
       name: sandbox-base
@@ -220,13 +213,6 @@ upgrade:
   #
   # Sandbox Base Helm Upgrade Steps
   #
-  - exec:
-      description: "Update the Argo-CD chart dependencies"
-      command: helm3
-      arguments:
-        - dependency
-        - update
-        - ./helm/sandbox-base
   - helm3:
       description: "Update Sandbox Base Apps on the cluster"
       name: sandbox-base

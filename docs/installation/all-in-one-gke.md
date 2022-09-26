@@ -175,7 +175,7 @@ parameters:
       value: #### YOUR_EMAIL_DOMAIN_ALLOW_LIST_HERE (e.g. f5.com) ####
   - name: oidc_client_id
     source:
-      env: #### YOUR_OIDC_CLIENT_ID_HERE ####
+      value: #### YOUR_OIDC_CLIENT_ID_HERE ####
   - name: oidc_issuer_url
     source:
       value: #### YOUR_OIDC_ISSUER_URL_HERE ####
