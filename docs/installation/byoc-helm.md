@@ -5,6 +5,8 @@ If you already have a cluster ready to deploy the Sandbox apps set to, you can d
 * Helm - this guide, which installs ArgoCD and the Sandbox -
 * ArgoCD - if it's already installed (see [Bring Your Own Cluster (ArgoCD)](byoc-argocd.md)) -
 
+![Bring Your Own Cluster Deploy](../img/sandbox-byoc-helm.png)
+
 ## 0. Pre-Requisites
 See the guide for [Common Sandbox Pre-Reqs](pre-reqs.md) for the set of parameters you'll need to have available.
 
@@ -74,7 +76,8 @@ letsEncryptContactEmail:   # e.g. "someone@yourdomain.com"
 #           - email
 ```
 
-The first 7 are required for a default install, and the argo-cd server OIDC configs are strongly recommended.
+The first 7 are required for a default install. The OIDC configuration section under argo-cd.server OIDC configs are strongly recommended
+to prevent public access to the (read only) ArgoCD gui.
 
 ## 4. Install The Sandbox Base Helm Chart
 

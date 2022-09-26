@@ -10,7 +10,7 @@ Your Own Cluster guides for additional method-specific requirements).
 
 The default Sandbox cluster resource utilization at idle is approximately as follows (3 node GKE cluster with e2-standard-2 nodes):
 
-![img](../img/sandbox-resources.png)
+![Resource Utilization](../img/sandbox-resources.png)
 
 Size your nodes taking these baseline performance stats and the specific requirements of your additional apps / services into account.
 

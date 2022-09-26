@@ -1,8 +1,14 @@
+# Create the self signed Issuer resource
 enableSelfSignedIssuer: true
 letsEncryptIssuer:
+  # Create the prod Let's Encrypt ClusterIssuer resource
   enableProd: true
+  # Create the staging Let's Encrypt ClusterIssuer resource
   enableStage: true
+  # Required field for setting contact email address when creating certs.
   contactEmail:
 
+# Pass values to the base cert-manager chart under this key.
 cert-manager:
+  # Tell the base chart to install the required CRDs.
   installCRDs: true

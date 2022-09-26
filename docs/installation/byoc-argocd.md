@@ -9,6 +9,9 @@ If you already have a cluster ready to deploy the Sandbox apps set to, you can d
 > collisions or other compatibility issues. ArgoCD should be safe however, if you wish to manage it
 > via some other process.
 
+
+![Bring Your Own Cluster Deploy - ArgoCD](../img/sandbox-byoc-argo.png)
+
 ## 0. Pre-Requisites
 See the guide for [Common Sandbox Pre-Reqs](pre-reqs.md) for the set of parameters you'll need to have available.
 

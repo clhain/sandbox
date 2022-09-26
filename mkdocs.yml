@@ -9,12 +9,13 @@ nav:
         - Bring Your Own Cluster (Helm): installation/byoc-helm.md
         - Bring Your Own Cluster (ArgoCD): installation/byoc-argocd.md
         - All-In-One (GKE): installation/all-in-one-gke.md
-    - Customization:
-        - Default Services: customization/default-services.md
-        - Adding Services: customization/add-services.md
-        - Replacing Services: customization/replace-services.md
+    # - Customization:
+    #     - Default Services: customization/default-services.md
+    #     - Adding Services: customization/add-services.md
+    #     - Replacing Services: customization/replace-services.md
     - Services:
         - Cert Manager: services/cert-manager.md
+        - OPA Gatekeeper: services/gatekeeper.md
     - Misc:
         - Troubleshooting: troubleshooting.md
         - Frequently Asked Questions: faq.md

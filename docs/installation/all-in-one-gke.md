@@ -12,6 +12,8 @@ In this case, the bundle does 2 things:
 2. Invoke Helm to install the [sandbox-base](https://github.com/clhain/sandbox-helm-charts/tree/main/charts/sandbox-base)
 chart (which installs ArgoCD + Sandbox Argo App definitions) on top of the cluster from #1.
 
+![All In One Deploy](../img/sandbox-all-in-one-gke.png)
+
 Below assumes a non-customized installation of the bundle. For more information on customizing included
 services, see [Customizing Default Services](../customization/default-services.md).
 

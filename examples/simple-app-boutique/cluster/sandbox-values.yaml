@@ -1,12 +1,12 @@
 # The following 7 parameters are used in Bring Your Own Cluster mode only - Use the porter params.yaml file to set these
 # values in an all-in-one installation since these values are overridden.
-clusterDomain:             ### SET IN BRING YOUR OWN CLUSTER MODE ONLY # e.g. yourdomain.com
-clusterIngressIP:          ### SET IN BRING YOUR OWN CLUSTER MODE ONLY # e.g. 1.2.3.4
-oidcClientID:              ### SET IN BRING YOUR OWN CLUSTER MODE ONLY # e.g. 
-oidcClientSecret:          ### SET IN BRING YOUR OWN CLUSTER MODE ONLY # e.g. 
+clusterDomain:             ### SET IN BRING YOUR OWN CLUSTER MODE ONLY # e.g. "yourdomain.com"
+clusterIngressIP:          ### SET IN BRING YOUR OWN CLUSTER MODE ONLY # e.g. "1.2.3.4"
+oidcClientID:              ### SET IN BRING YOUR OWN CLUSTER MODE ONLY # e.g. "yourclientid"
+oidcClientSecret:          ### SET IN BRING YOUR OWN CLUSTER MODE ONLY # e.g. "yourclientsecret"
 oidcIssuerURL:             ### SET IN BRING YOUR OWN CLUSTER MODE ONLY # e.g. "https://login.microsoftonline.com/TENANT/v2.0"
 oidcPermittedEmailDomains: ### SET IN BRING YOUR OWN CLUSTER MODE ONLY # e.g. "yourdomain.com"
-letsEncryptContactEmail:   ### SET IN BRING YOUR OWN CLUSTER MODE ONLY # e.g. #"someone@yourdomain.com"
+letsEncryptContactEmail:   ### SET IN BRING YOUR OWN CLUSTER MODE ONLY # e.g. "someone@yourdomain.com"
 
 
 ## Any application specifc parameter overrides can be passed to the cluster here.
