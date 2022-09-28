@@ -13,9 +13,18 @@ nav:
     #     - Default Services: customization/default-services.md
     #     - Adding Services: customization/add-services.md
     #     - Replacing Services: customization/replace-services.md
-    - Services:
+    - Sandbox Apps:
         - Cert Manager: services/cert-manager.md
         - OPA Gatekeeper: services/gatekeeper.md
+        - Grafana: services/grafana.md
+        - Loki: services/loki.md
+        - NGINX Kubernetes Ingress: services/nginx-ingress.md
+        - NGINX Service Mesh: services/nginx-mesh.md
+        - Oauth2 Proxy: services/oauth-proxy.md
+        - Opentelemetry Operator: services/opentelemetry-operator.md
+        - Prometheus Operator: services/prometheus-operator.md
+        - Sealed Secrets: services/sealed-secrets.md
+        - Tempo: services/tempo.md
     - Misc:
         - Troubleshooting: troubleshooting.md
         - Frequently Asked Questions: faq.md

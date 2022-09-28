@@ -1,9 +1,7 @@
 # Bring Your Own Cluster (ArgoCD)
 
-If you already have a cluster ready to deploy the Sandbox apps set to, you can do so with:
-
-* ArgoCD - this guide, if ArgoCD is already installed.
-* Helm - if ArgoCD is not installed (see [Bring Your Own Cluster Helm](byoc-helm.md)).
+If you already have a cluster ready to deploy the Sandbox apps set to, you can do so with ArgoCD directly
+if it's already installed (if not, see the [Helm Based Install](./byoc-helm.md))
 
 > Note: It's recommended not to have existing services on the destination sandbox cluster to avoid
 > collisions or other compatibility issues. ArgoCD should be safe however, if you wish to manage it

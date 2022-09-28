@@ -20,7 +20,8 @@ The Sandbox installation of cert-manager includes a mostly default installation 
 * Adds a Let's Encrypt ClusterIssuer resource configured for the Let's Encrypt Pord Environment called letsencrypt-prod
 * Configures both Let's Encrypt ClusterIssuers with a required contactEmail address.
 
-The issuers can be disabled, and values can be passed to the official cert-manager chart (by adding them under the "cert-manager" key) as follows:
+The issuers can be disabled, and values can be passed to the official cert-manager chart (by adding them under the "cert-manager" key),
+as shown in the last 2 lines of the values file here:
 
 ```
 enableSelfSignedIssuer: true
@@ -32,3 +33,5 @@ letsEncryptIssuer:
 cert-manager:
   installCRDs: true
 ```
+
+See [Customizing Default Services](../customization/default-services.md) for more information on overriding default values.

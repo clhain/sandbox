@@ -29,7 +29,7 @@ somewhere between a vanilla k8s cluster and one you should actually run user fac
 
 |               App/Service                 |               Description                 |
 |-------------------------------------------|-------------------------------------------|
-| [ArgoCD](https://argo-cd.readthedocs.io/) | Provides "GitOps" functionality and handles installation Sandbox services |
+| [ArgoCD](https://argo-cd.readthedocs.io/) | Provides "GitOps" functionality and handles installation of Sandbox services |
 | [Cert Manager](https://cert-manager.io/)  | Provides automated certificate management |
 | [Grafana](https://grafana.com/)           | Visualize and explore telemetry from cluster and applications |
 | [Loki](https://grafana.com/oss/loki/)     | Backend for storage and retrieval of container logs. |
@@ -43,7 +43,7 @@ somewhere between a vanilla k8s cluster and one you should actually run user fac
 | [Tempo](https://grafana.com/oss/tempo/)   | Backend for storage and retreival of distributed tracing data. |
 
 
-**A default Sandbox installation includes the following capabilities:**
+**A default Sandbox installation includes the following capabilities "out of the box":**
 
 * **Container ingress services** via NGINX Ingress Controller.
 * **Automated Let's Encrypt SSL** certificate generation for ingress services (NGINX Ingress + Cert Manager).
