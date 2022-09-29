@@ -222,7 +222,7 @@ data "template_file" "kubeconfig" {
   vars = {
     cluster_name  = module.gke_cluster.name
     endpoint      = module.gke_cluster.endpoint
-    cluster_ca    = module.gke_cluster.cluster_ca_certificate
+    cluster_ca    = base64encode(module.gke_cluster.cluster_ca_certificate)
     cluster_token = data.google_client_config.default.access_token
   }
 }
