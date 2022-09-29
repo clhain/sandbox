@@ -209,26 +209,6 @@ resource "google_compute_address" "cluster_ingress" {
   region       = var.region
 }
 
-# ---------------------------------------------------------------------------------------------------------------------
-# CREATE Egress NAT gateway for the cluster
-# ---------------------------------------------------------------------------------------------------------------------
-resource "google_compute_router" "router" {
-  count   = var.enable_nat_gateway ? 1 : 0
-  name    =  "${var.cluster_name}-nat-router-${random_string.suffix.result}"
-  network = module.vpc_network.network
-  region  = var.region
-}
-
-module "cloud-nat" {
-  count   = var.enable_nat_gateway ? 1 : 0
-  source                             = "terraform-google-modules/cloud-nat/google"
-  version                            = "~> 2.0.0"
-  region                             = var.region
-  project_id                         = var.project
-  router                             = google_compute_router.router[0].name
-  name                               =  "${var.cluster_name}-ingress-static-${random_string.suffix.result}"
-  source_subnetwork_ip_ranges_to_nat = "ALL_SUBNETWORKS_ALL_IP_RANGES"
-}
 
 # ---------------------------------------------------------------------------------------------------------------------
 # CREATE Kubeconfig Content For Connection To The Cluster
