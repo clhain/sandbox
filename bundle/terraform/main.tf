@@ -131,7 +131,7 @@ resource "google_container_node_pool" "node_pool" {
     disk_type    = "pd-standard"
     preemptible  = var.preemptible_nodes
 
-    service_account = var.create_service_account ? module.gke_service_account.email : data.google_service_account.this.email
+    service_account = var.create_service_account ? module.gke_service_account.email : data.google_service_account.this[0].email
 
     oauth_scopes = [
       "https://www.googleapis.com/auth/cloud-platform",
@@ -218,9 +218,9 @@ data "template_file" "kubeconfig" {
   template = file("${path.module}/templates/kubeconfig-template.yaml")
 
   vars = {
-    cluster_name  =  module.gke_cluster.name
-    endpoint      =  module.gke_cluster.endpoint
-    cluster_ca    =  module.gke_cluster.master_auth[0].cluster_ca_certificate
+    cluster_name  = module.gke_cluster.name
+    endpoint      = module.gke_cluster.endpoint
+    cluster_ca    = module.gke_cluster.cluster_ca_certificate
     cluster_token = data.google_client_config.default.access_token
   }
 }
