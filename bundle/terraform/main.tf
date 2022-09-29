@@ -34,11 +34,13 @@ terraform {
 provider "google" {
   project = var.project
   region  = var.region
+  credentials = "/cnab/app/gcloud.json"
 }
 
 provider "google-beta" {
   project = var.project
   region  = var.region
+  credentials = "/cnab/app/gcloud.json"
 }
 
 # ---------------------------------------------------------------------------------------------------------------------
