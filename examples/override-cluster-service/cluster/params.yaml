@@ -1,16 +1,10 @@
 schemaVersion: 1.0.1
 name: sandbox-cluster-1
 parameters:
-  - name: name
-    source:
-      value: sandbox-cluster-1
   - name: domain
     source:
       value: #### YOUR_DOMAIN_HERE ####
-  - name: node_service_account_id
-    source:
-      value: sandbox-cluster-1-node-sa  # Create this 
-  - name: gcp_project
+  - name: project
     source:
       value: #### YOUR_GCP_PROJECT_ID_HERE ####
   - name: oidc_email_domains

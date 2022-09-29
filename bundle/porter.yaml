@@ -55,31 +55,63 @@ credentials:
     description: The oidc client secret to use for Oauth2 Proxy + ArgoCD
 
 parameters:
-#
-#  GCP / Cluster Params
-#
-  - name: name
+# ---------------------------------------------------------------------------------------------------------------------
+# REQUIRED PARAMETERS
+# These variables are expected to be passed in by the operator.
+# ---------------------------------------------------------------------------------------------------------------------
+  - name: project
     type: string
-    env: TF_VAR_name
-    description: The name to use for the cluster and associated resources (e.g. my-cluster).
-  - name: node_service_account_id
+    env: TF_VAR_project
+    description: "The project ID where all resources will be launched."
+  - name: domain
     type: string
-    env: TF_VAR_node_service_account_id
+    description: The domain under which all proxied host records will be created.
+  - name: oidc_client_id
+    env: oidc_client_id
+    description: The oidc client id to use
+  - name: oidc_issuer_url
+    tpye: string
+    default: ''
+    description: The oidc issuer to use for validating tokens.
+  - name: oidc_email_domains
+    env: oidc_email_domains
+    description: The list of oidc permitted user email domains.
+    default: "*"
+  - name: letsencrypt-contact-email
+    type: string
+    description: The email address to use as contact for letsencrypt certs.
+# ---------------------------------------------------------------------------------------------------------------------
+# OPTIONAL PARAMETERS
+# These parameters have reasonable defaults.
+# ---------------------------------------------------------------------------------------------------------------------
+  - name: cluster_name
+    type: string
+    default: my-sandbox-cluster
+    env: TF_VAR_cluster_name
+    description: "The name of the Kubernetes cluster."
+  - name: cluster_service_account_name
+    type: string
+    env: TF_VAR_cluster_service_account_name
     description: The GCP service account to use on the GKE cluster nodes.
+  - name: create_service_account
+    type: string
+    env: TF_VAR_create_service_account
+    default: "true"
   - name: machine_type
     type: string
     default: e2-standard-4
     env: TF_VAR_machine_type
     description: The GCP machine type to use for the cluster nodes.
-  - name: gcp_project
+  - name: location
     type: string
-    env: TF_VAR_gcp_project_id
-    description: The GCP project in which to create the cluster and related resources.
-  - name: gcp_region
+    env: TF_VAR_location
+    default: us-central1
+    description: "The location (region or zone) of the GKE cluster."
+  - name: region
     type: string
     default: us-central1
-    env: TF_VAR_gcp_region
-    description: The GCP region to deploy resources into.
+    env: TF_VAR_region
+    description: "The region for the network. If the cluster is regional, this must be the same region. Otherwise, it should be the region of the zone."
   - name: network_name
     type: string
     env: TF_VAR_network_name
@@ -90,21 +122,46 @@ parameters:
     env: TF_VAR_initial_node_count
     default: "1"
     description: The number of GKE nodes to deploy in each region (multiply by 3 for cluster size).
+  - name: max_node_count
+    type: string
+    env: TF_VAR_max_node_count
+    default: "5"
+    description: The max number of GKE nodes to autoscale to (x3).
   - name: preemptible_nodes
     type: string
     env: TF_VAR_preemptible_nodes
     default: "true"
     description: Whether to use GKE pre-emtible nodes.
-  - name: kubeconfig_path
-    type: string
-    env: KUBECONFIG
-    default: "/cnab/app/terraform/kubeconfig"
-    description: The location to write the GKE kubeconfig after installed.
   - name: loadbalancer-type
     type: string
     default: "External"
     env: TF_VAR_cluster_ingress_ip_type
     description: The GCP loadbalancer type to use with KIC (Internal or External).
+  - name: master_ipv4_cidr_block
+    type: string
+    default: "10.5.0.0/28"
+    env: TF_VAR_master_ipv4_cidr_block
+    description: "The IP range in CIDR notation (size must be /28) to use for the hosted master network. This range will be used for assigning internal IP addresses to the master or set of masters, as well as the ILB VIP. This range must not overlap with any other ranges in use within the cluster's network."
+  - name: vpc_cidr_block
+    type: string
+    default: "10.3.0.0/16"
+    env: TF_VAR_vpc_cidr_block
+    description: "The IP address range of the VPC in CIDR notation. A prefix of /16 is recommended. Do not use a prefix higher than /27."
+  - name: vpc_secondary_cidr_block
+    type: string
+    default: "10.4.0.0/16"
+    env: TF_VAR_vpc_secondary_cidr_block
+    description: "The IP address range of the VPC's secondary address range in CIDR notation. A prefix of /16 is recommended. Do not use a prefix higher than /27."
+  - name: enable_vertical_pod_autoscaling
+    type: string
+    default: "true"
+    env: TF_VAR_enable_vertical_pod_autoscaling
+    description: "Enable vertical pod autoscaling"
+  - name: kubeconfig_path
+    type: string
+    env: KUBECONFIG
+    default: "/cnab/app/terraform/kubeconfig"
+    description: The location to write the GKE kubeconfig after installed.
 
   ## Sandbox-Base PARAMS
   - name: installation-namespace
@@ -120,30 +177,7 @@ parameters:
     default: ''
     path: /cnab/app/helm/sandbox-base/extra-values.yaml
 
-  #
-  #  Sandbox Service Parameters
-  #
-  - name: domain
-    type: string
-    description: The domain under which all proxied host records will be created.
 
-  - name: oidc_client_id
-    env: oidc_client_id
-    description: The oidc client id to use
-
-  - name: oidc_issuer_url
-    tpye: string
-    default: ''
-    description: The oidc issuer to use for validating tokens.
-
-  - name: oidc_email_domains
-    env: oidc_email_domains
-    description: The list of oidc permitted user email domains.
-    default: "*"
-
-  - name: letsencrypt-contact-email
-    type: string
-    description: The email address to use as contact for letsencrypt certs.
 
 install:
   #
