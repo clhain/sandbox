@@ -114,7 +114,7 @@ resource "google_container_node_pool" "node_pool" {
   }
 
   node_config {
-    image_type   = "COS"
+    image_type   = "cos_containerd"
     machine_type = var.machine_type
 
     labels = {
