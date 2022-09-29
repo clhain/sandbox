@@ -1,27 +1,30 @@
 schemaVersion: 1.0.1
 name: sandbox-cluster-1
 parameters:
-  - name: cluster_name
-    source:
-      value: sandbox-cluster-1
   - name: domain
     source:
-      value: #### YOUR_DOMAIN_HERE ####
+      env: DOMAIN #### check the env variable or remove this and uncomment below ####
+      #value: #### YOUR_DOMAIN_HERE ####
   - name: project
     source:
-      value: #### YOUR_GCP_PROJECT_ID_HERE ####
+      env: GCP_PROJECT_ID #### check the env variable or remove this and uncomment below ####
+      #value: #### YOUR_GCP_PROJECT_ID_HERE ####
   - name: oidc_email_domains
     source:
-      value: #### YOUR_EMAIL_DOMAIN_ALLOW_LIST_HERE (e.g. f5.com) ####
+      env: EMAIL_DOMAIN_ALLOW_LIST #### check the env variable or remove this and uncomment below ####
+      #value:#### YOUR_EMAIL_DOMAIN_ALLOW_LIST_HERE (e.g. f5.com) ####
   - name: oidc_client_id
     source:
-      env: #### YOUR_OIDC_CLIENT_ID_HERE ####
+      env: OIDC_CLIENT_ID #### check the env variable or remove this and uncomment below ####
+      #value: #### <YOUR_OIDC_CLIENT_ID_HERE> ####
   - name: oidc_issuer_url
     source:
-      value: #### YOUR_OIDC_ISSUER_URL_HERE ####
+      env: OIDC_ISSUER_URL #### check the env variable or remove this and uncomment below ####
+      #value: #### <YOUR_OIDC_ISSUER_URL_HERE> ####
   - name: letsencrypt-contact-email
     source:
-      value: #### YOUR_CONTACT_EMAIL_HERE ####
+      env: CONTACT_EMAIL #### check the env variable or remove this and uncomment below ####
+      #value: #### <YOUR_CONTACT_EMAIL_HERE> ####
   - name: sandbox-values
     source:
       path: ./sandbox-values.yaml
