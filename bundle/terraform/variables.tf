@@ -140,3 +140,9 @@ variable "max_node_count" {
   default = "5"
   type = string
 }
+
+variable "enable_nat_gateway" {
+  description = "Enable a NAT gateway for cluster node egress."
+  default = "true"
+  type = string
+}

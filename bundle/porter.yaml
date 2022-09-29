@@ -99,7 +99,7 @@ parameters:
     default: "true"
   - name: machine_type
     type: string
-    default: e2-standard-4
+    default: e2-standard-2
     env: TF_VAR_machine_type
     description: The GCP machine type to use for the cluster nodes.
   - name: location
@@ -157,6 +157,11 @@ parameters:
     default: "true"
     env: TF_VAR_enable_vertical_pod_autoscaling
     description: "Enable vertical pod autoscaling"
+  - name: enable_nat_gateway
+    type: string
+    default: "true"
+    env: TF_VAR_enable_nat_gateway
+    description: "Enable NAT gateway for cluster node egress"
   - name: kubeconfig_path
     type: string
     env: KUBECONFIG
