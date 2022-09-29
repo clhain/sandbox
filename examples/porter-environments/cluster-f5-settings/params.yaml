@@ -1,5 +1,5 @@
 schemaVersion: 1.0.1
-name: sandbox-cluster-1
+name: f5-sandbox-cluster-1
 parameters:
   - name: cluster_name
     source:
