@@ -212,24 +212,21 @@ resource "google_compute_address" "cluster_ingress" {
 # ---------------------------------------------------------------------------------------------------------------------
 # CREATE Egress NAT gateway for the cluster
 # ---------------------------------------------------------------------------------------------------------------------
-module "nat" {
+resource "google_compute_router" "router" {
   count   = var.enable_nat_gateway ? 1 : 0
-  source  = "github.com/GoogleCloudPlatform/terraform-google-nat-gateway"
-  region  = "${var.region}"
-  tags    = ["sandbox-node-pool"]
+  name    =  "${var.cluster_name}-nat-router-${random_string.suffix.result}"
   network = module.vpc_network.network
+  region  = var.region
 }
 
-// Route so that traffic to the master goes through the default gateway.
-// This fixes things like kubectl exec and logs
-resource "google_compute_route" "gke-master-default-gw" {
+module "cloud-nat" {
   count   = var.enable_nat_gateway ? 1 : 0
-  name             = "gke-master-default-gw"
-  dest_range       = module.gke_cluster.endpoint
-  network          = module.vpc_network.network
-  next_hop_gateway = "default-internet-gateway"
-  tags             = ["sandbox-node-pool"]
-  priority         = 700
+  source                             = "terraform-google-modules/cloud-nat/google"
+  version                            = "~> 2.0.0"
+  region                             = var.region
+  router                             = google_compute_router.router.name
+  name                               =  "${var.cluster_name}-ingress-static-${random_string.suffix.result}"
+  source_subnetwork_ip_ranges_to_nat = "ALL_SUBNETWORKS_ALL_IP_RANGES"
 }
 
 # ---------------------------------------------------------------------------------------------------------------------
