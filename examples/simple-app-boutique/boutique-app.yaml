@@ -10,8 +10,8 @@ spec:
     namespace: default
   project: default
   source:
-    repoURL: https://github.com/clhain/demo-clusters.git
-    path: simple-app-boutique/app-helm
+    repoURL: https://github.com/clhain/sandbox.git
+    path: examples/simple-app-boutique/app-helm
     targetRevision: HEAD
     helm:
       parameters:

@@ -6,8 +6,6 @@ metadata:
   namespace: "grafana"
 spec:
   host: "grafana.{{ .Values.clusterDomain }}"
-  # policies:
-  # - name: dataguard-alarm
   tls:
     cert-manager:
       cluster-issuer: letsencrypt-prod
