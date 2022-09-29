@@ -34,3 +34,7 @@ output "cluster_ingress_ip" {
   description = "Static IP of the GKE Cluster Ingress"
   value = google_compute_address.cluster_ingress.address
 }
+
+output "cluster_name" {
+  value = module.gke_cluster.name
+}
