@@ -164,7 +164,7 @@ module "gke_service_account" {
 
 data "google_service_account" "this" {
   count = var.create_service_account ? 0 : 1
-  account_id = var.service_account_name
+  account_id = var.cluster_service_account_name
 }
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -218,9 +218,9 @@ data "template_file" "kubeconfig" {
   template = file("${path.module}/templates/kubeconfig-template.yaml")
 
   vars = {
-    cluster_name  = google_container_cluster.default.name
-    endpoint      = google_container_cluster.default.endpoint
-    cluster_ca    = google_container_cluster.default.master_auth[0].cluster_ca_certificate
+    cluster_name  =  module.gke_cluster.name
+    endpoint      =  module.gke_cluster.endpoint
+    cluster_ca    =  module.gke_cluster.master_auth[0].cluster_ca_certificate
     cluster_token = data.google_client_config.default.access_token
   }
 }
