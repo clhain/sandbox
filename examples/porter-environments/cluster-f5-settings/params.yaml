@@ -1,0 +1,34 @@
+schemaVersion: 1.0.1
+name: sandbox-cluster-1
+parameters:
+  - name: cluster_name
+    source:
+      value: sandbox-cluster-1
+  - name: domain
+    source:
+      value: #### YOUR_DOMAIN_HERE ####
+  - name: project
+    source:
+      value: #### YOUR_GCP_PROJECT_ID_HERE ####
+  - name: oidc_email_domains
+    source:
+      value: #### YOUR_EMAIL_DOMAIN_ALLOW_LIST_HERE (e.g. f5.com) ####
+  - name: oidc_client_id
+    source:
+      env: #### YOUR_OIDC_CLIENT_ID_HERE ####
+  - name: oidc_issuer_url
+    source:
+      value: #### YOUR_OIDC_ISSUER_URL_HERE ####
+  - name: letsencrypt-contact-email
+    source:
+      value: #### YOUR_CONTACT_EMAIL_HERE ####
+  - name: sandbox-values
+    source:
+      path: ./sandbox-values.yaml
+  - name: create_service_account
+    source:
+      value: "false"
+  - name: cluster_service_account_name
+    source:
+      # Create this gcloud iam service-accounts create sandbox-cluster-node-sa --description="Service Account For Sandbox GKE Cluster Nodes" --display-name="Sandbox Cluster Node Service Account"
+      value: sandbox-cluster-1-node-sa  
