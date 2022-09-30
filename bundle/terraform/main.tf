@@ -180,8 +180,9 @@ module "vpc_network" {
   project     = var.project
   region      = var.region
 
-  cidr_block           = var.vpc_cidr_block
-  secondary_cidr_block = var.vpc_secondary_cidr_block
+  cidr_block              = var.vpc_cidr_block
+  secondary_cidr_block    = var.vpc_secondary_cidr_block
+  master_ipv4_cidr_block  = var.master_ipv4_cidr_block
 
   public_subnetwork_secondary_range_name = var.public_subnetwork_secondary_range_name
   public_services_secondary_range_name   = var.public_services_secondary_range_name
