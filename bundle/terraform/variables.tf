@@ -37,7 +37,7 @@ variable "cluster_service_account_name" {
 
 variable "create_service_account" {
   description = "The name of the custom service account used for the GKE cluster. This parameter is limited to a maximum of 28 characters."
-  type        = string
+  type        = bool
   default     = true
 }
 
@@ -138,11 +138,5 @@ variable "initial_node_count" {
 variable "max_node_count" {
   description = "The max node count for the cluster."
   default = "5"
-  type = string
-}
-
-variable "enable_nat_gateway" {
-  description = "Enable a NAT gateway for cluster node egress."
-  default = "true"
   type = string
 }
