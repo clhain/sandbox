@@ -48,7 +48,7 @@ provider "google-beta" {
 # ---------------------------------------------------------------------------------------------------------------------
 
 module "gke_cluster" {
-  source = "github.com/gruntwork-io/terraform-google-gke.git//modules/gke-cluster?ref=v0.10.0"
+  source = "./modules/gke-cluster"
 
   name = var.cluster_name
 
@@ -157,7 +157,7 @@ resource "google_container_node_pool" "node_pool" {
 
 module "gke_service_account" {
   count = var.create_service_account ? 1 : 0
-  source = "github.com/gruntwork-io/terraform-google-gke.git//modules/gke-service-account?ref=v0.10.0"
+  source = "./modules/gke-service-account"
 
   name        = var.cluster_service_account_name
   project     = var.project
@@ -174,7 +174,7 @@ data "google_service_account" "this" {
 # ---------------------------------------------------------------------------------------------------------------------
 
 module "vpc_network" {
-  source = "github.com/gruntwork-io/terraform-google-network.git//modules/vpc-network?ref=v0.8.2"
+  source = "./modules/vpc-network"
 
   name_prefix = "${var.cluster_name}-network-${random_string.suffix.result}"
   project     = var.project
