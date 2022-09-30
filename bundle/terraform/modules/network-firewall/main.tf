@@ -116,7 +116,7 @@ resource "google_compute_firewall" "private_allow_master_8443_inbound" {
 
   allow {
     protocol = "tcp"
-    ports    = ["8443"]
+    ports    = ["8443", "6443"]
   }
 }
 
