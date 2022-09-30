@@ -34,7 +34,7 @@ parameters:
       path: ./sandbox-values.yaml
   - name: create_service_account
     source:
-      value: false
+      value: "false"
   - name: cluster_service_account_name
     source:
       # Create this gcloud iam service-accounts create sandbox-cluster-node-sa --description="Service Account For Sandbox GKE Cluster Nodes" --display-name="Sandbox Cluster Node Service Account"

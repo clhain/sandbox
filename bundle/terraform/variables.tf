@@ -36,9 +36,9 @@ variable "cluster_service_account_name" {
 }
 
 variable "create_service_account" {
-  description = "The name of the custom service account used for the GKE cluster. This parameter is limited to a maximum of 28 characters."
-  type        = bool
-  default     = true
+  description = "Whether to create a service account for the cluster."
+  type        = string
+  default     = "true"
 }
 
 variable "cluster_service_account_description" {

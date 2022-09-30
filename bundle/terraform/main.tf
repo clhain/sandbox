@@ -133,7 +133,7 @@ resource "google_container_node_pool" "node_pool" {
     disk_type    = "pd-standard"
     preemptible  = var.preemptible_nodes
 
-    service_account = var.create_service_account ? module.gke_service_account.email : data.google_service_account.this[0].email
+    service_account = var.create_service_account=="true" ? module.gke_service_account.email : data.google_service_account.this[0].email
 
     oauth_scopes = [
       "https://www.googleapis.com/auth/cloud-platform",
@@ -156,7 +156,7 @@ resource "google_container_node_pool" "node_pool" {
 # ---------------------------------------------------------------------------------------------------------------------
 
 module "gke_service_account" {
-  count = var.create_service_account ? 1 : 0
+  count = var.create_service_account=="true" ? 1 : 0
   source = "./modules/gke-service-account"
 
   name        = var.cluster_service_account_name
@@ -165,7 +165,7 @@ module "gke_service_account" {
 }
 
 data "google_service_account" "this" {
-  count = var.create_service_account ? 0 : 1
+  count = var.create_service_account=="true" ? 0 : 1
   account_id = var.cluster_service_account_name
 }
 
