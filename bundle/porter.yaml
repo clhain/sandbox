@@ -228,7 +228,7 @@ install:
       arguments:
         - "success-message"
       envs: # Environment variables to be added to the command execution environment
-        CLUSTER_NAME: "{{ bundle.parameters.name }}"
+        CLUSTER_NAME: "{{ bundle.parameters.cluster_name }}"
         CLUSTER_DOMAIN: "{{ bundle.parameters.domain }}"
         INSTALL_NS: "{{ bundle.parameters.installation-namespace }}"
         INGRESS_IP: "{{ bundle.outputs.cluster_ingress_ip }}"
@@ -276,7 +276,7 @@ upgrade:
       arguments:
         - "success-message"
       envs: # Environment variables to be added to the command execution environment
-        CLUSTER_NAME: "{{ bundle.parameters.name }}"
+        CLUSTER_NAME: "{{ bundle.parameters.cluster_name }}"
         CLUSTER_DOMAIN: "{{ bundle.parameters.domain }}"
         INSTALL_NS: "{{ bundle.parameters.installation-namespace }}"
         INGRESS_IP: "{{ bundle.outputs.cluster_ingress_ip }}"
