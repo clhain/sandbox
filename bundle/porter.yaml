@@ -94,9 +94,9 @@ parameters:
     env: TF_VAR_cluster_service_account_name
     description: The GCP service account to use on the GKE cluster nodes.
   - name: create_service_account
-    type: string
+    type: boolean
     env: TF_VAR_create_service_account
-    default: "true"
+    default: true
   - name: machine_type
     type: string
     default: e2-standard-2
