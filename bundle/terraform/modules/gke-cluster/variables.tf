@@ -169,7 +169,7 @@ variable "enable_legacy_abac" {
 variable "enable_network_policy" {
   description = "Whether to enable Kubernetes NetworkPolicy on the master, which is required to be enabled to be used on Nodes."
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable "basic_auth_username" {
