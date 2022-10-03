@@ -285,3 +285,13 @@ upgrade:
 uninstall:
   - terraform:
       description: "Uninstall Terraform assets"
+
+show:
+  - terraform:
+      description: "Invoke 'terraform show'"
+
+printVersion:
+  - terraform:
+      description: "Invoke 'terraform version'"
+      arguments: 
+        - "version"
