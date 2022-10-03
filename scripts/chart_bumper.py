@@ -70,7 +70,7 @@ if __name__ == "__main__":
  
    # loop through all the charts and use updatecli
    # to bump the chart versions if a newer version exists
-   paths = Path("charts")
+   paths = Path("services")
    for path in paths.iterdir():
        try:
            update_chart(str(path.absolute()))

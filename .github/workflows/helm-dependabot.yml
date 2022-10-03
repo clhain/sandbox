@@ -45,6 +45,6 @@ jobs:
           body: |
             Automatic upgrade of helm chart minor versions using https://github.com/updatecli/updatecli
           branch: upgrade-helm-charts-minors
-          base: main
+          base: master
           reviewers: |
             clhain

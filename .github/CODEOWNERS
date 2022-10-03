@@ -1,0 +1,17 @@
+# https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/about-code-owners
+# https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/about-code-owners#codeowners-syntax
+# The repo admins team will be the default owners for everything in the repo.
+# Unless a later match takes precedence, they will be requested for review when someone opens a pull request.
+* @clhain
+/services/argo-virtual-server/ @clhain 
+/services/cert-manager/ @clhain 
+/services/gatekeeper/ @clhain 
+/services/grafana/ @clhain 
+/services/loki/ @clhain 
+/services/nginx-ingress/ @clhain 
+/services/nginx-mesh/ @clhain 
+/services/oauth-proxy/ @clhain 
+/services/opentelemetry-operator/ @clhain 
+/services/prometheus-operator/ @clhain 
+/services/sealed-secrets/ @clhain 
+/services/tempo/ @clhain

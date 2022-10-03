@@ -1,0 +1,18 @@
+# See https://github.com/helm/chart-testing#configuration
+remote: origin
+target-branch: master
+chart-dirs:
+  - services
+chart-repos:
+  - sandbox-charts=https://clhain.github.io/sandbox-helm-charts
+  - argo-cd=https://argoproj.github.io/argo-helm
+  - jetstack=https://charts.jetstack.io
+  - gatekeeper=https://open-policy-agent.github.io/gatekeeper/charts
+  - grafana=https://grafana.github.io/helm-charts
+  - nginx-stable=https://helm.nginx.com/stable
+  - oauth-proxy=https://oauth2-proxy.github.io/manifests
+  - opentelemetry=https://open-telemetry.github.io/opentelemetry-helm-charts
+  - prometheus-community=https://prometheus-community.github.io/helm-charts
+  - bitnami-labs=https://bitnami-labs.github.io/sealed-secrets
+helm-extra-args: --timeout 600s
+validate-maintainers: false
