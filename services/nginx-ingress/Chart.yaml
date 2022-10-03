@@ -1,13 +1,13 @@
 apiVersion: v2
-name: helm-nginx-ingress
-type: application
-version: 0.1.0
 appVersion: "1.0"
 dependencies:
 - name: nginx-ingress
-  version: 0.14.0
   repository: https://helm.nginx.com/stable
-description: "Proxy Chart for Sandbox Cluster compatible nginx-ingress controller installation"
+  version: 0.14.1
+description: Proxy Chart for Sandbox Cluster compatible nginx-ingress controller installation
 maintainers:
 - email: clhain@gmail.com
   name: clhain
+name: helm-nginx-ingress
+type: application
+version: 0.1.1

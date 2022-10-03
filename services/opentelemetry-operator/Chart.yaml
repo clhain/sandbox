@@ -1,13 +1,13 @@
 apiVersion: v2
-name: helm-opentelemetry-operator
-type: application
-version: 0.1.0
 appVersion: "1.0"
 dependencies:
 - name: opentelemetry-operator
-  version: 0.11.8
   repository: https://open-telemetry.github.io/opentelemetry-helm-charts
-description: "Proxy Chart for Sandbox Cluster compatible opentelemetry operator installation"
+  version: 0.13.0
+description: Proxy Chart for Sandbox Cluster compatible opentelemetry operator installation
 maintainers:
 - email: clhain@gmail.com
   name: clhain
+name: helm-opentelemetry-operator
+type: application
+version: 0.1.1

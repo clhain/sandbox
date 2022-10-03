@@ -1,13 +1,13 @@
 apiVersion: v2
-name: helm-oauth-proxy
-type: application
-version: 0.1.0
 appVersion: "1.0"
 dependencies:
 - name: oauth2-proxy
-  version: 6.2.6
   repository: https://oauth2-proxy.github.io/manifests
-description: "Proxy Chart for Sandbox Cluster compatible oauth-proxy installation"
+  version: 6.2.7
+description: Proxy Chart for Sandbox Cluster compatible oauth-proxy installation
 maintainers:
 - email: clhain@gmail.com
   name: clhain
+name: helm-oauth-proxy
+type: application
+version: 0.1.1
