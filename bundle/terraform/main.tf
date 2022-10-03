@@ -13,7 +13,7 @@ terraform {
   # This module is now only being tested with Terraform 1.0.x. However, to make upgrading easier, we are setting
   # 0.12.26 as the minimum version, as that version added support for required_providers with source URLs, making it
   # forwards compatible with 1.0.x code.
-  required_version = ">= 0.12.26"
+  required_version = ">= 1.3.1"
 
   required_providers {
     google = {
@@ -135,7 +135,7 @@ resource "google_container_node_pool" "node_pool" {
     disk_type    = "pd-standard"
     preemptible  = var.preemptible_nodes
 
-    service_account = data.google_service_account.this[0].email
+    service_account = var.create_service_account=="true" ? module.gke_service_account[0].email : data.google_service_account.this[0].email
 
     oauth_scopes = [
       "https://www.googleapis.com/auth/cloud-platform",
