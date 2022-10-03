@@ -92,6 +92,7 @@ parameters:
   - name: cluster_service_account_name
     type: string
     env: TF_VAR_cluster_service_account_name
+    default: "my-sandbox-cluster-sa"
     description: The GCP service account to use on the GKE cluster nodes.
   - name: create_service_account
     type: string

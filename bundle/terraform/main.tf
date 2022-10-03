@@ -135,7 +135,7 @@ resource "google_container_node_pool" "node_pool" {
     disk_type    = "pd-standard"
     preemptible  = var.preemptible_nodes
 
-    service_account = var.create_service_account=="true" ? module.gke_service_account[0].email : data.google_service_account.this[0].email
+    service_account = data.google_service_account.this[0].email
 
     oauth_scopes = [
       "https://www.googleapis.com/auth/cloud-platform",
