@@ -158,11 +158,6 @@ parameters:
     default: "true"
     env: TF_VAR_enable_vertical_pod_autoscaling
     description: "Enable vertical pod autoscaling"
-  - name: enable_nat_gateway
-    type: string
-    default: "true"
-    env: TF_VAR_enable_nat_gateway
-    description: "Enable NAT gateway for cluster node egress"
   - name: kubeconfig_path
     type: string
     env: KUBECONFIG
