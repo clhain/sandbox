@@ -17,9 +17,9 @@ somewhere between a vanilla k8s cluster and one you should actually run user fac
 ---
 
 ## Quick Links
-
-* [Getting Started](installation/choose-a-method.md)
-* [Frequently Asked Questions](faq.md)
+* [Sandbox Documentation](https://clhain.github.io/sandbox/)
+* [Getting Started](https://clhain.github.io/sandbox/installation/choose-a-method/)
+* [Frequently Asked Questions](https://clhain.github.io/sandbox/faq/)
 
 ## What's Included
 

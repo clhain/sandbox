@@ -1,13 +1,13 @@
 apiVersion: v2
-name: helm-cert-manager
-type: application
-version: 0.1.0
 appVersion: "1.0"
 dependencies:
 - name: cert-manager
-  version: v1.8.2
   repository: https://charts.jetstack.io
-description: "Proxy Chart for Sandbox Cluster compatible cert-manager installation"
+  version: v1.9.1
+description: Proxy Chart for Sandbox Cluster compatible cert-manager installation
 maintainers:
 - email: clhain@gmail.com
   name: clhain
+name: helm-cert-manager
+type: application
+version: 0.1.1

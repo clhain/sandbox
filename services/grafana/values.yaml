@@ -20,6 +20,6 @@ grafana:
       folderAnnotation: grafana_folder
       provider:
         foldersFromFilesStructure: true
-        
+
   serviceMonitor:
     enabled: true

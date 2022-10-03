@@ -3,5 +3,6 @@ output
 .DS_Store
 .idea
 **/*.tgz
-**/charts/*/charts
+**/services/*/charts
+**/services/*/Chart.lock
 site
