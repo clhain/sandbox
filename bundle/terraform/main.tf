@@ -72,6 +72,9 @@ module "gke_cluster" {
   # To make testing easier, we keep the public endpoint available. In production, we highly recommend restricting access to only within the network boundary, requiring your users to use a bastion host or VPN.
   disable_public_endpoint = "false"
 
+  # Override default service account
+  alternative_default_service_account = var.create_service_account=="true" ? module.gke_service_account[0].email : data.google_service_account.this[0].email
+
   # With a private cluster, it is highly recommended to restrict access to the cluster master
   # However, for testing purposes we will allow all inbound traffic.
   master_authorized_networks_config = [
@@ -86,7 +89,6 @@ module "gke_cluster" {
   ]
 
   enable_vertical_pod_autoscaling = var.enable_vertical_pod_autoscaling
-
 }
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -133,7 +135,7 @@ resource "google_container_node_pool" "node_pool" {
     disk_type    = "pd-standard"
     preemptible  = var.preemptible_nodes
 
-    service_account = var.create_service_account=="true" ? module.gke_service_account.email : data.google_service_account.this[0].email
+    service_account = var.create_service_account=="true" ? module.gke_service_account[0].email : data.google_service_account.this[0].email
 
     oauth_scopes = [
       "https://www.googleapis.com/auth/cloud-platform",
