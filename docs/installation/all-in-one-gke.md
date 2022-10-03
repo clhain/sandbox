@@ -8,7 +8,7 @@ interface, that can be versioned, etc, just like an application container.
 
 In this case, the bundle does 2 things:
 
-1. Invoke terraform to provision a GKE Cluster with the parameters passed to it via Porter.
+1. Invoke terraform to provision a Private GKE Cluster with the parameters passed to it via Porter.
 2. Invoke Helm to install the [sandbox-base](https://github.com/clhain/sandbox-helm-charts/tree/main/charts/sandbox-base)
 chart (which installs ArgoCD + Sandbox Argo App definitions) on top of the cluster from #1.
 
@@ -32,7 +32,7 @@ deploy the cluster:
 
 1. A GCP Project ([Instructions](https://cloud.google.com/resource-manager/docs/creating-managing-projects)).
 2. A Service Account and json key to Use For Deploying the cluster (see [Porter Deployer Service Account](#porter-deployer-service-account) below).
-3. A Service Account (key not required) to assign to the deployed nodes in the cluster (see [Cluster Node Service Account](#cluster-node-service-account) below).
+3. (Optional) - A pre-existing Service Account name (key not required) to assign to the deployed nodes in the cluster (see [Cluster Node Service Account](#cluster-node-service-account) below).
 
 
 ### Porter Deployer Service Account
@@ -45,6 +45,9 @@ Required permissions for the deployer Service Account are:
 * Kubernetes Engine Admin
 * Kubernetes Engine Cluster Admin
 * Service Account User
+
+If you're not using the default compute engine service account or bringing a pre-existing SA, the deployer will also need
+Service Account Creator permissions.
 
 Example account creation and permission commands (must be run by a user with permissions to create service accounts):
 ```
@@ -73,10 +76,19 @@ gcloud projects add-iam-policy-binding PROJECT_ID \
     --role="roles/compute.admin"
 ```
 
-### Cluster Node Service Account
-An existing service account for use with cluster nodes is also required prior to bundle installation.
-The name of the service account can be passed as a parameter, no json key is required. If the cluster
-needs access to Google Container Registry associated with the project, add the Storage Object Reader
+If you're not using the default compute engine service account or bringing a pre-existing SA:
+```
+gcloud projects add-iam-policy-binding PROJECT_ID \
+    --member="serviceAccount:porter-deployer-sa@PROJECT_ID.iam.gserviceaccount.com" \
+    --role="roles/iam.serviceAccountCreator"
+```
+
+### Cluster Node Service Account (Optional)
+If you elect to use the default compute engine service account (not required), or want to use a pre-existing
+service account for the Node Pool, you can specify it as a parameter to the installation bundle.
+The name of the service account can be passed as a parameter, no json key is required.
+
+If the cluster needs access to Google Container Registry associated with the project, add the Storage Object Reader
 permission (or permissions for any other GCP resources to be accessed by the nodes).
 
 Example gcloud commands:

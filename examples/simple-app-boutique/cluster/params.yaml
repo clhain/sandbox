@@ -1,17 +1,10 @@
 schemaVersion: 1.0.1
 name: sandbox-cluster-1
 parameters:
-  - name: name
-    source:
-      value: sandbox-cluster-1
   - name: domain
     source:
       value: #### YOUR_DOMAIN_HERE ####
-  - name: node_service_account_id
-    source:
-      # Create this gcloud iam service-accounts create sandbox-cluster-node-sa --description="Service Account For Sandbox GKE Cluster Nodes" --display-name="Sandbox Cluster Node Service Account"
-      value: sandbox-cluster-1-node-sa  
-  - name: gcp_project
+  - name: project
     source:
       value: #### YOUR_GCP_PROJECT_ID_HERE ####
   - name: oidc_email_domains

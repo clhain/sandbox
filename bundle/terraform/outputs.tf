@@ -1,26 +1,24 @@
-output "endpoint" {
-  value = google_container_cluster.default.endpoint
-}
-
-output "cluster_main_version" {
-  value = google_container_cluster.default.master_version
-}
-
-output "cluster_id" {
-  value = google_container_cluster.default.id
-}
-
 output "cluster_endpoint" {
-  value = google_container_cluster.default.endpoint
-}
-
-output "cluster_ca_cert" {
-  value = google_container_cluster.default.master_auth[0].cluster_ca_certificate
+  description = "The IP address of the cluster master."
   sensitive   = true
+  value       = module.gke_cluster.endpoint
 }
 
-output "cluster_name" {
-  value = google_container_cluster.default.name
+output "client_certificate" {
+  description = "Public certificate used by clients to authenticate to the cluster endpoint."
+  value       = module.gke_cluster.client_certificate
+}
+
+output "client_key" {
+  description = "Private key used by clients to authenticate to the cluster endpoint."
+  sensitive   = true
+  value       = module.gke_cluster.client_key
+}
+
+output "cluster_ca_certificate" {
+  description = "The public certificate that is the root of trust for the cluster."
+  sensitive   = true
+  value       = module.gke_cluster.cluster_ca_certificate
 }
 
 output "kubeconfig_file" {
@@ -35,4 +33,8 @@ output "kubeconfig_content" {
 output "cluster_ingress_ip" {
   description = "Static IP of the GKE Cluster Ingress"
   value = google_compute_address.cluster_ingress.address
+}
+
+output "cluster_name" {
+  value = module.gke_cluster.name
 }
