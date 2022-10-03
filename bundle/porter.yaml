@@ -7,7 +7,7 @@ dockerfile: Dockerfile.tmpl
 
 mixins:
   - terraform:
-      clientVersion: 1.1.5
+      clientVersion: 1.3.1
   - exec:
   - helm3:
       clientVersion: v3.7.2
