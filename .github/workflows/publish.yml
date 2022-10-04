@@ -11,17 +11,36 @@ jobs:
   call-lint:
     uses: ./.github/workflows/linter.yml
   
-  # Determine which paths are updated for subsequent actions.
-  call-check-update-paths:
-    uses: ./.github/workflows/check-update-paths.yml
-
+  check-update-paths:
+    runs-on: ubuntu-latest
+    outputs:
+      bundle-changed: ${{ steps.filter.outputs.bundle }}
+      docs-changed: ${{ steps.filter.outputs.docs }}
+      services-changed: ${{ steps.filter.outputs.services }}
+    steps:
+    - uses: dorny/paths-filter@v2
+      id: filter
+      with:
+        base: master
+        filters: |
+          bundle:
+            - 'bundle/**'  
+          docs:
+            - 'docs/**'  
+          services:
+            - 'services/**'
+    - name: test
+      run: |
+        ${{ steps.filter.outputs.bundle }} && echo "bundle=true"
+        ${{ steps.filter.outputs.docs }} && echo "bundle=true"
+        ${{ steps.filter.outputs.services }} && echo "bundle=true"
 
   docs-publish:
-    needs: call-check-update-paths
-    if: needs.call-check-update-paths.outputs.docs-changed
+    needs: check-update-paths
+    if: needs.check-update-paths.outputs.docs-changed
     uses: ./.github/workflows/docs-publish.yml
 
   bundle-publish:
-    needs: call-check-update-paths
-    if: needs.call-check-update-paths.outputs.bundle-changed
+    needs: check-update-paths
+    if: needs.check-update-paths.outputs.bundle-changed
     uses: ./.github/workflows/bundle-publish.yml

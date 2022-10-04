@@ -10,7 +10,7 @@ jobs:
       docs-changed: ${{ steps.docs-changed.outputs.src }}
       services-changed: ${{ steps.services-changed.outputs.src }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: dorny/paths-filter@v2
         id: bundle-changed
         with:
