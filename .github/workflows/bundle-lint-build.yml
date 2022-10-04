@@ -2,6 +2,10 @@ name: Porter CNAB Publish RC
 
 on: workflow_call
 
+permissions:
+  contents: write
+  packages: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -33,7 +37,7 @@ jobs:
         if: ${{ env.NEEDS_BUMP }} == 'true'
         uses: jacobtomlinson/gha-find-replace@v2
         with:
-          find: "$version: .*"
+          find: "^version: .*"
           replace: "version: ${{ env.BUNDLE_VERSION }}"
           include: "bundle/porter.yaml"
 
