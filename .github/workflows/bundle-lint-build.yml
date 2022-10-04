@@ -33,8 +33,8 @@ jobs:
         uses: fjogeleit/yaml-update-action@main
         if: ${{ env.NEEDS_BUMP }} == 'true'
         with:
-          valueFile: './bundle/porter.yaml'
-          propertyPath: '.version'
+          valueFile: 'bundle/porter.yaml'
+          propertyPath: 'version'
           value: ${{ env.BUNDLE_VERSION }}
           commitChange: true
           updateFile: true

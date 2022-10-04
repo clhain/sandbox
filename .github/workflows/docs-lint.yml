@@ -9,4 +9,4 @@ jobs:
         with:
           python-version: 3.x
       - run: pip install mkdocs
-      - run: mkdocs build -s -d /dev/null
+      - run: mkdocs build -s
