@@ -42,7 +42,9 @@ def update_chart(path_chart: str):
             continue
 
         # bump major or minor depending on set env variable
-        version = f"{dependency['version'].split('.')[0]}.*.*" if not BUMP_MAJOR else "*.*.*"
+        version = (
+            f"{dependency['version'].split('.')[0]}.*.*" if not BUMP_MAJOR else "*.*.*"
+        )
         manifest = f"""
 sources:
    lastMinorRelease:
@@ -67,6 +69,7 @@ targets:
             f.write(manifest)
 
         subprocess.check_output("updatecli apply --config manifest.yaml".split(" "))
+
 
 if __name__ == "__main__":
     # loop through all the charts and use updatecli

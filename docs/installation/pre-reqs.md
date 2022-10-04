@@ -6,7 +6,7 @@ Your Own Cluster guides for additional method-specific requirements).
 
 ## Cluster Requirements
 
-*** Node Resources ***
+***Node Resources***
 
 The default Sandbox cluster resource utilization at idle is approximately as follows (3 node GKE cluster with e2-standard-2 nodes):
 
@@ -46,10 +46,11 @@ for obtaining the needed values and configuring the provider for use. In general
 2. The OIDC Client Secret from the provider.
 3. The OIDC Issuer URL for the provider.
 
-**Authorized Redirects**
+***Authorized Redirects***
 
 You'll also need to set the following redirect locations as authorized for the client:
-```
+
+```text
 https://argocd.YOURDOMAIN.COM/auth/callback
 https://auth.YOURDOMAIN.COM/oauth2/callback
 ```

@@ -31,15 +31,15 @@ jobs:
 
   services-lint-test:
     needs: check-update-paths
-    if: needs.check-update-paths.outputs.services-changed
+    if: ${{needs.check-update-paths.outputs.services-changed == 'true'}}
     uses: ./.github/workflows/services-lint-test.yml
 
   docs-lint:
     needs: check-update-paths
-    if: needs.check-update-paths.outputs.docs-changed
+    if: ${{needs.check-update-paths.outputs.docs-changed == 'true'}}
     uses: ./.github/workflows/docs-lint.yml
 
   bundle-lint-test:
     needs: check-update-paths
-    if: needs.check-update-paths.outputs.bundle-changed
+    if: ${{needs.check-update-paths.outputs.bundle-changed == 'true'}}
     uses: ./.github/workflows/bundle-lint-build.yml
