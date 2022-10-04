@@ -10,6 +10,8 @@ loki:
       replication_factor: 1
     storage:
       type: 'filesystem'
+    rulerStorageConfig:
+      type: local
   monitoring:
     dashboards:
       labels:
