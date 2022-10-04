@@ -36,7 +36,7 @@ jobs:
           valueFile: 'bundle/porter.yaml'
           propertyPath: 'version'
           value: ${{ env.BUNDLE_VERSION }}
-          branch: ${{ github.ref_name }}
+          branch: ${{ github.head_ref }}
           commitChange: true
           updateFile: true
           message: "Update porter bundle version"
@@ -64,4 +64,4 @@ jobs:
 
       - name: Porter publish to ghcr.io 
         run: |
-          porter publish -d ./bundle --registry ghcr.io/${{ env.REPO-OWNER }} --tag "${{ env.BUNDLE_VERSION }}-rc"
+          porter publish -d ./bundle --registry ghcr.io/${{ env.REPO-OWNER }} --tag "${{ env.BUNDLE_VERSION }}-rc" --
