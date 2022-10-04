@@ -28,11 +28,6 @@ jobs:
             - 'docs/**'  
           services:
             - 'services/**'
-    - name: test
-      run: |
-        ${{ steps.filter.outputs.bundle }} && echo "bundle=true"
-        ${{ steps.filter.outputs.docs }} && echo "bundle=true"
-        ${{ steps.filter.outputs.services }} && echo "bundle=true"
 
   services-lint-test:
     needs: check-update-paths
