@@ -37,11 +37,10 @@ jobs:
           replace: "version: ${{ env.BUNDLE_VERSION }}"
           include: "bundle/porter.yaml"
 
-      - uses: ad-m/github-push-action@v0.6.0
+      - uses: stefanzweifel/git-auto-commit-action@v4
         if: ${{ env.NEEDS_BUMP }} == 'true'
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: ${{ github.head_ref }}
+          commit_message: Bump porter version.
 
       - name: Setup Porter
         uses: getporter/gh-action@v0.1.3
