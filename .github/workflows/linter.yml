@@ -13,7 +13,7 @@ on:
         type: string
 
 jobs:
-  build:
+  lint:
     name: Lint Code Base
     runs-on: ubuntu-latest
     steps:

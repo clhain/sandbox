@@ -2,7 +2,8 @@
 Simple python script that is used in github actions to
 automatically bump chart dependencies using the updatecli CLI tool.
 
-From: https://gist.github.com/nielstenboom/8b1116f7fd00a98aace28d826518e86f#file-chart_bumper-py
+From: https://blog.promaton.com/how-to-set-up-automated-helm-chart-upgrades-e292192a9aad
+https://gist.github.com/nielstenboom/8b1116f7fd00a98aace28d826518e86f#file-chart_bumper-py
 """
  
 from pathlib import Path

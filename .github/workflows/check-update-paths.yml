@@ -1,0 +1,34 @@
+name: Check Update Paths
+
+on: workflow_call
+
+jobs:
+  check-updates:
+    runs-on: ubuntu-20.04
+    outputs:
+      bundle-changed: ${{ steps.bundle-changed.outputs.src }}
+      docs-changed: ${{ steps.docs-changed.outputs.src }}
+      services-changed: ${{ steps.services-changed.outputs.src }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: dorny/paths-filter@v2
+        id: bundle-changed
+        with:
+          base: master
+          filters: |
+            src:
+              - 'bundle/**'
+      - uses: dorny/paths-filter@v2
+        id: docs-changed
+        with:
+          base: master
+          filters: |
+            src:
+              - 'docs/**'
+      - uses: dorny/paths-filter@v2
+        id: services-changed
+        with:
+          base: master
+          filters: |
+            src:
+              - 'services/**'

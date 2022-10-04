@@ -1,10 +1,7 @@
-name: publish
-on:
-  push:
-    branches:
-      - master
+name: Lint Docs
+on: workflow_call
 jobs:
-  deploy:
+  mkdocs-build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -12,4 +9,4 @@ jobs:
         with:
           python-version: 3.x
       - run: pip install mkdocs
-      - run: mkdocs gh-deploy --force --clean --verbose
+      - run: mkdocs build -s -d /dev/null

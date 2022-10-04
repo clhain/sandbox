@@ -1,0 +1,59 @@
+name: Porter CNAB Publish RC
+
+on: workflow_call
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
+        with:
+          ref: master
+          path: master
+
+      - name: install yq
+        run: |
+          sudo snap install yq
+
+      - name: Set Environment Variables
+        run: |
+          OWNER="$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')"
+          echo "REPO-OWNER=${OWNER}" >> $GITHUB_ENV
+          MAIN_VERSION="$(yq e '.version' ./master/bundle/porter.yaml )"
+          BRANCH_VERSION="$(yq e '.version' ./bundle/porter.yaml )"
+          BUMP_VERSION="$(echo $MAIN_VERSION | awk -F. '/[0-9]+\./{$NF++;print}' OFS=.)"
+          NEW_VERSION="$(if [[ ${MAIN_VERSION} = ${BRANCH_VERSION} ]]; then echo $BUMP_VERSION; else echo $BRANCH_VERSION; fi)"
+          echo "BUNDLE_VERSION=${NEW_VERSION}" >> $GITHUB_ENV
+          echo "NEEDS_BUMP=$(if [[ ${BRANCH_VERSION} = ${NEW_VERSION} ]]; then echo false; else echo true; fi)" >> $GITHUB_ENV
+
+      - name: Update porter.yaml if version bump needed
+        uses: fjogeleit/yaml-update-action@main
+        if: ${{ env.NEEDS_BUMP }} == 'true'
+        with:
+          valueFile: './bundle/porter.yaml'
+          propertyPath: '.version'
+          value: ${{ env.BUNDLE_VERSION }}
+          commitChange: true
+          updateFile: true
+          message: "Update porter bundle version"
+
+      - name: Setup Porter
+        uses: getporter/gh-action@v0.1.3
+
+      - name: Porter Build Project
+        run: |
+          porter build -f ./bundle/porter.yaml
+
+      - name: Login to GitHub Packages OCI Registry
+        uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9 # docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Porter publish to ghcr.io 
+        run: |
+          porter publish -f ./bundle/porter.yaml --registry ghcr.io/${{ env.REPO-OWNER }} --tag "${{ env.BUNDLE_VERSION }}-rc" --debug

@@ -1,8 +1,9 @@
-name: CI
+name: Publish
 
 on:
-  pull_request:
-    branches: [ master ]
+  push:
+    branches:
+      - master
 
 jobs:
   call-check-codeowners:
@@ -14,17 +15,13 @@ jobs:
   call-check-update-paths:
     uses: ./.github/workflows/check-update-paths.yml
 
-  services-lint-test:
-    needs: call-check-update-paths
-    if: needs.call-check-update-paths.outputs.services-changed
-    uses: ./.github/workflows/services-lint-test.yml
 
-  docs-lint:
+  docs-publish:
     needs: call-check-update-paths
     if: needs.call-check-update-paths.outputs.docs-changed
-    uses: ./.github/workflows/docs-lint.yml
+    uses: ./.github/workflows/docs-publish.yml
 
-  bundle-lint-test:
+  bundle-publish:
     needs: call-check-update-paths
     if: needs.call-check-update-paths.outputs.bundle-changed
-    uses: ./.github/workflows/bundle-lint-build.yml
+    uses: ./.github/workflows/bundle-publish.yml

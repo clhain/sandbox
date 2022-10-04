@@ -3,7 +3,7 @@ name: Check CODEOWNERS
 on: workflow_call
 
 jobs:
-  build:
+  check-codeowners:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2

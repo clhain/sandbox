@@ -53,4 +53,4 @@ You'll also need to set the following redirect locations as authorized for the c
 * https://argocd.YOURDOMAIN.COM/auth/callback
 * https://auth.YOURDOMAIN.COM/oauth2/callback
 
-See the [Oauth2 Proxy](../../services/oauth-proxy/README.md) doc in this repo for more information.
+See the [Oauth2 Proxy](https://github.com/clhain/sandbox/services/oauth-proxy/README.md) doc in this repo for more information.
