@@ -64,4 +64,4 @@ jobs:
 
       - name: Porter publish to ghcr.io 
         run: |
-          porter publish -d ./bundle --registry ghcr.io/${{ env.REPO-OWNER }} --tag "${{ env.BUNDLE_VERSION }}-rc" --debug
+          porter publish -d ./bundle --registry ghcr.io/${{ env.REPO-OWNER }} --tag "${{ env.BUNDLE_VERSION }}-rc"
