@@ -36,7 +36,7 @@ jobs:
           valueFile: 'bundle/porter.yaml'
           propertyPath: 'version'
           value: ${{ env.BUNDLE_VERSION }}
-          branch: ${{ env.GITHUB_REF_NAME }}
+          branch: ${{ github.ref_name }}
           commitChange: true
           updateFile: true
           message: "Update porter bundle version"
