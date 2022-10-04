@@ -30,16 +30,18 @@ jobs:
           echo "NEEDS_BUMP=$(if [[ ${BRANCH_VERSION} = ${NEW_VERSION} ]]; then echo false; else echo true; fi)" >> $GITHUB_ENV
 
       - name: Update porter.yaml if version bump needed
-        uses: fjogeleit/yaml-update-action@main
+        if: ${{ env.NEEDS_BUMP }} == 'true'
+        uses: jacobtomlinson/gha-find-replace@v2
+        with:
+          find: "$version: .*"
+          replace: "version: ${{ env.BUNDLE_VERSION }}"
+          include: "bundle/porter.yaml"
+
+      - uses: ad-m/github-push-action@v0.6.0
         if: ${{ env.NEEDS_BUMP }} == 'true'
         with:
-          valueFile: 'bundle/porter.yaml'
-          propertyPath: 'version'
-          value: ${{ env.BUNDLE_VERSION }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: ${{ github.head_ref }}
-          commitChange: true
-          updateFile: true
-          message: "Update porter bundle version"
 
       - name: Setup Porter
         uses: getporter/gh-action@v0.1.3
