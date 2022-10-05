@@ -271,7 +271,7 @@ upgrade:
       command: ./helpers.sh
       arguments:
         - "success-message"
-      envs: # Environment variables to be added to the command execution environment
+      envs:
         CLUSTER_NAME: "{{ bundle.parameters.cluster_name }}"
         CLUSTER_DOMAIN: "{{ bundle.parameters.domain }}"
         INSTALL_NS: "{{ bundle.parameters.installation-namespace }}"
