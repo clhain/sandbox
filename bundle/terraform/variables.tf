@@ -105,6 +105,12 @@ variable "secondary_cidr_subnetwork_spacing" {
   default     = 0
 }
 
+variable "enable_confidential_nodes" {
+  description = "Control whether nodes are enabled for confidential compute."
+  type        = bool
+  default     = true
+}
+
 variable "enable_vertical_pod_autoscaling" {
   description = "Enable vertical pod autoscaling"
   type        = string
