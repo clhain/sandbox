@@ -178,7 +178,7 @@ parameters:
       value: #### YOUR_DOMAIN_HERE ####
   - name: node_service_account_id
     source:
-      value: sandbox-cluster-1-node-sa  # Create this 
+      value: sandbox-cluster-1-node-sa  # Create this
   - name: gcp_project
     source:
       value: #### YOUR_GCP_PROJECT_ID_HERE ####
