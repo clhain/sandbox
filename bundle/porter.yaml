@@ -1,6 +1,6 @@
 schemaVersion: 1.0.0-alpha.1
 name: sandbox-gke-porter
-version: 0.0.4
+version: 0.0.5
 description: "Sandbox GKE Cluster Porter Bundle"
 registry: ghcr.io/clhain
 dockerfile: Dockerfile.tmpl

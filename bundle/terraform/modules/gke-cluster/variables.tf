@@ -74,6 +74,12 @@ variable "http_load_balancing" {
   default     = true
 }
 
+variable "enable_confidential_nodes" {
+  description = "Control whether nodes are enabled for confidential compute."
+  type        = bool
+  default     = true
+}
+
 variable "enable_private_nodes" {
   description = "Control whether nodes have internal IP addresses only. If enabled, all nodes are given only RFC 1918 private addresses and communicate with the master via private networking."
   type        = bool

@@ -28,6 +28,13 @@ jobs:
         with:
           porter_version: v1.0.0-alpha.22
 
+      - name: Porter Install Mixins
+        run: |
+          porter mixin install helm3 --version v1.0.0-rc.2 --feed-url https://mchorfa.github.io/porter-helm3/atom.xml
+          porter mixin install exec --version v1.0.0
+          porter mixin install terraform --version v1.0.0-rc.1
+          porter mixin install kubernetes --version v1.0.0-rc.2
+
       - name: Login to GitHub Packages OCI Registry
         uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9 # docker/login-action@v1
         with:
