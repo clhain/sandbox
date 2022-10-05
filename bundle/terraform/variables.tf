@@ -108,7 +108,7 @@ variable "secondary_cidr_subnetwork_spacing" {
 variable "enable_confidential_nodes" {
   description = "Control whether nodes are enabled for confidential compute."
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable "enable_network_policy" {

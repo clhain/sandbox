@@ -44,6 +44,12 @@ variable "description" {
   default     = ""
 }
 
+variable "machine_type" {
+  description = "The default machine type to deploy."
+  type        = string
+  default = "e2-standard-2"
+}
+
 variable "kubernetes_version" {
   description = "The Kubernetes version of the masters. If set to 'latest' it will pull latest available version in the selected region."
   type        = string
@@ -77,7 +83,7 @@ variable "http_load_balancing" {
 variable "enable_confidential_nodes" {
   description = "Control whether nodes are enabled for confidential compute."
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable "enable_private_nodes" {
