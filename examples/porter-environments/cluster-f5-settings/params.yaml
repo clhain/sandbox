@@ -39,3 +39,9 @@ parameters:
     source:
       # Create this gcloud iam service-accounts create sandbox-cluster-node-sa --description="Service Account For Sandbox GKE Cluster Nodes" --display-name="Sandbox Cluster Node Service Account"
       value: gcp-example-cluster-1-nodes 
+  - name: enable_confidential_nodes
+    source:
+      value: "true"
+  - name: machine_type
+    source:
+      value: n2d-standard-2
