@@ -28,4 +28,6 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Tag bundle image
         run: |
+          docker pull ghcr.io/${{ env.REPO-OWNER }}/${{env.BUNDLE-NAME}}:${{env.BUNDLE-VERSION}}-rc
           docker tag ghcr.io/${{ env.REPO-OWNER }}/${{env.BUNDLE-NAME}}:${{env.BUNDLE-VERSION}}-rc ghcr.io/${{ env.REPO-OWNER }}/${{env.BUNDLE-NAME}}:${{env.BUNDLE-VERSION}}
+          docker push ghcr.io/${{ env.REPO-OWNER }}/${{env.BUNDLE-NAME}}:${{env.BUNDLE-VERSION}}
