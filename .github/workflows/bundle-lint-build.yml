@@ -1,0 +1,70 @@
+name: Porter CNAB Publish RC
+
+on: workflow_call
+
+permissions:
+  contents: write
+  packages: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
+        with:
+          ref: master
+          path: master
+
+      - name: install yq
+        run: |
+          sudo snap install yq
+
+      - name: Set Environment Variables
+        run: |
+          OWNER="$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')"
+          echo "REPO-OWNER=${OWNER}" >> $GITHUB_ENV
+          MAIN_VERSION="$(yq e '.version' ./master/bundle/porter.yaml )"
+          BRANCH_VERSION="$(yq e '.version' ./bundle/porter.yaml )"
+          BUMP_VERSION="$(echo $MAIN_VERSION | awk -F. '/[0-9]+\./{$NF++;print}' OFS=.)"
+          BUNDLE_VERSION="$(if [[ ${MAIN_VERSION} = ${BRANCH_VERSION} ]]; then echo $BUMP_VERSION; else echo $BRANCH_VERSION; fi)"
+          echo "OLD_VERSION=${MAIN_VERSION}" >> $GITHUB_ENV
+          echo "BUNDLE_VERSION=${BUNDLE_VERSION}" >> $GITHUB_ENV
+          echo "NEEDS_BUMP=$(if [[ ${BRANCH_VERSION} = ${BUNDLE_VERSION} ]]; then echo false; else echo true; fi)" >> $GITHUB_ENV
+
+      - name: Bump versions in files
+        run: |
+          sed -i "s/version: .*/version: ${{ env.BUNDLE_VERSION}}/" ./bundle/porter.yaml
+          find examples/ -type f -name 'installation.yaml' | xargs sed -i "s/version: v.*/version: v${{ env.BUNDLE_VERSION}}/"
+          sed -i "s/sandbox_porter_gke_version: .*/sandbox_porter_gke_version: ${{ env.BUNDLE_VERSION}}/" ./mkdocs.yml
+
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Bump porter version in porter file, examples, and docs.
+
+      - name: Setup Porter
+        uses: getporter/gh-action@v0.1.3
+
+      - name: Porter Install Mixins
+        run: |
+          porter mixin install helm3 --version v1.0.0-rc.2 --feed-url https://mchorfa.github.io/porter-helm3/atom.xml
+          porter mixin install exec --version v1.0.0
+          porter mixin install terraform --version v1.0.0-rc.1
+          porter mixin install kubernetes --version v1.0.0-rc.2
+
+      - name: Porter Build Project
+        run: |
+          porter build -d ./bundle
+
+      - name: Login to GitHub Packages OCI Registry
+        uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9 # docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Porter publish to ghcr.io 
+        run: |
+          porter publish -d ./bundle --registry ghcr.io/${{ env.REPO-OWNER }} --tag "${{ env.BUNDLE_VERSION }}-rc" --

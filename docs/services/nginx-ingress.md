@@ -27,7 +27,7 @@ The Sandbox installation of nginx ingress includes a mostly default installation
 Values can be passed to the official nginx-ingress chart (by adding them under the "nginx-ingress" key),
 as shown on line 4 of the values file here:
 
-```
+```yaml
 enableIngressDashboard: true
 enableAppProtectDashboard: false
 
@@ -78,16 +78,16 @@ Virtual Servers can be enabled with Oauth2 Proxy integration (or without), throu
 This example enables ingress for the Grafana instance and passes authentication information from Oauth2 proxy. In this case,
 the top level Virtual Server passes traffic to the individual Virtual Server Routes for Grafana and Oauth2 Proxy.
 
-> Note: the "{{ .Values.clusterDomain }}" field is passed to the cluster via helm in a default install.
+> Note: the "{{"{{"}} .Values.clusterDomain {{"}}"}}" field is passed to the cluster via helm in a default install.
 
-```
+```yaml
 apiVersion: k8s.nginx.org/v1
 kind: VirtualServer
 metadata:
   name: grafana
   namespace: "grafana"
 spec:
-  host: "grafana.{{ .Values.clusterDomain }}"
+  host: "grafana.{{"{{"}} .Values.clusterDomain {{"}}"}}"
   tls:
     cert-manager:
       cluster-issuer: letsencrypt-prod
@@ -97,7 +97,7 @@ spec:
     route: grafana/grafana
     location-snippets: |
       auth_request /oauth2/auth;
-      error_page 401 = https://auth.{{ .Values.clusterDomain }}/oauth2/start?rd=https://$host$uri;
+      error_page 401 = https://auth.{{"{{"}} .Values.clusterDomain {{"}}"}}/oauth2/start?rd=https://$host$uri;
       auth_request_set $user   $upstream_http_x_auth_request_user;
       auth_request_set $email  $upstream_http_x_auth_request_email;
       auth_request_set $auth_header $upstream_http_authorization;
@@ -119,7 +119,7 @@ metadata:
   name: grafana
   namespace: grafana
 spec:
-  host: "grafana.{{ .Values.clusterDomain }}"
+  host: "grafana.{{"{{"}} .Values.clusterDomain {{"}}"}}"
   upstreams:
   - name: grafana
     service: grafana
@@ -136,7 +136,7 @@ metadata:
   name: oauth-proxy-grafana
   namespace: oauth-proxy
 spec:
-  host: "grafana.{{ .Values.clusterDomain }}"
+  host: "grafana.{{"{{"}} .Values.clusterDomain {{"}}"}}"
   upstreams:
   - name: oauth2-proxy
     service: oauth-proxy-oauth2-proxy

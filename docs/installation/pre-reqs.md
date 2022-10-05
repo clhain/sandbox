@@ -6,7 +6,7 @@ Your Own Cluster guides for additional method-specific requirements).
 
 ## Cluster Requirements
 
-*** Node Resources ***
+***Node Resources***
 
 The default Sandbox cluster resource utilization at idle is approximately as follows (3 node GKE cluster with e2-standard-2 nodes):
 
@@ -15,7 +15,7 @@ The default Sandbox cluster resource utilization at idle is approximately as fol
 Size your nodes taking these baseline performance stats and the specific requirements of your additional apps / services into account.
 
 
-*** Cluster Ingress IP ***
+***Cluster Ingress IP***
 
 The Container ingress service requires a static IP address for use with service host records (see DNS section below).
 
@@ -46,11 +46,13 @@ for obtaining the needed values and configuring the provider for use. In general
 2. The OIDC Client Secret from the provider.
 3. The OIDC Issuer URL for the provider.
 
-**Authorized Redirects**
+***Authorized Redirects***
 
 You'll also need to set the following redirect locations as authorized for the client:
 
-* https://argocd.YOURDOMAIN.COM/auth/callback
-* https://auth.YOURDOMAIN.COM/oauth2/callback
+```text
+https://argocd.YOURDOMAIN.COM/auth/callback
+https://auth.YOURDOMAIN.COM/oauth2/callback
+```
 
-See the [Oauth2 Proxy](../../services/oauth-proxy/README.md) doc in this repo for more information.
+See the [Oauth2 Proxy](https://github.com/clhain/sandbox/services/oauth-proxy/README.md) doc in this repo for more information.

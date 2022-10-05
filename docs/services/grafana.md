@@ -22,7 +22,7 @@ The Sandbox installation of grafana includes a mostly default installation with 
 The issuers can be disabled, and values can be passed to the official cert-manager chart (by adding them under the "grafana" key),
 as shown on line 5 of the values file here:
 
-```
+```yaml
 enableVirtualServer: true
 enableOauthRoute: true
 clusterDomain: example.com
@@ -45,7 +45,7 @@ grafana:
       folderAnnotation: grafana_folder
       provider:
         foldersFromFilesStructure: true
-        
+
   serviceMonitor:
     enabled: true
 ```
@@ -55,25 +55,25 @@ See [Customizing Default Services](../customization/default-services.md) for mor
 ## Connecting as Admin
 You can connect as the Grafana admin user, by fetching the password from the Kubernetes secret and decoding it as follows:
 
-```
+```bash
 kubectl get secret grafana -o=jsonpath='{.data.admin-password}' | base64 -d
 ```
 
 
 ## Adding Dashboards
 The Sandbox Grafana is configured with a sidecar that automatically detects Dashboard Configmaps in any namespace. To add a new
-Dashboard, simply add the datasource configuration as a Kubernetes ConfigMap with the label 'grafana_dashboard: "1"'. 
+Dashboard, simply add the datasource configuration as a Kubernetes ConfigMap with the label `grafana_dashboard: "1"`.
 
-You can also configure the folder using annotations, for example, this will place the dashboard in a folder named "Boutique": 
+You can also configure the folder using annotations, for example, the following will place the dashboard in a folder named "Boutique".
 
-```
+```yaml
   annotations:
     grafana_folder: Boutique
 ```
 
 Here's a (partial) example dashboard config:
 
-```
+```yaml
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -89,15 +89,15 @@ data:
         ...
 ```
 
-> Note: If you're deploying with helm, any Grafana variables in the dashboard spec (e.g. {{ .my-variable }}), need to be escaped
+> Note: If you're deploying with helm, any Grafana variables in the dashboard spec (e.g. {{"{{"}} .my-variable {{"}}"}}}}), need to be escaped
 > as {{"{{"}} .my-variable {{"}}"}}
 
 ## Adding Datasources
 The Sandbox Grafana is configured with a sidecar that automatically detects Datasource Configmaps in any namespace. To add a new
-datasource, simply add the datasource configuration as a Kubernetes ConfigMap with the label 'grafana_datasource: "1"'. Here's
-an example that deploys a Jaeger Datasource:
+datasource, simply add the datasource configuration as a Kubernetes ConfigMap with the label 'grafana_datasource: "1"'.
+Here's an example that deploys a Jaeger Datasource:
 
-```
+```yaml
 apiVersion: v1
 kind: ConfigMap
 metadata:

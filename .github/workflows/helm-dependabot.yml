@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
   
@@ -27,10 +27,8 @@ jobs:
         run: |
           pip3 install pyaml==21.10.1
   
-      - name: install updateCli
-        run: |
-          curl -sL -o /tmp/updatecli_amd64.deb https://github.com/updatecli/updatecli/releases/download/v0.24.0/updatecli_amd64.deb
-          sudo apt install /tmp/updatecli_amd64.deb
+      - name: Install Updatecli in the runner
+        uses: updatecli/updatecli-action@v2
   
       - name: Run chart bumper script
         run: |

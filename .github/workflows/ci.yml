@@ -1,11 +1,44 @@
 name: CI
 
-on: pull_request
+on:
+  pull_request:
+    branches: [ master ]
 
 jobs:
   call-check-codeowners:
     uses: ./.github/workflows/check-codeowners.yml
   call-lint:
     uses: ./.github/workflows/linter.yml
-  call-lint-test:
-    uses: ./.github/workflows/lint-test.yml
+
+  check-update-paths:
+    runs-on: ubuntu-latest
+    outputs:
+      bundle-changed: ${{ steps.filter.outputs.bundle }}
+      docs-changed: ${{ steps.filter.outputs.docs }}
+      services-changed: ${{ steps.filter.outputs.services }}
+    steps:
+    - uses: dorny/paths-filter@v2
+      id: filter
+      with:
+        filters: |
+          bundle:
+            - 'bundle/**'  
+          docs:
+            - 'docs/**'  
+          services:
+            - 'services/**'
+
+  services-lint-test:
+    needs: check-update-paths
+    if: ${{needs.check-update-paths.outputs.services-changed == 'true'}}
+    uses: ./.github/workflows/services-lint-test.yml
+
+  docs-lint:
+    needs: check-update-paths
+    if: ${{needs.check-update-paths.outputs.docs-changed == 'true'}}
+    uses: ./.github/workflows/docs-lint.yml
+
+  bundle-lint-test:
+    needs: check-update-paths
+    if: ${{needs.check-update-paths.outputs.bundle-changed == 'true'}}
+    uses: ./.github/workflows/bundle-lint-build.yml

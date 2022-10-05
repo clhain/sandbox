@@ -1,0 +1,33 @@
+name: Publish
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  call-check-codeowners:
+    uses: ./.github/workflows/check-codeowners.yml
+  call-lint:
+    uses: ./.github/workflows/linter.yml
+  
+  check-update-paths:
+    runs-on: ubuntu-latest
+    outputs:
+      bundle-changed: ${{ steps.filter.outputs.bundle }}
+    steps:
+    - uses: dorny/paths-filter@v2
+      id: filter
+      with:
+        base: master
+        filters: |
+          bundle:
+            - 'bundle/**'
+
+  docs-publish:
+    uses: ./.github/workflows/docs-publish.yml
+
+  bundle-publish:
+    needs: check-update-paths
+    if: ${{needs.check-update-paths.outputs.bundle-changed == 'true'}}
+    uses: ./.github/workflows/bundle-publish.yml

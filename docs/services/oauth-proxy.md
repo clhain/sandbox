@@ -19,7 +19,7 @@ The Sandbox installation of Oauth2 Proxy includes a mostly default installation 
 Values can be passed to the official oauth2-proxy chart (by adding them under the "oauth2-proxy" key),
 as shown on line 4 of the values file here:
 
-```
+```yaml
 clusterDomain: example.com
 enableVirtualServer: true
 
@@ -47,16 +47,16 @@ to authenticate users accessing services in the cluster. The Virtual Server dire
 Grafana or Ouath2 Proxy Virtual Server Routes, depending on the state of the client.
 
 
-> Note: the "{{ .Values.clusterDomain }}" field is passed to the cluster via helm in a default install.
+> Note: the "{{"{{"}} .Values.clusterDomain {{"}}"}}" field is passed to the cluster via helm in a default install.
 
-```
+```yaml
 apiVersion: k8s.nginx.org/v1
 kind: VirtualServer
 metadata:
   name: grafana
   namespace: "grafana"
 spec:
-  host: "grafana.{{ .Values.clusterDomain }}"
+  host: "grafana.{{"{{"}} .Values.clusterDomain {{"}}"}}"
   tls:
     cert-manager:
       cluster-issuer: letsencrypt-prod
@@ -66,7 +66,7 @@ spec:
     route: grafana/grafana
     location-snippets: |
       auth_request /oauth2/auth;
-      error_page 401 = https://auth.{{ .Values.clusterDomain }}/oauth2/start?rd=https://$host$uri;
+      error_page 401 = https://auth.{{"{{"}} .Values.clusterDomain {{"}}"}}/oauth2/start?rd=https://$host$uri;
       auth_request_set $user   $upstream_http_x_auth_request_user;
       auth_request_set $email  $upstream_http_x_auth_request_email;
       auth_request_set $auth_header $upstream_http_authorization;
@@ -88,7 +88,7 @@ metadata:
   name: grafana
   namespace: grafana
 spec:
-  host: "grafana.{{ .Values.clusterDomain }}"
+  host: "grafana.{{"{{"}} .Values.clusterDomain {{"}}"}}"
   upstreams:
   - name: grafana
     service: grafana
@@ -105,7 +105,7 @@ metadata:
   name: oauth-proxy-grafana
   namespace: oauth-proxy
 spec:
-  host: "grafana.{{ .Values.clusterDomain }}"
+  host: "grafana.{{"{{"}} .Values.clusterDomain {{"}}"}}"
   upstreams:
   - name: oauth2-proxy
     service: oauth-proxy-oauth2-proxy
