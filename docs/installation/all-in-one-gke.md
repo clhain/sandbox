@@ -157,7 +157,7 @@ credentials:
 
 Place your Deployment Service Account Key from step 2 above in /tmp/gcloud.key (or the location of your choice, updating the file).
 
-Set the value of OIDC_CLIENT_SECRET to your key value from step 3 above: 
+Set the value of OIDC_CLIENT_SECRET to your key value from step 3 above.
 
 `export OIDC_CLIENT_SECRET=YOUR_CLIENT_SECRET_VALUE`
 

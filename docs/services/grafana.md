@@ -62,9 +62,9 @@ kubectl get secret grafana -o=jsonpath='{.data.admin-password}' | base64 -d
 
 ## Adding Dashboards
 The Sandbox Grafana is configured with a sidecar that automatically detects Dashboard Configmaps in any namespace. To add a new
-Dashboard, simply add the datasource configuration as a Kubernetes ConfigMap with the label 'grafana_dashboard: "1"'. 
+Dashboard, simply add the datasource configuration as a Kubernetes ConfigMap with the label `grafana_dashboard: "1"`.
 
-You can also configure the folder using annotations, for example, this will place the dashboard in a folder named "Boutique": 
+You can also configure the folder using annotations, for example, the following will place the dashboard in a folder named "Boutique".
 
 ```yaml
   annotations:
@@ -94,8 +94,8 @@ data:
 
 ## Adding Datasources
 The Sandbox Grafana is configured with a sidecar that automatically detects Datasource Configmaps in any namespace. To add a new
-datasource, simply add the datasource configuration as a Kubernetes ConfigMap with the label 'grafana_datasource: "1"'. Here's
-an example that deploys a Jaeger Datasource:
+datasource, simply add the datasource configuration as a Kubernetes ConfigMap with the label 'grafana_datasource: "1"'.
+Here's an example that deploys a Jaeger Datasource:
 
 ```yaml
 apiVersion: v1
