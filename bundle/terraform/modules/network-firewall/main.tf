@@ -100,7 +100,7 @@ resource "google_compute_firewall" "private_allow_all_network_inbound" {
 # ---------------------------------------------------------------------------------------------------------------------
 
 resource "google_compute_firewall" "private_allow_master_8443_inbound" {
-  name = "${var.name_prefix}-private-allow-master-8443-inbound"
+  name = "${var.name_prefix}-private-master-8443-in"
 
   project = var.project
   network = var.network
