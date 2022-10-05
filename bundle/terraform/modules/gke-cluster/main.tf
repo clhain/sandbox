@@ -71,6 +71,10 @@ resource "google_container_cluster" "cluster" {
     services_secondary_range_name = var.services_secondary_range_name
   }
 
+  confidential_nodes {
+    enabled = var.enable_confidential_nodes
+  }
+
   # We can optionally control access to the cluster
   # See https://cloud.google.com/kubernetes-engine/docs/how-to/private-clusters
   private_cluster_config {
