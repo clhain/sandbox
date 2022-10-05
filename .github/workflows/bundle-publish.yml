@@ -16,18 +16,25 @@ jobs:
         run: |
           OWNER="$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')"
           echo "REPO-OWNER=${OWNER}" >> $GITHUB_ENV
+          BUNDLE_REGISTRY="$(yq e '.registry' ./bundle/porter.yaml )"
+          echo "BUNDLE_REGISTRY=${BUNDLE_REGISTRY}" >> $GITHUB_ENV
           BUNDLE_NAME="$(yq e '.name' ./bundle/porter.yaml )"
           echo "BUNDLE_NAME=${BUNDLE_NAME}" >> $GITHUB_ENV
           BUNDLE_VERSION="$(yq e '.version' ./bundle/porter.yaml )"
           echo "BUNDLE_VERSION=${BUNDLE_VERSION}" >> $GITHUB_ENV
+
+      - name: Setup Porter
+        uses: getporter/gh-action@v0.1.3
+        with:
+          porter_version: v1.0.0-alpha.22
+
       - name: Login to GitHub Packages OCI Registry
         uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9 # docker/login-action@v1
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Tag bundle image
+
+      - name: Porter publish to registry
         run: |
-          docker pull ghcr.io/${{ env.REPO-OWNER }}/${{env.BUNDLE_NAME}}:${{env.BUNDLE_VERSION}}-rc
-          docker tag ghcr.io/${{ env.REPO-OWNER }}/${{env.BUNDLE_NAME}}:${{env.BUNDLE_VERSION}}-rc ghcr.io/${{ env.REPO-OWNER }}/${{env.BUNDLE_NAME}}:${{env.BUNDLE_VERSION}}
-          docker push ghcr.io/${{ env.REPO-OWNER }}/${{env.BUNDLE_NAME}}:${{env.BUNDLE_VERSION}}
+          porter publish -d bundle --reference ${{ env.BUNDLE_REGISTRY}}/${{env.BUNDLE_NAME}}:v${{env.BUNDLE_VERSION}}-rc --tag "v${{ env.BUNDLE_VERSION }}" --
