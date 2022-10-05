@@ -19,7 +19,7 @@ The Sandbox installation of Oauth2 Proxy includes a mostly default installation 
 Values can be passed to the official oauth2-proxy chart (by adding them under the "oauth2-proxy" key),
 as shown on line 4 of the values file here:
 
-```
+```yaml
 clusterDomain: example.com
 enableVirtualServer: true
 
@@ -49,7 +49,7 @@ Grafana or Ouath2 Proxy Virtual Server Routes, depending on the state of the cli
 
 > Note: the "{{"{{"}} .Values.clusterDomain {{"}}"}}" field is passed to the cluster via helm in a default install.
 
-```
+```yaml
 apiVersion: k8s.nginx.org/v1
 kind: VirtualServer
 metadata:

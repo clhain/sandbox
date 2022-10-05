@@ -27,7 +27,7 @@ The Sandbox installation of nginx ingress includes a mostly default installation
 Values can be passed to the official nginx-ingress chart (by adding them under the "nginx-ingress" key),
 as shown on line 4 of the values file here:
 
-```
+```yaml
 enableIngressDashboard: true
 enableAppProtectDashboard: false
 
@@ -80,7 +80,7 @@ the top level Virtual Server passes traffic to the individual Virtual Server Rou
 
 > Note: the "{{"{{"}} .Values.clusterDomain {{"}}"}}" field is passed to the cluster via helm in a default install.
 
-```
+```yaml
 apiVersion: k8s.nginx.org/v1
 kind: VirtualServer
 metadata:

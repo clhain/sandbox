@@ -36,7 +36,7 @@ deploy the cluster:
 
 
 ### Porter Deployer Service Account
-A [GCP service account JSON key](https://cloud.google.com/iam/docs/creating-managing-service-accounts#creating) is required to deploy the bundle. 
+A [GCP service account JSON key](https://cloud.google.com/iam/docs/creating-managing-service-accounts#creating) is required to deploy the bundle.
 
 Required permissions for the deployer Service Account are:
 
