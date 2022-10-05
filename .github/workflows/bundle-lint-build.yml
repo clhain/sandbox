@@ -29,15 +29,20 @@ jobs:
           MAIN_VERSION="$(yq e '.version' ./master/bundle/porter.yaml )"
           BRANCH_VERSION="$(yq e '.version' ./bundle/porter.yaml )"
           BUMP_VERSION="$(echo $MAIN_VERSION | awk -F. '/[0-9]+\./{$NF++;print}' OFS=.)"
-          NEW_VERSION="$(if [[ ${MAIN_VERSION} = ${BRANCH_VERSION} ]]; then echo $BUMP_VERSION; else echo $BRANCH_VERSION; fi)"
-          echo "BUNDLE_VERSION=${NEW_VERSION}" >> $GITHUB_ENV
-          echo "NEEDS_BUMP=$(if [[ ${BRANCH_VERSION} = ${NEW_VERSION} ]]; then echo false; else echo true; fi)" >> $GITHUB_ENV
-          if [[ ${BRANCH_VERSION} != ${NEW_VERSION} ]]; then sed -i "s/version: ${BRANCH_VERSION}/version: ${NEW_VERSION}/" ./bundle/porter.yaml; fi
+          BUNDLE_VERSION="$(if [[ ${MAIN_VERSION} = ${BRANCH_VERSION} ]]; then echo $BUMP_VERSION; else echo $BRANCH_VERSION; fi)"
+          echo "OLD_VERSION=${MAIN_VERSION}" >> $GITHUB_ENV
+          echo "BUNDLE_VERSION=${BUNDLE_VERSION}" >> $GITHUB_ENV
+          echo "NEEDS_BUMP=$(if [[ ${BRANCH_VERSION} = ${BUNDLE_VERSION} ]]; then echo false; else echo true; fi)" >> $GITHUB_ENV
+
+      - name: Bump versions in files
+        run: |
+          sed -i "s/^version: .*/version: ${{ env.BUNDLE_VERSION}}/" ./bundle/porter.yaml
+          find examples/ -type f -name 'installation.yaml' | xargs sed -i "s/^version: v\d+\.\d+\.\d+/version: v${BUNDLE_VERSION}/"
+          sed -i "s/sandbox_porter_gke_version: \d+\.\d+\.\d+/sandbox_porter_gke_version: ${{ env.BUNDLE_VERSION}}/" ./mkdocs.yml
 
       - uses: stefanzweifel/git-auto-commit-action@v4
-        if: ${{ env.NEEDS_BUMP }} == 'true'
         with:
-          commit_message: Bump porter version.
+          commit_message: Bump porter version in porter file, examples, and docs.
 
       - name: Setup Porter
         uses: getporter/gh-action@v0.1.3

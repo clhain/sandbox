@@ -50,7 +50,7 @@ If you're not using the default compute engine service account or bringing a pre
 Service Account Creator permissions.
 
 Example account creation and permission commands (must be run by a user with permissions to create service accounts):
-```
+```text
 gcloud iam service-accounts create porter-deployer-sa \
     --description="Service Account Used with Porter to deploy GCP assets" \
     --display-name="Porter Deploy Service Account"
@@ -77,7 +77,7 @@ gcloud projects add-iam-policy-binding PROJECT_ID \
 ```
 
 If you're not using the default compute engine service account or bringing a pre-existing SA:
-```
+```text
 gcloud projects add-iam-policy-binding PROJECT_ID \
     --member="serviceAccount:porter-deployer-sa@PROJECT_ID.iam.gserviceaccount.com" \
     --role="roles/iam.serviceAccountCreator"
@@ -92,7 +92,7 @@ If the cluster needs access to Google Container Registry associated with the pro
 permission (or permissions for any other GCP resources to be accessed by the nodes).
 
 Example gcloud commands:
-```
+```text
 gcloud iam service-accounts create sandbox-cluster-1-node-sa \
     --description="Service Account For GKE Cluster Nodes" \
     --display-name="Cluster Node Service Account"
@@ -126,7 +126,7 @@ of 'Apply' commands.
 
 We recommend setting up a new project with cluster specification as follows:
 
-```
+```text
 your_project/
     cluster/
         creds.yaml           # Credentials spec for bundle installation
@@ -143,7 +143,7 @@ and modify them as needed.
 The **creds.yaml** file contains references to where porter can find the sensitive parameters (e.g. passwords, keys, etc)
 needed to perform the install. An example declaration might look like this:
 
-```
+```yaml
 schemaVersion: 1.0.1
 name: sandbox-cluster-1            # The name of the porter credential set that will be created
 credentials:
@@ -166,7 +166,7 @@ Set the value of OIDC_CLIENT_SECRET to your key value from step 3 above:
 The **params.yaml** file contains references to non-sensitive configuration values to use for bundle installation.
 An example declaration might look like:
 
-```
+```yaml
 schemaVersion: 1.0.1
 name: sandbox-cluster-1
 parameters:
@@ -200,7 +200,7 @@ parameters:
 ```
 
 Replace all instances of #### YOUR_X_HERE #### with the values obtained in steps 2 and 3 above.
-For additional parameters supported by the bundle, you can run `porter explain ghcr.io/clhain/sandbox:v0.0.1`
+For additional parameters supported by the bundle, you can run `porter explain {{ sandbox_porter_gke_repo }}:v{{ extra.sandbox_porter_gke_version }}`
 from the command line.
 
 ### Porter Installation File
@@ -210,12 +210,12 @@ be applied to a given installation of a particular bundle. If you re-named the c
 from the values above, you'll need to update these values, otherwise the below should work without
 modification:
 
-```
+```yaml
 schemaVersion: 1.0.1
 name: sandbox-cluster-1
 bundle:
-  repository: ghcr.io/clhain/sandbox
-  version: v0.0.1
+  repository: {{ sandbox_porter_gke_repo }}
+  version: v{{ extra.sandbox_porter_gke_version }}
 parameterSets:
   - sandbox-cluster-1
 credentialSets:
@@ -235,25 +235,24 @@ OIDC Provider. ArgoCD doesn't support the use of the Oauth2 proxy for authentica
 must use it's own built-in Oauth mechanisms. See their documentation for provider specific configs,
 the below works for Azure AD.
 
-```
-## Uncommenting the following and update with your OIDDC ISSUER URL and ARGOCD HOSTNAME is strongly recommended
-# argo-cd:
-#   server:
-#     rbacConfig:
-#     config:
-#       url: ### YOUR ARGOCD HOSTNAME (https://argocd.YOUR_DOMAIN/ with default settings)
-#       oidc.config: |
-#         name: AzureAD
-#         issuer: ### YOUR OIDC ISSUER URL ####
-#         clientID: $oauth-secret:oidc.clientId
-#         clientSecret: $oauth-secret:oidc.clientSecret
-#         requestedIDTokenClaims:
-#           groups:
-#             essential: true
-#         requestedScopes:
-#           - openid
-#           - profile
-#           - email
+```yaml
+argo-cd:
+  server:
+    rbacConfig:
+    config:
+      url: ### YOUR ARGOCD HOSTNAME (https://argocd.YOUR_DOMAIN/ with default settings)
+      oidc.config: |
+        name: AzureAD
+        issuer: ### YOUR OIDC ISSUER URL ####
+        clientID: $oauth-secret:oidc.clientId
+        clientSecret: $oauth-secret:oidc.clientSecret
+        requestedIDTokenClaims:
+          groups:
+            essential: true
+        requestedScopes:
+          - openid
+          - profile
+          - email
 ```
 
 > Note: Argo uses the $oauth-secret:oidc.clientId and $oauth-secret:oidc.clientSecret references to find
@@ -265,7 +264,7 @@ the below works for Azure AD.
 Once the params file is updated and the credentials are put in place (see above), the installation is
 straightforward:
 
-```
+```yaml
 porter creds apply cluster/creds.yaml
 porter parameters apply cluster/params.yaml
 porter installations apply cluster/installation.yaml
@@ -279,7 +278,7 @@ track the installation progress after connecting to the cluster with:
 
 Once you see the following, you should be good to go:
 
-```
+```text
 NAME                       SYNC STATUS   HEALTH STATUS
 argo-virtual-server        Synced        Healthy
 cert-manager               Synced        Healthy
@@ -299,7 +298,9 @@ temppo                     Synced        Healthy
 Once all services are in 'Synced, Healthy' state, and you've updated the DNS records as described [here](dns.md),
 you should be able to securely access the ArgoCD and Grafana services at:
 
-* https://argocd.YOUR_DOMAIN/
-* https://grafana.YOUR_DOMAIN/
+```text
+https://argocd.YOUR_DOMAIN/
+https://grafana.YOUR_DOMAIN/
+```
 
 Please see the [troubleshooting](../troubleshooting.md) guide for investigating issues.

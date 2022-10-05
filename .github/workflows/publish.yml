@@ -15,8 +15,6 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       bundle-changed: ${{ steps.filter.outputs.bundle }}
-      docs-changed: ${{ steps.filter.outputs.docs }}
-      services-changed: ${{ steps.filter.outputs.services }}
     steps:
     - uses: dorny/paths-filter@v2
       id: filter
@@ -24,18 +22,12 @@ jobs:
         base: master
         filters: |
           bundle:
-            - 'bundle/**'  
-          docs:
-            - 'docs/**'  
-          services:
-            - 'services/**'
+            - 'bundle/**'
 
   docs-publish:
-    needs: check-update-paths
-    if: needs.check-update-paths.outputs.docs-changed
     uses: ./.github/workflows/docs-publish.yml
 
   bundle-publish:
     needs: check-update-paths
-    if: needs.check-update-paths.outputs.bundle-changed
+    if: ${{needs.check-update-paths.outputs.bundle-changed == 'true'}}
     uses: ./.github/workflows/bundle-publish.yml

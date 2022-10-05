@@ -89,7 +89,7 @@ data:
         ...
 ```
 
-> Note: If you're deploying with helm, any Grafana variables in the dashboard spec (e.g. {{ .my-variable }}), need to be escaped
+> Note: If you're deploying with helm, any Grafana variables in the dashboard spec (e.g. {{"{{"}} .my-variable {{"}}"}}}}), need to be escaped
 > as {{"{{"}} .my-variable {{"}}"}}
 
 ## Adding Datasources
