@@ -131,6 +131,11 @@ resource "google_container_node_pool" "node_pool" {
       "sandbox-node-pool",
     ]
 
+    metadata = {
+      disable-legacy-endpoints = true
+      block-project-ssh-keys = true
+    }
+
     disk_size_gb = "30"
     disk_type    = "pd-standard"
     preemptible  = var.preemptible_nodes

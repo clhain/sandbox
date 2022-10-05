@@ -26,6 +26,8 @@ jobs:
         run: |
           OWNER="$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')"
           echo "REPO-OWNER=${OWNER}" >> $GITHUB_ENV
+          BUNDLE_REGISTRY="$(yq e '.registry' ./bundle/porter.yaml )"
+          echo "BUNDLE_REGISTRY=${BUNDLE_REGISTRY}" >> $GITHUB_ENV
           MAIN_VERSION="$(yq e '.version' ./master/bundle/porter.yaml )"
           BRANCH_VERSION="$(yq e '.version' ./bundle/porter.yaml )"
           BUMP_VERSION="$(echo $MAIN_VERSION | awk -F. '/[0-9]+\./{$NF++;print}' OFS=.)"
@@ -68,4 +70,4 @@ jobs:
 
       - name: Porter publish to ghcr.io 
         run: |
-          porter publish -d ./bundle --registry ghcr.io/${{ env.REPO-OWNER }} --tag "${{ env.BUNDLE_VERSION }}-rc" --
+          porter publish -d ./bundle --tag "${{ env.BUNDLE_VERSION }}-rc" --
