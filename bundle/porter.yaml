@@ -100,7 +100,7 @@ parameters:
     default: "true"
   - name: machine_type
     type: string
-    default: e2-standard-2
+    default: n2-standard-2
     env: TF_VAR_machine_type
     description: The GCP machine type to use for the cluster nodes.
   - name: location
@@ -155,9 +155,9 @@ parameters:
     description: "The IP address range of the VPC's secondary address range in CIDR notation. A prefix of /16 is recommended. Do not use a prefix higher than /27."
   - name: enable_confidential_nodes
     type: string
-    default: "true"
+    default: "false"
     env: TF_VAR_enable_confidential_nodes
-  - name: enable_confidential_nodes
+  - name: enable_network_policy
     type: string
     default: "false"
     env: TF_VAR_enable_network_policy
