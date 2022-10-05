@@ -6,20 +6,15 @@ on:
       - master
 
 jobs:
-  call-check-codeowners:
-    uses: ./.github/workflows/check-codeowners.yml
-  call-lint:
-    uses: ./.github/workflows/linter.yml
-  
   check-update-paths:
     runs-on: ubuntu-latest
     outputs:
       bundle-changed: ${{ steps.filter.outputs.bundle }}
     steps:
+    - uses: actions/checkout@v3
     - uses: dorny/paths-filter@v2
       id: filter
       with:
-        base: master
         filters: |
           bundle:
             - 'bundle/**'
