@@ -49,6 +49,10 @@ resource "google_container_cluster" "cluster" {
 
   initial_node_count = 1
 
+  node_config {
+    machine_type = var.machine_type
+  }
+
   # If we have an alternative default service account to use, set on the node_config so that the default node pool can
   # be created successfully.
   dynamic "node_config" {
