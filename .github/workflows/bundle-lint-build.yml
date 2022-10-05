@@ -68,4 +68,4 @@ jobs:
 
       - name: Porter publish to ghcr.io 
         run: |
-          porter publish -d ./bundle --tag "${{ env.BUNDLE_VERSION }}-rc" --
+          porter publish -d ./bundle --tag "v${{ env.BUNDLE_VERSION }}-rc" --

@@ -35,4 +35,4 @@ jobs:
 
       - name: Porter publish to registry
         run: |
-          porter publish -d bundle --reference ${{ env.BUNDLE_REGISTRY}}/${{env.BUNDLE_NAME}}:${{env.BUNDLE_VERSION}}-rc --tag "${{ env.BUNDLE_VERSION }}" --
+          porter publish -d bundle --reference ${{ env.BUNDLE_REGISTRY}}/${{env.BUNDLE_NAME}}:v${{env.BUNDLE_VERSION}}-rc --tag "v${{ env.BUNDLE_VERSION }}" --
