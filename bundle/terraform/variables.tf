@@ -111,6 +111,12 @@ variable "enable_confidential_nodes" {
   default     = true
 }
 
+variable "enable_network_policy" {
+  description = "Whether to enable Kubernetes NetworkPolicy on the master, which is required to be enabled to be used on Nodes."
+  type        = bool
+  default     = false
+}
+
 variable "enable_vertical_pod_autoscaling" {
   description = "Enable vertical pod autoscaling"
   type        = string
