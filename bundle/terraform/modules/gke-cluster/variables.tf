@@ -83,7 +83,7 @@ variable "http_load_balancing" {
 variable "enable_confidential_nodes" {
   description = "Control whether nodes are enabled for confidential compute."
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable "enable_private_nodes" {
