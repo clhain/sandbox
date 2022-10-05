@@ -8,6 +8,6 @@ description: Proxy Chart for Sandbox Cluster compatible Loki installation
 maintainers:
 - email: clhain@gmail.com
   name: clhain
-name: helm-nginx-ingress
+name: helm-loki
 type: application
-version: 0.1.2
+version: 0.1.3

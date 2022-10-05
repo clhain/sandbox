@@ -1,6 +1,6 @@
-# helm-nginx-ingress
+# helm-loki
 
-![Version: 0.1.2](https://img.shields.io/badge/Version-0.1.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
+![Version: 0.1.3](https://img.shields.io/badge/Version-0.1.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
 
 Proxy Chart for Sandbox Cluster compatible Loki installation
 
@@ -24,7 +24,7 @@ Proxy Chart for Sandbox Cluster compatible Loki installation
 | enablePodLogs | bool | `true` |  |
 | loki.loki.auth_enabled | bool | `false` |  |
 | loki.loki.commonConfig.replication_factor | int | `1` |  |
-| loki.loki.rulerStorageConfig.type | string | `"local"` |  |
+| loki.loki.rulerConfig.storage.type | string | `"local"` |  |
 | loki.loki.storage.type | string | `"filesystem"` |  |
 | loki.monitoring.dashboards.annotations.grafana_folder | string | `"Loki"` |  |
 | loki.monitoring.dashboards.labels.grafana_dashboard | string | `"1"` |  |
