@@ -34,6 +34,7 @@ jobs:
           FILTER_REGEX_INCLUDE: ${{ inputs.filter_regex_include }}
           VALIDATE_ALL_CODEBASE: false
           VALIDATE_KUBERNETES_KUBEVAL: false
+          VALIDATE_TERRAFORM_TERRASCAN: false
           VALIDATE_YAML: false
           DEFAULT_BRANCH: master
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
