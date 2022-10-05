@@ -2,7 +2,7 @@ schemaVersion: 1.0.1
 name: f5-sandbox-cluster-1
 bundle:
   repository: ghcr.io/clhain/sandbox-gke-porter
-  version: v0.0.2
+  version: v0.0.1
 parameterSets:
   - f5-sandbox-cluster-1
 credentialSets:
