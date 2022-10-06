@@ -25,7 +25,7 @@ jobs:
           TAG_MINOR_VERSION="$([[ ${{ inputs.tag }}  =~ ^[0-9]+\.[0-9]+ ]] && echo ${BASH_REMATCH[0]})"
           if [[ ${TAG_MINOR_VERSION} = "" ]]; then exit 1; fi
           CURRENT_BUNDLE_VERSION="$(yq e '.version' ./bundle/porter.yaml )"
-          BUNDLE_MINOR_VERSION="$([[ ${CURRENT_BUNDLE_VERSION}  =~ ^[0-9]+\.[0-9]+ ]] && echo ${BASH_REMATCH[0]})
+          BUNDLE_MINOR_VERSION="$([[ ${CURRENT_BUNDLE_VERSION}  =~ ^[0-9]+\.[0-9]+ ]] && echo ${BASH_REMATCH[0]})"
           BUMP_VERSION="$(echo ${CURRENT_BUNDLE_VERSION} | awk -F. '/[0-9]+\./{$NF++;print}' OFS=.)"
           BUNDLE_VERSION="$(if [[ ${TAG_MINOR_VERSION} = ${BUNDLE_MINOR_VERSION} ]]; then echo $BUMP_VERSION; else echo ${{ inputs.tag }}; fi)"
           echo "BUNDLE_VERSION=${BUNDLE_VERSION}" >> $GITHUB_ENV
