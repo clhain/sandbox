@@ -177,6 +177,10 @@ parameters:
     type: string
     default: "argocd"
     description: The namespace to install Argo CD into.
+  - name: sandbox_apps_helm_revision
+    type: string
+    default: v0.0.4 # sandbox_apps_helm_revision (comment for automation, do not remove)
+    description: The Git Revision (i.e. HEAD or tag name of sandbox-apps helm chart to deploy).
   - name: sandbox_target_revision
     type: string
     default: v0.1.1 # sandbox_target_revision (comment for automation, do not remove)
@@ -227,7 +231,8 @@ install:
         oidcIssuerURL: "{{ bundle.parameters.oidc_issuer_url }}"
         letsEncryptContactEmail: "{{ bundle.parameters.letsencrypt-contact-email }}"
         oidcPermittedEmailDomains: "{{ bundle.parameters.oidc_email_domains }}"
-        appsHelmSourceTargetRevision: "{{ bundle.parameters.sandbox_target_revision }}"
+        appsHelmSourceTargetRevision: "{{ bundle.parameters.sandbox_apps_helm_revision }}"
+        appsSourceTargetRevision: "{{ bundle.parameters.sandbox_target_revision }}"
       values:
         - /cnab/app/helm/sandbox-base/extra-values.yaml
 
@@ -276,7 +281,8 @@ upgrade:
         oidcIssuerURL: "{{ bundle.parameters.oidc_issuer_url }}"
         letsEncryptContactEmail: "{{ bundle.parameters.letsencrypt-contact-email }}"
         oidcPermittedEmailDomains: "{{ bundle.parameters.oidc_email_domains }}"
-        appsHelmSourceTargetRevision: "{{ bundle.parameters.sandbox_target_revision }}"
+        appsHelmSourceTargetRevision: "{{ bundle.parameters.sandbox_apps_helm_revision }}"
+        appsSourceTargetRevision: "{{ bundle.parameters.sandbox_target_revision }}"
       values:
         - /cnab/app/helm/sandbox-base/extra-values.yaml
 
