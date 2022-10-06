@@ -179,7 +179,7 @@ parameters:
     description: The namespace to install Argo CD into.
   - name: sandbox_apps_helm_revision
     type: string
-    default: v0.0.4 # sandbox_apps_helm_revision (comment for automation, do not remove)
+    default: sandbox-apps-0.0.4 # sandbox_apps_helm_revision (comment for automation, do not remove)
     description: The Git Revision (i.e. HEAD or tag name of sandbox-apps helm chart to deploy).
   - name: sandbox_target_revision
     type: string
