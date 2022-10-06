@@ -14,7 +14,7 @@ Proxy Chart for Sandbox Cluster compatible Loki installation
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://grafana.github.io/helm-charts | loki | 3.2.0 |
+| https://grafana.github.io/helm-charts | loki | 3.2.1 |
 
 ## Values
 
