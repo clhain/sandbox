@@ -1,0 +1,56 @@
+name: Cut Release
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'The release version (no v) e.g. 0.1.1.'
+        required: true
+
+jobs:
+  update-version:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v3
+      - name: install yq
+        run: |
+          sudo snap install yq
+
+      - name: Set Environment Variables
+        # If the current bundle minor version e.g. 0.1 matches the tag minor version, this is a patch release and we need to update the
+        # bundle to the next patch version from it's current. Otherwise, this is a minor release and we can reset the bundle version
+        # to match the tag e.g. 0.2.0
+        run: |
+          TAG_MINOR_VERSION="$([[ ${{ inputs.tag }}  =~ ^[0-9]+\.[0-9]+ ]] && echo ${BASH_REMATCH[0]})"
+          if [[ ${TAG_MINOR_VERSION} = "" ]]; then exit 1; fi
+          CURRENT_BUNDLE_VERSION="$(yq e '.version' ./bundle/porter.yaml )"
+          BUNDLE_MINOR_VERSION="$([[ ${CURRENT_BUNDLE_VERSION}  =~ ^[0-9]+\.[0-9]+ ]] && echo ${BASH_REMATCH[0]})
+          BUMP_VERSION="$(echo ${CURRENT_BUNDLE_VERSION} | awk -F. '/[0-9]+\./{$NF++;print}' OFS=.)"
+          BUNDLE_VERSION="$(if [[ ${TAG_MINOR_VERSION} = ${BUNDLE_MINOR_VERSION} ]]; then echo $BUMP_VERSION; else echo ${{ inputs.tag }}; fi)"
+          echo "BUNDLE_VERSION=${BUNDLE_VERSION}" >> $GITHUB_ENV
+
+      - name: Bump versions in files
+        run: |
+          sed -i "s/version: .*/version: ${{ env.BUNDLE_VERSION}}/" ./bundle/porter.yaml
+          sed -i "s/default: .* # sandbox_target_revision/default: v${{ inputs.tag }} # sandbox_target_revision/" ./bundle/porter.yaml
+          find examples/ -type f -name 'installation.yaml' | xargs sed -i "s/version: v.*/version: v${{ env.BUNDLE_VERSION}}/"
+          sed -i "s/sandbox_porter_gke_version: .*/sandbox_porter_gke_version: ${{ env.BUNDLE_VERSION}}/" ./mkdocs.yml
+
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Bump release version in porter file, examples, and docs.
+
+      - uses: ncipollo/release-action@v1
+        with:
+          tag: v${{ inputs.tag }}
+          commit: master
+          token: ${{ secrets.YOUR_GITHUB_TOKEN }}
+
+  bundle-publish:
+    needs: update-version
+    uses: ./.github/workflows/bundle-publish.yml
+
+  docs-publish:
+    needs: update-version
+    uses: ./.github/workflows/docs-publish.yml
