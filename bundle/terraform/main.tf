@@ -124,6 +124,7 @@ resource "google_container_node_pool" "node_pool" {
   node_config {
     image_type   = "cos_containerd"
     machine_type = var.machine_type
+    min_cpu_platform = var.enable_confidential_nodes ? "milan" : null
 
     labels = {
       private-pool = "true"
