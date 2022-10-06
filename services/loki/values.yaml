@@ -21,3 +21,5 @@ loki:
         grafana_folder: "Loki"
     selfMonitoring:
       enabled: true
+      lokiCanary:
+        enabled: false
