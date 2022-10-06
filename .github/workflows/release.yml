@@ -45,7 +45,7 @@ jobs:
         with:
           tag: v${{ inputs.tag }}
           commit: master
-          token: ${{ secrets.YOUR_GITHUB_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
 
   bundle-publish:
     needs: update-version
