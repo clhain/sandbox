@@ -1,3 +1,5 @@
 enableArgoVirtualServer: true
 clusterDomain: example.com
 serviceName: sandbox-base-argocd-server
+# Disable all certificate generation and https auth callbacks (not recommended)
+clusterTLSInsecure: false

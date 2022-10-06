@@ -1,6 +1,8 @@
 enableVirtualServer: true
 enableOauthRoute: true
 clusterDomain: example.com
+# Disable all certificate generation and https auth callbacks (not recommended)
+clusterTLSInsecure: false
 
 grafana:
   grafana.ini:

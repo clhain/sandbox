@@ -5,10 +5,12 @@ metadata:
   name: oauth-auth-endpoint
 spec:   
   host: auth.{{ .Values.clusterDomain }}
+  {{- if not .Values.clusterTLSInsecure}}
   tls:
     cert-manager:
       cluster-issuer: letsencrypt-prod
     secret: auth-cert
+  {{- end }}
   upstreams:
   - name: oauth2-proxy
     service: oauth-proxy-oauth2-proxy
@@ -33,4 +35,29 @@ spec:
       proxy_pass_request_body           off;
     action:
       pass: oauth2-proxy
+
+{{- if .Values.clusterLocalAuth }}
+apiVersion: k8s.nginx.org/v1
+kind: VirtualServer
+metadata:
+  name: dex-endpoint
+spec:   
+  host: dex.{{ .Values.clusterDomain }}
+  {{- if not .Values.clusterTLSInsecure}}
+  tls:
+    cert-manager:
+      cluster-issuer: letsencrypt-prod
+    secret: dex-cert
+  {{- end }}
+  upstreams:
+  - name: dex
+    service: dex
+    port: 5556
+  routes:
+  - path: /
+    location-snippets: |
+      opentracing off;
+    action:
+      pass: dex
+{{- end }}
 {{- end }}

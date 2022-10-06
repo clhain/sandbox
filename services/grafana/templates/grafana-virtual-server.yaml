@@ -6,10 +6,12 @@ metadata:
   namespace: "grafana"
 spec:
   host: "grafana.{{ .Values.clusterDomain }}"
+  {{- if not .Values.clusterTLSInsecure}}
   tls:
     cert-manager:
       cluster-issuer: letsencrypt-prod
     secret: grafana-cert
+  {{- end }}
   routes:
   - path: /
     route: grafana/grafana
