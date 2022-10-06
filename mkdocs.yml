@@ -38,4 +38,4 @@ plugins:
     - macros
 extra:
     sandbox_porter_gke_repo: "ghcr.io/clhain/sandbox-gke-porter"
-    sandbox_porter_gke_version: 0.0.9
+    sandbox_porter_gke_version: 0.1.0
