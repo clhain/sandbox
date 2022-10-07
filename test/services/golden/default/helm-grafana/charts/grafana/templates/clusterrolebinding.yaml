@@ -1,0 +1,19 @@
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: foo-grafana-clusterrolebinding
+  labels:
+    helm.sh/chart: grafana-6.40.0
+    app.kubernetes.io/name: grafana
+    app.kubernetes.io/instance: foo
+    app.kubernetes.io/version: "9.1.6"
+    app.kubernetes.io/managed-by: Helm
+subjects:
+  - kind: ServiceAccount
+    name: foo-grafana
+    namespace: default
+roleRef:
+  kind: ClusterRole
+  name: foo-grafana-clusterrole
+  apiGroup: rbac.authorization.k8s.io
+---

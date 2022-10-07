@@ -1,0 +1,14 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: otc
+spec:
+  endpoints:
+  - port: monitoring
+  namespaceSelector:
+    matchNames:
+      - opentelemetry-operator
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: otc-collector-monitoring
+---
