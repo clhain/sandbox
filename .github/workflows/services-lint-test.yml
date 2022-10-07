@@ -61,12 +61,12 @@ jobs:
           find ./services -maxdepth 1 -mindepth 1 -type d -exec helm dependency update {} \;
           find ./services -maxdepth 1 -mindepth 1 -type d -exec /bin/bash -c "helm template --dry-run -f test/services/chat_values/defaults.yaml foo {} | scripts/helm-fan-out.sh test/services/golden/default" \;
           find ./services -maxdepth 1 -mindepth 1 -type d -exec /bin/bash -c "helm template --dry-run -f test/services/chat_values/disable_local_auth.yaml foo {} | scripts/helm-fan-out.sh test/services/golden/disable_local_auth" \;
-          diff -qbur test/services/golden/disable_local_auth/ test/services/golden/default/ | tee test/services/golden/disable_local_auth_delta.yaml
-          cat test/services/golden/disable_local_auth_delta.yaml | grep -v 'Only in' |cut -f2 -d' ' | xargs -I{} /bin/bash -c 'echo "# SOURCE: {}" >> test/services/golden/disable_local_auth_delta.yaml && cat {} >> test/services/golden/disable_local_auth_delta.yaml'
+          diff -bur test/services/golden/disable_local_auth/ test/services/golden/default/ > test/services/golden/disable_local_auth_delta.yaml
+          #cat test/services/golden/disable_local_auth_delta.yaml | grep -v 'Only in' |cut -f2 -d' ' | xargs -I{} /bin/bash -c 'echo "# SOURCE: {}" >> test/services/golden/disable_local_auth_delta.yaml && cat {} >> test/services/golden/disable_local_auth_delta.yaml'
           rm -rf test/services/golden/disable_local_auth
           find ./services -maxdepth 1 -mindepth 1 -type d -exec /bin/bash -c "helm template --dry-run -f test/services/chat_values/disable_tls.yaml foo {} | scripts/helm-fan-out.sh test/services/golden/disable_tls" \;
-          diff -qbur test/services/golden/disable_tls/ test/services/golden/default/ | tee test/services/golden/disable_tls_delta.yaml
-          cat test/services/golden/disable_tls_delta.yaml | grep -v 'Only in'  |cut -f2 -d' ' | xargs -I{} /bin/bash -c 'echo "# SOURCE: {}" >> test/services/golden/disable_tls_delta.yaml && cat {} >> test/services/golden/disable_tls_delta.yaml'
+          diff -bur test/services/golden/disable_tls/ test/services/golden/default/ > test/services/golden/disable_tls_delta.yaml
+          #cat test/services/golden/disable_tls_delta.yaml | grep -v 'Only in'  |cut -f2 -d' ' | xargs -I{} /bin/bash -c 'echo "# SOURCE: {}" >> test/services/golden/disable_tls_delta.yaml && cat {} >> test/services/golden/disable_tls_delta.yaml'
           rm -rf test/services/golden/disable_tls
 
       - uses: stefanzweifel/git-auto-commit-action@v4
