@@ -32,6 +32,7 @@ spec:
       proxy_pass_request_body           off;
     action:
       pass: oauth2-proxy
+---
 apiVersion: k8s.nginx.org/v1
 kind: VirtualServer
 metadata:
