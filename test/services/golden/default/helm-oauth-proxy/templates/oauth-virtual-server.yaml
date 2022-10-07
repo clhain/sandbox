@@ -1,0 +1,34 @@
+apiVersion: k8s.nginx.org/v1
+kind: VirtualServer
+metadata:
+  name: oauth-auth-endpoint
+spec:   
+  host: auth.example.com
+  tls:
+    cert-manager:
+      cluster-issuer: letsencrypt-prod
+    secret: auth-cert
+  upstreams:
+  - name: oauth2-proxy
+    service: oauth-proxy-oauth2-proxy
+    port: 80
+  routes:
+  - path: /oauth2/
+    location-snippets: |
+      opentracing off;
+      proxy_set_header X-Real-IP               $remote_addr;
+      proxy_set_header X-Scheme                $scheme;
+      proxy_set_header X-Auth-Request-Redirect $scheme://$host$request_uri;
+    action:
+      pass: oauth2-proxy
+  - path: /oauth2/auth
+    location-snippets: | 
+      internal;
+      proxy_set_header Host             $host;
+      proxy_set_header X-Real-IP        $remote_addr;
+      proxy_set_header X-Scheme         $scheme;
+      # nginx auth_request includes headers but not body
+      proxy_set_header Content-Length   "";
+      proxy_pass_request_body           off;
+    action:
+      pass: oauth2-proxy

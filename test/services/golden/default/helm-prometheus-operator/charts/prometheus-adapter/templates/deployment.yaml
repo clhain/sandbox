@@ -1,0 +1,100 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:    
+    helm.sh/chart: prometheus-adapter-3.4.0
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/component: metrics
+    app.kubernetes.io/part-of: prometheus-adapter
+    app.kubernetes.io/name: prometheus-adapter
+    app.kubernetes.io/instance: foo
+    app.kubernetes.io/version: "v0.10.0"
+  name: foo-prometheus-adapter
+  namespace: default
+spec:
+  replicas: 1
+  strategy: 
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  selector:
+    matchLabels:      
+      app.kubernetes.io/name: prometheus-adapter
+      app.kubernetes.io/instance: foo
+  template:
+    metadata:
+      labels:        
+        helm.sh/chart: prometheus-adapter-3.4.0
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/component: metrics
+        app.kubernetes.io/part-of: prometheus-adapter
+        app.kubernetes.io/name: prometheus-adapter
+        app.kubernetes.io/instance: foo
+        app.kubernetes.io/version: "v0.10.0"
+      name: prometheus-adapter
+      annotations:
+        checksum/config: 61315d712b8446b555a822fcf0a01aa5a99663c6df76f94043479f6d1e0483a7
+    spec:
+      serviceAccountName: foo-prometheus-adapter
+      containers:
+      - name: prometheus-adapter
+        image: "k8s.gcr.io/prometheus-adapter/prometheus-adapter:v0.10.0"
+        imagePullPolicy: IfNotPresent
+        args:
+        - /adapter
+        - --secure-port=6443
+        - --cert-dir=/tmp/cert
+        - --logtostderr=true
+        - --prometheus-url=http://prometheus-operator-kube-p-prometheus.prometheus-operator.svc.cluster.local:9090:9090
+        - --metrics-relist-interval=1m
+        - --v=4
+        - --config=/etc/adapter/config.yaml
+        ports:
+        - containerPort: 6443
+          name: https
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: https
+            scheme: HTTPS
+          initialDelaySeconds: 30
+          timeoutSeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: https
+            scheme: HTTPS
+          initialDelaySeconds: 30
+          timeoutSeconds: 5
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop: ["all"]
+          readOnlyRootFilesystem: true
+          runAsNonRoot: true
+          runAsUser: 10001
+        volumeMounts:
+        - mountPath: /etc/adapter/
+          name: config
+          readOnly: true
+        - mountPath: /tmp
+          name: tmp
+      nodeSelector:
+        {}
+      affinity:
+        {}
+      topologySpreadConstraints:
+        []
+      priorityClassName: 
+      securityContext:
+        fsGroup: 10001
+      tolerations:
+        []
+      volumes:
+      - name: config
+        configMap:
+          name: foo-prometheus-adapter
+      - name: tmp
+        emptyDir: {}
+---
