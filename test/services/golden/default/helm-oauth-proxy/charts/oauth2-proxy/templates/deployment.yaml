@@ -101,7 +101,7 @@ spec:
       volumes:
       - configMap:
           defaultMode: 420
-          name: oauth-proxy-config
+          name: oauth2-proxy-config
         name: configmain
       tolerations:
         []
