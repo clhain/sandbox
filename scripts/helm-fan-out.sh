@@ -7,7 +7,7 @@ if [ -z "$1" ]; then
     exit 1
 fi
 
-awk -vout=$1 -F": " '
+awk -vout="$1" -F": " '
    $0~/^# Source: / {
        file=out"/"$2;
        if (!(file in filemap)) {
