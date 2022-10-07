@@ -61,6 +61,14 @@ spec:
             secretKeyRef:
               name:  oauth-proxy-creds
               key: cookie-secret
+        - name: OAUTH2_PROXY_COOKIE_DOMAINS
+          value: example.com
+        - name: OAUTH2_PROXY_WHITELIST_DOMAINS
+          value: example.com
+        - name: OAUTH2_PROXY_OIDC_ISSUER_URL
+          value: http://youridp.example.com
+        - name: OAUTH2_PROXY_EMAIL_DOMAINS
+          value: f5.com
         ports:
           - containerPort: 4180
             name: http
