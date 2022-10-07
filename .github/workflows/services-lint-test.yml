@@ -59,10 +59,9 @@ jobs:
       - name: Render golden templates
         run: |
           find ./services -maxdepth 1 -mindepth 1 -type d -exec helm dependency update {} \;
-          find ./services -maxdepth 1 -mindepth 1 -type d -exec /bin/bash -c "helm template --dry-run --values test/services/chat_values/defaults.yaml foo {} | scripts/helm-fan-out.sh test/services/golden/default" \;
-          find ./services -maxdepth 1 -mindepth 1 -type d -exec /bin/bash -c "helm template --dry-run --values test/services/chat_values/app_chart.yaml foo {} | scripts/helm-fan-out.sh test/services/golden/app_chart" \;
-          find ./services -maxdepth 1 -mindepth 1 -type d -exec /bin/bash -c "helm template --dry-run --values test/services/chat_values/disable_local_auth.yaml foo {} | scripts/helm-fan-out.sh test/services/golden/disable_local_auth" \;
-          find ./services -maxdepth 1 -mindepth 1 -type d -exec /bin/bash -c "helm template --dry-run --values test/services/chat_values/disable_tls.yaml foo {} | scripts/helm-fan-out.sh test/services/golden/disable_tls" \;
+          find ./services -maxdepth 1 -mindepth 1 -type d -exec /bin/bash -c "helm template --dry-run -f test/services/chat_values/defaults.yaml foo {} | scripts/helm-fan-out.sh test/services/golden/default" \;
+          find ./services -maxdepth 1 -mindepth 1 -type d -exec /bin/bash -c "helm template --dry-run -f test/services/chat_values/disable_local_auth.yaml foo {} | scripts/helm-fan-out.sh test/services/golden/disable_local_auth" \;
+          find ./services -maxdepth 1 -mindepth 1 -type d -exec /bin/bash -c "helm template --dry-run -f test/services/chat_values/disable_tls.yaml foo {} | scripts/helm-fan-out.sh test/services/golden/disable_tls" \;
 
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
