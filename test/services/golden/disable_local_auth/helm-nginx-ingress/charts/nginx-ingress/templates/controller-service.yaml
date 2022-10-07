@@ -13,6 +13,7 @@ metadata:
     networking.gke.io/internal-load-balancer-allow-global-access: "true"
 spec:
   externalTrafficPolicy: Local
+  loadBalancerIP: 1.1.1.1
   type: LoadBalancer
   ports:
   - port: 80

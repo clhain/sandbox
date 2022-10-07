@@ -27,7 +27,7 @@ spec:
         checksum/config: d1af0156b1282c5e08b91982eadb26ee69aaf1f478e28d8d722fc19fbe7ba9ea
         checksum/dashboards-json-config: 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b
         checksum/sc-dashboard-provider-config: b161d28b17b9f6b3549b61d453a8a54a41166178c5e276077cdfb3b5bc84872f
-        checksum/secret: e6d3cb6be436ebead76809d81f630d1eacbfa62855a7cbd68333bde1e13c7e5b
+        checksum/secret: b0819dc8db2fdee423ee4176ea51fad7a373aac6df61516d75bc2956eae0ea49
     spec:      
       serviceAccountName: foo-grafana
       automountServiceAccountToken: true
