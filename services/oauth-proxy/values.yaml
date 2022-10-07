@@ -6,7 +6,7 @@ clusterLocalAuth: true
 oauth2-proxy:
   config:
     existingSecret: oauth-proxy-creds
-    existingConfig: oauth-proxy-config
+    existingConfig: oauth2-proxy-config
 
 dex:
   configSecret:
