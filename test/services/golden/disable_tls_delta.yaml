@@ -1,6 +1,6 @@
 diff -bur test/services/golden/default/helm-argo-virtual-server/templates/argo-virtual-server.yaml test/services/golden/disable_tls/helm-argo-virtual-server/templates/argo-virtual-server.yaml
---- test/services/golden/default/helm-argo-virtual-server/templates/argo-virtual-server.yaml	2022-10-07 18:09:11.466167850 +0000
-+++ test/services/golden/disable_tls/helm-argo-virtual-server/templates/argo-virtual-server.yaml	2022-10-07 18:09:15.398243167 +0000
+--- test/services/golden/default/helm-argo-virtual-server/templates/argo-virtual-server.yaml	2022-10-07 19:24:26.153000961 +0000
++++ test/services/golden/disable_tls/helm-argo-virtual-server/templates/argo-virtual-server.yaml	2022-10-07 19:24:30.684995374 +0000
 @@ -5,10 +5,6 @@
    namespace: argocd
  spec:
@@ -14,8 +14,8 @@ diff -bur test/services/golden/default/helm-argo-virtual-server/templates/argo-v
      route: argocd/argocd
 Only in test/services/golden/default/helm-cert-manager/templates: letsencrypt-issuer.yaml
 diff -bur test/services/golden/default/helm-grafana/templates/grafana-virtual-server.yaml test/services/golden/disable_tls/helm-grafana/templates/grafana-virtual-server.yaml
---- test/services/golden/default/helm-grafana/templates/grafana-virtual-server.yaml	2022-10-07 18:09:11.434167232 +0000
-+++ test/services/golden/disable_tls/helm-grafana/templates/grafana-virtual-server.yaml	2022-10-07 18:09:15.366242567 +0000
+--- test/services/golden/default/helm-grafana/templates/grafana-virtual-server.yaml	2022-10-07 19:24:26.121000997 +0000
++++ test/services/golden/disable_tls/helm-grafana/templates/grafana-virtual-server.yaml	2022-10-07 19:24:30.652995421 +0000
 @@ -5,10 +5,6 @@
    namespace: "grafana"
  spec:
@@ -29,8 +29,8 @@ diff -bur test/services/golden/default/helm-grafana/templates/grafana-virtual-se
      route: grafana/grafana
 Only in test/services/golden/default/helm-oauth-proxy/charts/oauth2-proxy/templates: configmap.yaml
 diff -bur test/services/golden/default/helm-oauth-proxy/templates/oauth-proxy-configmap.yaml test/services/golden/disable_tls/helm-oauth-proxy/templates/oauth-proxy-configmap.yaml
---- test/services/golden/default/helm-oauth-proxy/templates/oauth-proxy-configmap.yaml	2022-10-07 18:09:10.298145313 +0000
-+++ test/services/golden/disable_tls/helm-oauth-proxy/templates/oauth-proxy-configmap.yaml	2022-10-07 18:09:14.222221028 +0000
+--- test/services/golden/default/helm-oauth-proxy/templates/oauth-proxy-configmap.yaml	2022-10-07 19:24:24.833002455 +0000
++++ test/services/golden/disable_tls/helm-oauth-proxy/templates/oauth-proxy-configmap.yaml	2022-10-07 19:24:29.300997397 +0000
 @@ -8,7 +8,7 @@
        provider="oidc"
        http_address="0.0.0.0:4180"
@@ -41,8 +41,8 @@ diff -bur test/services/golden/default/helm-oauth-proxy/templates/oauth-proxy-co
        pass_access_token=true
        pass_authorization_header=true
 diff -bur test/services/golden/default/helm-oauth-proxy/templates/oauth-virtual-server.yaml test/services/golden/disable_tls/helm-oauth-proxy/templates/oauth-virtual-server.yaml
---- test/services/golden/default/helm-oauth-proxy/templates/oauth-virtual-server.yaml	2022-10-07 18:09:10.314145621 +0000
-+++ test/services/golden/disable_tls/helm-oauth-proxy/templates/oauth-virtual-server.yaml	2022-10-07 18:09:14.238221337 +0000
+--- test/services/golden/default/helm-oauth-proxy/templates/oauth-virtual-server.yaml	2022-10-07 19:24:24.853002433 +0000
++++ test/services/golden/disable_tls/helm-oauth-proxy/templates/oauth-virtual-server.yaml	2022-10-07 19:24:29.320997374 +0000
 @@ -4,10 +4,6 @@
    name: oauth-auth-endpoint
  spec:   
@@ -64,4 +64,4 @@ diff -bur test/services/golden/default/helm-oauth-proxy/templates/oauth-virtual-
 -    secret: dex-cert
    upstreams:
    - name: dex
-     service: dex
+     service: oauth-proxy-dex
