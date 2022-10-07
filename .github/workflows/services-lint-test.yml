@@ -58,6 +58,7 @@ jobs:
 
       - name: Render golden templates
         run: |
+          find ./services -maxdepth 1 -mindepth 1 -type d | xargs /usr/bin/bash -c 'helm dependency update $0'
           find ./services -maxdepth 1 -mindepth 1 -type d | xargs /usr/bin/bash -c 'helm template --dry-run --values test/services/chat_values/defaults.yaml foo $0 | scripts/helm-fan-out.sh test/services/golden/default'
           find ./services -maxdepth 1 -mindepth 1 -type d | xargs /usr/bin/bash -c 'helm template --dry-run --values test/services/chat_values/app_chart.yaml foo $0 | scripts/helm-fan-out.sh test/services/golden/app_chart'
           find ./services -maxdepth 1 -mindepth 1 -type d | xargs /usr/bin/bash -c 'helm template --dry-run --values test/services/chat_values/disable_local_auth.yaml foo $0 | scripts/helm-fan-out.sh test/services/golden/disable_local_auth'
