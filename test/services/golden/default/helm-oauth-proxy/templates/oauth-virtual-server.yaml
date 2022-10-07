@@ -32,3 +32,24 @@ spec:
       proxy_pass_request_body           off;
     action:
       pass: oauth2-proxy
+apiVersion: k8s.nginx.org/v1
+kind: VirtualServer
+metadata:
+  name: dex-endpoint
+spec:   
+  host: dex.example.com
+  tls:
+    cert-manager:
+      cluster-issuer: letsencrypt-prod
+    secret: dex-cert
+  upstreams:
+  - name: dex
+    service: dex
+    port: 5556
+  routes:
+  - path: /
+    location-snippets: |
+      opentracing off;
+    action:
+      pass: dex
+---
