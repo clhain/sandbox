@@ -29,6 +29,7 @@ Proxy Chart for Sandbox Cluster compatible Loki installation
 | loki.monitoring.dashboards.annotations.grafana_folder | string | `"Loki"` |  |
 | loki.monitoring.dashboards.labels.grafana_dashboard | string | `"1"` |  |
 | loki.monitoring.selfMonitoring.enabled | bool | `true` |  |
+| loki.monitoring.selfMonitoring.lokiCanary.enabled | bool | `false` |  |
 | podLogsEnabledNamespaces[0] | string | `"nginx-ingress"` |  |
 
 ----------------------------------------------
