@@ -1,162 +1,67 @@
-Files test/services/golden/disable_tls/helm-argo-virtual-server/templates/argo-virtual-server.yaml and test/services/golden/default/helm-argo-virtual-server/templates/argo-virtual-server.yaml differ
+diff -bur test/services/golden/disable_tls/helm-argo-virtual-server/templates/argo-virtual-server.yaml test/services/golden/default/helm-argo-virtual-server/templates/argo-virtual-server.yaml
+--- test/services/golden/disable_tls/helm-argo-virtual-server/templates/argo-virtual-server.yaml	2022-10-07 16:20:14.210636976 +0000
++++ test/services/golden/default/helm-argo-virtual-server/templates/argo-virtual-server.yaml	2022-10-07 16:20:08.762128798 +0000
+@@ -5,6 +5,10 @@
+   namespace: argocd
+ spec:
+   host: "argocd.example.com"
++  tls:
++    cert-manager:
++      cluster-issuer: letsencrypt-prod
++    secret: argocd-cert
+   routes:
+   - path: /
+     route: argocd/argocd
 Only in test/services/golden/default/helm-cert-manager/templates: letsencrypt-issuer.yaml
-Files test/services/golden/disable_tls/helm-grafana/templates/grafana-virtual-server.yaml and test/services/golden/default/helm-grafana/templates/grafana-virtual-server.yaml differ
+diff -bur test/services/golden/disable_tls/helm-grafana/templates/grafana-virtual-server.yaml test/services/golden/default/helm-grafana/templates/grafana-virtual-server.yaml
+--- test/services/golden/disable_tls/helm-grafana/templates/grafana-virtual-server.yaml	2022-10-07 16:20:14.166632894 +0000
++++ test/services/golden/default/helm-grafana/templates/grafana-virtual-server.yaml	2022-10-07 16:20:08.726125433 +0000
+@@ -5,6 +5,10 @@
+   namespace: "grafana"
+ spec:
+   host: "grafana.example.com"
++  tls:
++    cert-manager:
++      cluster-issuer: letsencrypt-prod
++    secret: grafana-cert
+   routes:
+   - path: /
+     route: grafana/grafana
 Only in test/services/golden/default/helm-oauth-proxy/charts/oauth2-proxy/templates: configmap.yaml
-Files test/services/golden/disable_tls/helm-oauth-proxy/templates/oauth-proxy-configmap.yaml and test/services/golden/default/helm-oauth-proxy/templates/oauth-proxy-configmap.yaml differ
-Files test/services/golden/disable_tls/helm-oauth-proxy/templates/oauth-virtual-server.yaml and test/services/golden/default/helm-oauth-proxy/templates/oauth-virtual-server.yaml differ
-# SOURCE: test/services/golden/disable_tls/helm-argo-virtual-server/templates/argo-virtual-server.yaml
-apiVersion: k8s.nginx.org/v1
-kind: VirtualServer
-metadata:
-  name: argocd
-  namespace: argocd
-spec:
-  host: "argocd.example.com"
-  routes:
-  - path: /
-    route: argocd/argocd
----
-apiVersion: k8s.nginx.org/v1
-kind: VirtualServerRoute
-metadata:
-  name: argocd
-  namespace: argocd
-spec:
-  host: "argocd.example.com"
-  upstreams:
-  - name: argocd
-    service: sandbox-base-argocd-server
-    port: 443
-    tls:
-      enable: true
-  subroutes:
-  - path: /
-    action:
-      pass: argocd
-# SOURCE: test/services/golden/disable_tls/helm-grafana/templates/grafana-virtual-server.yaml
-apiVersion: k8s.nginx.org/v1
-kind: VirtualServer
-metadata:
-  name: grafana
-  namespace: "grafana"
-spec:
-  host: "grafana.example.com"
-  routes:
-  - path: /
-    route: grafana/grafana
-    location-snippets: |
-      auth_request /oauth2/auth;
-      error_page 401 = https://auth.example.com/oauth2/start?rd=https://$host$uri;
-      auth_request_set $user   $upstream_http_x_auth_request_user;
-      auth_request_set $email  $upstream_http_x_auth_request_email;
-      auth_request_set $auth_header $upstream_http_authorization;
-      auth_request_set $token  $upstream_http_x_auth_request_access_token;
-      proxy_set_header X-Access-Token $token;
-      auth_request_set $auth_cookie $upstream_http_set_cookie;
-      add_header Set-Cookie $auth_cookie;
-      proxy_set_header X-Auth-Request-Email "$email";
-      proxy_set_header X-Auth-Request-User "$user";
-      #proxy_set_header Authorization "$auth_header";
-      set $session_id_header $upstream_http_x_auth_request_email;
-  - path: /oauth2
-    route: oauth-proxy/oauth-proxy-grafana
----
-apiVersion: k8s.nginx.org/v1
-kind: VirtualServerRoute
-metadata:
-  name: grafana
-  namespace: grafana
-spec:
-  host: "grafana.example.com"
-  upstreams:
-  - name: grafana
-    service: grafana
-    port: 80
-  subroutes:
-  - path: /
-    action:
-      pass: grafana
----
-apiVersion: k8s.nginx.org/v1
-kind: VirtualServerRoute
-metadata:
-  name: oauth-proxy-grafana
-  namespace: oauth-proxy
-spec:
-  host: "grafana.example.com"
-  upstreams:
-  - name: oauth2-proxy
-    service: oauth-proxy-oauth2-proxy
-    port: 80
-  subroutes:
-  - path: /oauth2/auth
-    location-snippets: "internal;"
-    action:
-      pass: oauth2-proxy
----
-# SOURCE: test/services/golden/disable_tls/helm-oauth-proxy/templates/oauth-proxy-configmap.yaml
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: oauth2-proxy-config
-data:
-  oauth2_proxy.cfg: |
-      upstreams=[ "file:///dev/null" ]
-      provider="oidc"
-      http_address="0.0.0.0:4180"
-      set_xauthrequest=true
-      cookie_secure=false
-      skip_jwt_bearer_tokens=true
-      pass_access_token=true
-      pass_authorization_header=true
-      pass_user_headers=true
-      set_authorization_header=true
----
-# SOURCE: test/services/golden/disable_tls/helm-oauth-proxy/templates/oauth-virtual-server.yaml
-apiVersion: k8s.nginx.org/v1
-kind: VirtualServer
-metadata:
-  name: oauth-auth-endpoint
-spec:   
-  host: auth.example.com
-  upstreams:
-  - name: oauth2-proxy
-    service: oauth-proxy-oauth2-proxy
-    port: 80
-  routes:
-  - path: /oauth2/
-    location-snippets: |
-      opentracing off;
-      proxy_set_header X-Real-IP               $remote_addr;
-      proxy_set_header X-Scheme                $scheme;
-      proxy_set_header X-Auth-Request-Redirect $scheme://$host$request_uri;
-    action:
-      pass: oauth2-proxy
-  - path: /oauth2/auth
-    location-snippets: | 
-      internal;
-      proxy_set_header Host             $host;
-      proxy_set_header X-Real-IP        $remote_addr;
-      proxy_set_header X-Scheme         $scheme;
-      # nginx auth_request includes headers but not body
-      proxy_set_header Content-Length   "";
-      proxy_pass_request_body           off;
-    action:
-      pass: oauth2-proxy
-apiVersion: k8s.nginx.org/v1
-kind: VirtualServer
-metadata:
-  name: dex-endpoint
-spec:   
-  host: dex.example.com
-  upstreams:
-  - name: dex
-    service: dex
-    port: 5556
-  routes:
-  - path: /
-    location-snippets: |
-      opentracing off;
-    action:
-      pass: dex
----
+diff -bur test/services/golden/disable_tls/helm-oauth-proxy/templates/oauth-proxy-configmap.yaml test/services/golden/default/helm-oauth-proxy/templates/oauth-proxy-configmap.yaml
+--- test/services/golden/disable_tls/helm-oauth-proxy/templates/oauth-proxy-configmap.yaml	2022-10-07 16:20:12.558483620 +0000
++++ test/services/golden/default/helm-oauth-proxy/templates/oauth-proxy-configmap.yaml	2022-10-07 16:20:07.185981485 +0000
+@@ -8,7 +8,7 @@
+       provider="oidc"
+       http_address="0.0.0.0:4180"
+       set_xauthrequest=true
+-      cookie_secure=false
++      cookie_secure=true
+       skip_jwt_bearer_tokens=true
+       pass_access_token=true
+       pass_authorization_header=true
+diff -bur test/services/golden/disable_tls/helm-oauth-proxy/templates/oauth-virtual-server.yaml test/services/golden/default/helm-oauth-proxy/templates/oauth-virtual-server.yaml
+--- test/services/golden/disable_tls/helm-oauth-proxy/templates/oauth-virtual-server.yaml	2022-10-07 16:20:12.582485863 +0000
++++ test/services/golden/default/helm-oauth-proxy/templates/oauth-virtual-server.yaml	2022-10-07 16:20:07.205983354 +0000
+@@ -4,6 +4,10 @@
+   name: oauth-auth-endpoint
+ spec:   
+   host: auth.example.com
++  tls:
++    cert-manager:
++      cluster-issuer: letsencrypt-prod
++    secret: auth-cert
+   upstreams:
+   - name: oauth2-proxy
+     service: oauth-proxy-oauth2-proxy
+@@ -34,6 +38,10 @@
+   name: dex-endpoint
+ spec:   
+   host: dex.example.com
++  tls:
++    cert-manager:
++      cluster-issuer: letsencrypt-prod
++    secret: dex-cert
+   upstreams:
+   - name: dex
+     service: dex
