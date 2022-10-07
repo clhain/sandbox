@@ -1,0 +1,32 @@
+-n
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: foo-grafana-agent-operator
+  labels:
+    app.kubernetes.io/name: grafana-agent-operator
+    app.kubernetes.io/instance: foo
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/component: operator
+    helm.sh/chart: grafana-agent-operator-0.2.3
+    app.kubernetes.io/version: "0.25.1"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: grafana-agent-operator
+      app.kubernetes.io/instance: foo
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: grafana-agent-operator
+        app.kubernetes.io/instance: foo
+    spec:
+      serviceAccountName: foo-grafana-agent-operator
+      containers:
+      - name: grafana-agent-operator
+        image: "docker.io/grafana/agent-operator:v0.25.1"
+        imagePullPolicy: IfNotPresent
+        args:
+          - --kubelet-service=default/kubelet
+---

@@ -1,0 +1,26 @@
+-n
+apiVersion: v1
+kind: Service
+metadata:
+  name: foo-dex
+  labels:
+    helm.sh/chart: dex-0.12.0
+    app.kubernetes.io/name: dex
+    app.kubernetes.io/instance: foo
+    app.kubernetes.io/version: "2.35.1"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - name: http
+      port: 5556
+      targetPort: http
+      protocol: TCP
+    - name: telemetry
+      port: 5558
+      targetPort: telemetry
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: dex
+    app.kubernetes.io/instance: foo
+---

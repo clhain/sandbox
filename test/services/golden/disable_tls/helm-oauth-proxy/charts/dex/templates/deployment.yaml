@@ -1,0 +1,69 @@
+-n
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: foo-dex
+  labels:
+    helm.sh/chart: dex-0.12.0
+    app.kubernetes.io/name: dex
+    app.kubernetes.io/instance: foo
+    app.kubernetes.io/version: "2.35.1"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: dex
+      app.kubernetes.io/instance: foo
+  template:
+    metadata:
+      annotations:
+      
+      labels:
+        app.kubernetes.io/name: dex
+        app.kubernetes.io/instance: foo
+    spec:
+      serviceAccountName: foo-dex
+      securityContext:
+        {}
+      containers:
+        - name: dex
+          securityContext:
+            {}
+          image: "ghcr.io/dexidp/dex:v2.35.1"
+          imagePullPolicy: IfNotPresent
+          args:
+            - dex
+            - serve
+            - --web-http-addr
+            - 0.0.0.0:5556
+            - --telemetry-addr
+            - 0.0.0.0:5558
+            - /etc/dex/config.yaml
+          env:
+          ports:
+            - name: http
+              containerPort: 5556
+              protocol: TCP
+            - name: telemetry
+              containerPort: 5558
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /healthz/live
+              port: telemetry
+          readinessProbe:
+            httpGet:
+              path: /healthz/ready
+              port: telemetry
+          resources:
+            {}
+          volumeMounts:
+            - name: config
+              mountPath: /etc/dex
+              readOnly: true
+      volumes:
+        - name: config
+          secret:
+            secretName: dex-config-secret
+---

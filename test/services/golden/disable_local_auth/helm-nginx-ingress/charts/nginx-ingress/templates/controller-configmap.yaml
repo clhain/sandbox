@@ -1,0 +1,34 @@
+-n
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-config
+  namespace: oauth-proxy
+  labels:
+    app.kubernetes.io/name: foo-nginx-ingress
+    helm.sh/chart: nginx-ingress-0.14.1
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/instance: foo
+data:
+  http-snippets: |
+    map $http_cookie $session_id_header {
+      default "";
+      "~*shop_session-id=(?<variable>[^;]+)" "$variable";
+    }
+  http2: "true"
+  location-snippets: opentracing_propagate_context;
+  log-format: |
+    {"timestamp": "$time_iso8601", "host": "$host", "uri": "$request_uri", "upstreamStatus": "$upstream_status", "upstreamAddr": "$upstream_addr",
+    "requestMethod": "$request_method", "requestUrl": "$host$request_uri", "status": $status, "requestSize":
+    "$request_length", "responseSize": "$upstream_response_length", "userAgent": "$http_user_agent", "xff": "$http_x_forwarded_for", "xfh": "$http_x_forwarded_host", "xfp": "$http_x_forwarded_proto",
+    "remoteIp": "$remote_addr", "referer": "$http_referer", "latency": "$upstream_response_time",
+    "protocol":"$server_protocol", "requestTime": "$request_time", "upstreamConnectTime": "$upstream_connect_time",
+    "upstreamHeaderTime":"$upstream_header_time", "upstreamResponseTime": "$upstream_response_time", "traceParent": "$opentracing_context_traceparent"}
+  log-format-escape-json: "true"
+  opentracing: "true"
+  opentracing-tracer: /usr/local/lib/libjaegertracing_plugin.so
+  opentracing-tracer-config: '{"service_name": "nginx-ingress","diabled": false,"propagation_format":
+    "w3c","reporter": {"logSpans": true,"endpoint": "http://otc-collector.opentelemetry-operator.svc:14268/api/traces"},"sampler":
+    {"type": "const","param": "1"}}'
+  proxy-buffer-size: 8k
+---

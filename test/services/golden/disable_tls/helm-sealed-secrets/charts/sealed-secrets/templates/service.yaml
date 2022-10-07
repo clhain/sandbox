@@ -1,0 +1,25 @@
+-n
+apiVersion: v1
+kind: Service
+metadata:
+  name: foo-sealed-secrets
+  namespace: oauth-proxy
+  annotations:
+    grafana_folder: Sealed Secrets
+  labels:
+    app.kubernetes.io/name: sealed-secrets
+    helm.sh/chart: sealed-secrets-2.6.9
+    app.kubernetes.io/instance: foo
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/version: v0.18.5
+spec:
+  type: ClusterIP
+  ports:
+    - name: http
+      port: 8080
+      targetPort: http
+      nodePort: null
+  selector:
+    app.kubernetes.io/name: sealed-secrets
+    app.kubernetes.io/instance: foo
+---

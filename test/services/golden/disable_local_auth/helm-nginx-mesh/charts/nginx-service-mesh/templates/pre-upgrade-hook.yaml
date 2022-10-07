@@ -1,0 +1,97 @@
+-n
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: pre-upgrade
+  labels:
+    app.kubernetes.io/part-of: nginx-service-mesh
+  annotations:
+    "helm.sh/hook": pre-upgrade
+    "helm.sh/hook-delete-policy": hook-succeeded,hook-failed
+    "helm.sh/hook-weight": "-5"
+imagePullSecrets:
+- name: nginx-mesh-registry-key
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: pre-upgrade.builtin.nsm.nginx
+  labels:
+    app.kubernetes.io/part-of: nginx-service-mesh
+  annotations:
+    "helm.sh/hook": pre-upgrade
+    "helm.sh/hook-delete-policy": hook-succeeded,hook-failed
+    "helm.sh/hook-weight": "-5"
+rules:
+- apiGroups:
+  - ''
+  resources:
+  - configmaps
+  verbs:
+  - create
+- apiGroups:
+  - specs.smi-spec.io
+  resources:
+  - httproutegroups
+  verbs:
+  - get
+  - list
+- apiGroups:
+  - apiextensions.k8s.io
+  resources:
+  - customresourcedefinitions
+  verbs:
+  - get
+  - patch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: pre-upgrade.builtin.nsm.nginx
+  labels:
+    app.kubernetes.io/part-of: nginx-service-mesh
+  annotations:
+    "helm.sh/hook": pre-upgrade
+    "helm.sh/hook-delete-policy": hook-succeeded,hook-failed
+    "helm.sh/hook-weight": "-5"
+roleRef:
+  apiGroup: ""
+  kind: ClusterRole
+  name: pre-upgrade.builtin.nsm.nginx
+subjects:
+- kind: ServiceAccount
+  name: pre-upgrade
+  namespace: oauth-proxy
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: save-httproutegroups
+  labels:
+    app.kubernetes.io/part-of: nginx-service-mesh
+  annotations:
+    "helm.sh/hook": pre-upgrade
+    "helm.sh/hook-delete-policy": hook-succeeded,hook-failed
+    "helm.sh/hook-weight": "0"
+spec:
+  template:
+    metadata:
+      name: save-httproutegroups
+    spec:
+      restartPolicy: Never
+      serviceAccountName: pre-upgrade
+      containers:
+      - name: save-httproutegroups
+        image: bitnami/kubectl
+        imagePullPolicy: IfNotPresent
+        command:
+        - /bin/bash
+        - -c
+        - |
+          res=$(kubectl get httproutegroups.specs.smi-spec.io -A -o json | sed -e 's/\\n//g' | jq -c '.items[]' | while read -r i; do jq '(.spec.matches[] | select(.headers != null)).headers |= add' <<< $i; done | jq -s -c '.')
+          if [ -n "$res" ] && [ $res != "[]" ]; then
+            kubectl create configmap httproutegroups --from-literal httproutegroups="$res"
+            crd="{\"apiVersion\":\"apiextensions.k8s.io/v1\",\"kind\":\"CustomResourceDefinition\",\"metadata\":{\"labels\":{\"app.kubernetes.io/part-of\":\"nginx-service-mesh\"},\"name\":\"httproutegroups.specs.smi-spec.io\"},\"spec\":{\"group\":\"specs.smi-spec.io\",\"names\":{\"kind\":\"HTTPRouteGroup\",\"listKind\":\"HTTPRouteGroupList\",\"plural\":\"httproutegroups\",\"shortNames\":[\"htr\"],\"singular\":\"httproutegroup\"},\"scope\":\"Namespaced\",\"versions\":[{\"name\":\"v1alpha3\",\"schema\":{\"openAPIV3Schema\":{\"description\":\"HTTPRouteGroup is the Schema for the httproutegroups API It is used to describe HTTP/1 and HTTP/2 traffic. It enumerates the routes that can be served by an application.\",\"properties\":{\"apiVersion\":{\"description\":\"APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources\",\"type\":\"string\"},\"kind\":{\"description\":\"Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds\",\"type\":\"string\"},\"metadata\":{\"type\":\"object\"},\"spec\":{\"description\":\"HTTPRouteGroupSpec defines the desired state of HTTPRouteGroup It is the specification for a HTTPRouteGroup\",\"properties\":{\"matches\":{\"description\":\"Routes for inbound traffic\",\"items\":{\"description\":\"HTTPMatch defines an individual route for HTTP traffic\",\"properties\":{\"headers\":{\"additionalProperties\":{\"type\":\"string\"},\"description\":\"Headers is a list of headers used to match HTTP traffic\",\"type\":\"object\"},\"methods\":{\"description\":\"Methods for inbound traffic as defined in RFC 7231 https://tools.ietf.org/html/rfc7231#section-4\",\"items\":{\"type\":\"string\"},\"type\":\"array\"},\"name\":{\"description\":\"Name is the name of the match for referencing in a TrafficTarget\",\"type\":\"string\"},\"pathRegex\":{\"description\":\"PathRegex is a regular expression defining the route\",\"type\":\"string\"}},\"type\":\"object\"},\"type\":\"array\"}},\"type\":\"object\"},\"status\":{\"description\":\"HTTPRouteGroupStatus defines the observed state of HTTPRouteGroup\",\"type\":\"object\"}},\"required\":[\"spec\"],\"type\":\"object\"}},\"served\":true,\"storage\":true,\"subresources\":{\"status\":{}}}]},\"status\":{\"acceptedNames\":{\"kind\":\"\",\"plural\":\"\"},\"conditions\":[],\"storedVersions\":[]}}"
+            echo $crd | kubectl apply -f -
+          fi

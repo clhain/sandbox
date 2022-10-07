@@ -1,0 +1,13 @@
+-n
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: foo-cert-manager-webhook
+  namespace: oauth-proxy
+  labels:
+    app: webhook
+    app.kubernetes.io/name: webhook
+    app.kubernetes.io/instance: foo
+    app.kubernetes.io/component: "webhook"
+data:
+---

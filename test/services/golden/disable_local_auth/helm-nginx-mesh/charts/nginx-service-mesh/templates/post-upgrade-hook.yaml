@@ -1,0 +1,97 @@
+-n
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: post-upgrade
+  labels:
+    app.kubernetes.io/part-of: nginx-service-mesh
+  annotations:
+    "helm.sh/hook": post-upgrade
+    "helm.sh/hook-delete-policy": hook-succeeded,hook-failed
+    "helm.sh/hook-weight": "-5"
+imagePullSecrets:
+- name: nginx-mesh-registry-key
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: post-upgrade.builtin.nsm.nginx
+  labels:
+    app.kubernetes.io/part-of: nginx-service-mesh
+  annotations:
+    "helm.sh/hook": post-upgrade
+    "helm.sh/hook-delete-policy": hook-succeeded,hook-failed
+    "helm.sh/hook-weight": "-5"
+rules:
+- apiGroups:
+  - ''
+  resources:
+  - configmaps
+  verbs:
+  - get
+  - delete
+- apiGroups:
+  - specs.smi-spec.io
+  resources:
+  - httproutegroups
+  verbs:
+  - get
+  - patch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: post-upgrade.builtin.nsm.nginx
+  labels:
+    app.kubernetes.io/part-of: nginx-service-mesh
+  annotations:
+    "helm.sh/hook": post-upgrade
+    "helm.sh/hook-delete-policy": hook-succeeded,hook-failed
+    "helm.sh/hook-weight": "-5"
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: post-upgrade.builtin.nsm.nginx
+subjects:
+- kind: ServiceAccount
+  name: post-upgrade
+  namespace: oauth-proxy
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: update-httproutegroups
+  labels:
+    app.kubernetes.io/part-of: nginx-service-mesh
+  annotations:
+    "helm.sh/hook": post-upgrade
+    "helm.sh/hook-delete-policy": hook-succeeded,hook-failed
+    "helm.sh/hook-weight": "0"
+spec:
+  template:
+    metadata:
+      name: update-httproutegroups
+    spec:
+      restartPolicy: Never
+      serviceAccountName: post-upgrade
+      containers:
+      - name: update-httproutegroups
+        image: bitnami/kubectl
+        imagePullPolicy: IfNotPresent
+        command:
+        - /bin/bash
+        - -c
+        - |
+          res=$(kubectl get configmap httproutegroups --ignore-not-found -o jsonpath='{.data.httproutegroups}')
+          if [ -n "$res" ]; then
+            n=0
+            until [ "$n" -ge 30 ]
+            do
+              echo $res | jq -c '.[]' | while read -r i; do kubectl apply -f - <<< $i; done && break
+              n=$((n+1))
+              sleep 1
+            done
+          fi
+          kubectl delete configmap httproutegroups --ignore-not-found
+---

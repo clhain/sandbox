@@ -1,0 +1,18 @@
+-n
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: oauth2-proxy-config
+data:
+  oauth2_proxy.cfg: |
+      upstreams=[ "file:///dev/null" ]
+      provider="oidc"
+      http_address="0.0.0.0:4180"
+      set_xauthrequest=true
+      cookie_secure=false
+      skip_jwt_bearer_tokens=true
+      pass_access_token=true
+      pass_authorization_header=true
+      pass_user_headers=true
+      set_authorization_header=true
+---

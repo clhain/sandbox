@@ -1,0 +1,61 @@
+-n
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: foo-sealed-secrets-key-admin
+  namespace: oauth-proxy
+  labels:
+    app.kubernetes.io/name: sealed-secrets
+    helm.sh/chart: sealed-secrets-2.6.9
+    app.kubernetes.io/instance: foo
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/version: v0.18.5
+rules:
+  - apiGroups:
+      - ""
+    resourceNames:
+      - sealed-secrets-key
+    resources:
+      - secrets
+    verbs:
+      - get
+  - apiGroups:
+      - ""
+    resources:
+      - secrets
+    verbs:
+      - create
+      - list
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: foo-sealed-secrets-service-proxier
+  namespace: oauth-proxy
+  labels:
+    app.kubernetes.io/name: sealed-secrets
+    helm.sh/chart: sealed-secrets-2.6.9
+    app.kubernetes.io/instance: foo
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/version: v0.18.5
+rules:
+  - apiGroups:
+      - ""
+    resourceNames:
+      - foo-sealed-secrets
+    resources:
+      - services
+    verbs:
+      - get
+  - apiGroups:
+      - ""
+    resourceNames:
+      - 'http:foo-sealed-secrets:'
+      - 'http:foo-sealed-secrets:http'
+      - foo-sealed-secrets
+    resources:
+      - services/proxy
+    verbs:
+      - create
+      - get
+---

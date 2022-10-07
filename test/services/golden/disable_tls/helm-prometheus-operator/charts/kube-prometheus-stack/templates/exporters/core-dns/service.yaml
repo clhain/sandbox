@@ -1,0 +1,27 @@
+-n
+apiVersion: v1
+kind: Service
+metadata:
+  name: foo-kube-prometheus-stack-coredns
+  labels:
+    app: kube-prometheus-stack-coredns
+    jobLabel: coredns
+    
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/instance: foo
+    app.kubernetes.io/version: "39.13.3"
+    app.kubernetes.io/part-of: kube-prometheus-stack
+    chart: kube-prometheus-stack-39.13.3
+    release: "foo"
+    heritage: "Helm"
+  namespace: kube-system
+spec:
+  clusterIP: None
+  ports:
+    - name: http-metrics
+      port: 10054
+      protocol: TCP
+      targetPort: 10054
+  selector:
+    k8s-app: kube-dns
+---

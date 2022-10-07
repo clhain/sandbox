@@ -1,0 +1,21 @@
+-n
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: foo-grafana-test
+  namespace: oauth-proxy
+  labels:
+    helm.sh/chart: grafana-6.40.0
+    app.kubernetes.io/name: grafana
+    app.kubernetes.io/instance: foo
+    app.kubernetes.io/version: "9.1.6"
+    app.kubernetes.io/managed-by: Helm
+data:
+  run.sh: |-
+    @test "Test Health" {
+      url="http://foo-grafana/api/health"
+
+      code=$(wget --server-response --spider --timeout 90 --tries 10 ${url} 2>&1 | awk '/^  HTTP/{print $2}')
+      [ "$code" == "200" ]
+    }
+---

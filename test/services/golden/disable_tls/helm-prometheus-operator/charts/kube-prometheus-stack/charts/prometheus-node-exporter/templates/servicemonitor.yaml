@@ -1,0 +1,22 @@
+-n
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: foo-prometheus-node-exporter
+  namespace: oauth-proxy
+  labels:     
+    app: prometheus-node-exporter
+    heritage: Helm
+    release: foo
+    chart: prometheus-node-exporter-3.3.1
+    jobLabel: node-exporter
+spec:
+  jobLabel: jobLabel
+  selector:
+    matchLabels:
+      app: prometheus-node-exporter
+      release: foo
+  endpoints:
+    - port: http-metrics
+      scheme: http
+---

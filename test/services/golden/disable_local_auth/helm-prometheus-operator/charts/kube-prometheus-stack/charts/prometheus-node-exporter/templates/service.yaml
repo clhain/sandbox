@@ -1,0 +1,25 @@
+-n
+apiVersion: v1
+kind: Service
+metadata:
+  name: foo-prometheus-node-exporter
+  namespace: oauth-proxy
+  annotations:
+    prometheus.io/scrape: "true"
+  labels:     
+    app: prometheus-node-exporter
+    heritage: Helm
+    release: foo
+    chart: prometheus-node-exporter-3.3.1
+    jobLabel: node-exporter
+spec:
+  type: ClusterIP
+  ports:
+    - port: 9100
+      targetPort: 9100
+      protocol: TCP
+      name: http-metrics
+  selector:
+    app: prometheus-node-exporter
+    release: foo
+---

@@ -1,0 +1,29 @@
+-n
+apiVersion: k8s.nginx.org/v1
+kind: VirtualServer
+metadata:
+  name: argocd
+  namespace: argocd
+spec:
+  host: "argocd.example.com"
+  routes:
+  - path: /
+    route: argocd/argocd
+---
+apiVersion: k8s.nginx.org/v1
+kind: VirtualServerRoute
+metadata:
+  name: argocd
+  namespace: argocd
+spec:
+  host: "argocd.example.com"
+  upstreams:
+  - name: argocd
+    service: sandbox-base-argocd-server
+    port: 443
+    tls:
+      enable: true
+  subroutes:
+  - path: /
+    action:
+      pass: argocd

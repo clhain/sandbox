@@ -1,0 +1,32 @@
+-n
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: foo-loki
+  labels:
+    helm.sh/chart: loki-3.2.0
+    app.kubernetes.io/name: loki
+    app.kubernetes.io/instance: foo
+    app.kubernetes.io/version: "2.6.1"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: loki
+      app.kubernetes.io/instance: foo
+    matchExpressions:
+      - key: prometheus.io/service-monitor
+        operator: NotIn
+        values:
+          - "false"
+  endpoints:
+    - port: http-metrics
+      path: /metrics
+      relabelings:
+        - sourceLabels: [job]
+          replacement: "oauth-proxy/$1"
+          targetLabel: job
+        - replacement: "foo-loki"
+          targetLabel: cluster
+      scheme: http
+---
