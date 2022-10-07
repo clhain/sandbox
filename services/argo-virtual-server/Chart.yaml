@@ -1,7 +1,7 @@
 apiVersion: v2
 name: helm-argo-virtual-server
 type: application
-version: 0.1.1
+version: 0.1.2
 appVersion: "1.0"
 description: "Install templates for the ArgoCD Virtual Server, compatible with Sandbox cluster"
 maintainers:
