@@ -1,0 +1,15 @@
+apiVersion: monitoring.grafana.com/v1alpha1
+kind: PodLogs
+metadata:
+  labels:
+    instance: primary
+  name: kubernetes-pods
+spec:  
+  pipelineStages:
+    - cri: {}
+  namespaceSelector:
+    matchNames:
+    - nginx-ingress
+  selector:
+    matchLabels: {}
+---
