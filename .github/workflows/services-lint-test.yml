@@ -56,6 +56,22 @@ jobs:
       - name: Run chart-testing (lint)
         run: ct lint --config "${CT_CONFIGFILE}" --check-version-increment=${{ inputs.ct_check_version_increment }}
 
+      - name: Render golden templates
+        run: |
+          find ./services -maxdepth 1 -mindepth 1 -type d -exec helm dependency update {} \;
+          find ./services -maxdepth 1 -mindepth 1 -type d -exec /bin/bash -c "helm template --dry-run -f test/services/chat_values/defaults.yaml foo {} | scripts/helm-fan-out.sh test/services/golden/default" \;
+          find ./services -maxdepth 1 -mindepth 1 -type d -exec /bin/bash -c "helm template --dry-run -f test/services/chat_values/disable_local_auth.yaml foo {} | scripts/helm-fan-out.sh test/services/golden/disable_local_auth" \;
+          diff -qbur test/services/golden/disable_local_auth/ test/services/golden/default/ |cut -f2 -d' ' | xargs --verbose cat > test/services/golden/disable_local_auth_delta.yaml
+          rm -rf test/services/golden/disable_local_auth
+          find ./services -maxdepth 1 -mindepth 1 -type d -exec /bin/bash -c "helm template --dry-run -f test/services/chat_values/disable_tls.yaml foo {} | scripts/helm-fan-out.sh test/services/golden/disable_tls" \;
+          diff -qbur test/services/golden/disable_tls/ test/services/golden/default/ |cut -f2 -d' ' | xargs --verbose cat > test/services/golden/disable_tls_delta.yaml
+          rm -rf test/services/golden/disable_tls
+
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          branch: ${{ github.head_ref }}
+          commit_message: Render golden helm templates.
+
       # - name: Create kind cluster
       #   uses: helm/kind-action@v1.2.0
       #   if: steps.list-changed.outputs.changed == 'true'

@@ -1,0 +1,24 @@
+clusterIngressIP: 1.1.1.1
+clusterDomain: example.com
+clusterTLSInsecure: false
+clusterLocalAuth: true
+letsEncryptIssuer:
+  contactEmail: "nobody@example.com"
+nginx-ingress:
+  controller:
+    service:
+      annoations:
+        cloud\.google\.com/load-balancer-type: "External"
+      loadBalancerIP: "1.1.1.1"
+oauth2-proxy:
+  extraEnv:
+    - name: OAUTH2_PROXY_COOKIE_DOMAINS
+      value: example.com
+    - name: OAUTH2_PROXY_WHITELIST_DOMAINS
+      value: example.com
+    - name: OAUTH2_PROXY_OIDC_ISSUER_URL
+      value: http://youridp.example.com
+    - name: OAUTH2_PROXY_EMAIL_DOMAINS
+      value: "f5.com"
+grafana:
+  adminPassword: "12345a" 
