@@ -52,7 +52,7 @@ spec:
   {{- end }}
   upstreams:
   - name: dex
-    service: dex
+    service: oauth-proxy-dex
     port: 5556
   routes:
   - path: /
