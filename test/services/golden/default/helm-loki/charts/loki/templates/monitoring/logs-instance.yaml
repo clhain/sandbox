@@ -1,0 +1,26 @@
+apiVersion: monitoring.grafana.com/v1alpha1
+kind: LogsInstance
+metadata:
+  name: foo-loki
+  namespace: default
+  labels:
+    helm.sh/chart: loki-3.2.1
+    app.kubernetes.io/name: loki
+    app.kubernetes.io/instance: foo
+    app.kubernetes.io/version: "2.6.1"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  clients:
+    
+    - url: http://foo-loki.default.svc.cluster.local:3100/loki/api/v1/push
+      externalLabels:
+        cluster: foo-loki
+
+  # Supply an empty namespace selector to look in all namespaces. Remove
+  # this to only look in the same namespace as the LogsInstance CR
+  podLogsNamespaceSelector: { }
+
+  podLogsSelector:
+    matchLabels:
+      instance: primary
+---
