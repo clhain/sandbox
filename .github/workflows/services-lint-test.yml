@@ -59,11 +59,11 @@ jobs:
       - name: Render golden templates
         run: |
           find ./services -maxdepth 1 -mindepth 1 -type d -exec helm dependency update {} \;
-          find ./services -maxdepth 1 -mindepth 1 -type d -exec /bin/bash -c "helm template --dry-run -f test/services/chat_values/defaults.yaml foo {} | scripts/helm-fan-out.sh test/services/golden/default" \;
-          find ./services -maxdepth 1 -mindepth 1 -type d -exec /bin/bash -c "helm template --dry-run -f test/services/chat_values/disable_local_auth.yaml foo {} | scripts/helm-fan-out.sh test/services/golden/disable_local_auth" \;
+          find ./services -maxdepth 1 -mindepth 1 -type d -exec /bin/bash -c "helm template --dry-run -f test/services/chart_values/defaults.yaml foo {} | scripts/helm-fan-out.sh test/services/golden/default" \;
+          find ./services -maxdepth 1 -mindepth 1 -type d -exec /bin/bash -c "helm template --dry-run -f test/services/chart_values/disable_local_auth.yaml foo {} | scripts/helm-fan-out.sh test/services/golden/disable_local_auth" \;
           diff -bur test/services/golden/default/ test/services/golden/disable_local_auth/ | tee test/services/golden/disable_local_auth_delta.yaml
           rm -rf test/services/golden/disable_local_auth
-          find ./services -maxdepth 1 -mindepth 1 -type d -exec /bin/bash -c "helm template --dry-run -f test/services/chat_values/disable_tls.yaml foo {} | scripts/helm-fan-out.sh test/services/golden/disable_tls" \;
+          find ./services -maxdepth 1 -mindepth 1 -type d -exec /bin/bash -c "helm template --dry-run -f test/services/chart_values/disable_tls.yaml foo {} | scripts/helm-fan-out.sh test/services/golden/disable_tls" \;
           diff -bur test/services/golden/default/ test/services/golden/disable_tls/ | tee test/services/golden/disable_tls_delta.yaml
           rm -rf test/services/golden/disable_tls
 

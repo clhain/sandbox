@@ -1,7 +1,16 @@
+# clusterDomain is the domain under which all resources are deployed. e.g. example.com
 clusterDomain: example.com
-enableVirtualServer: true
+# Disable all certificate generation and https auth callbacks (not recommended)
 clusterTLSInsecure: false
+# Enable a local Dex IDP with static admin account for oauth protected services.
 clusterLocalAuth: true
+# oidcIssuerURL is the OIDC Issuer URL to be used with oauth2 proxy - empty string defaults to the local dex instance
+oidcIssuerURL: ""
+# oidcPermittedEmailDomains is the set of email domains allowed to access resources behind the oauth2 proxy.
+oidcPermittedEmailDomains: "example.com"
+
+# Enable / disable the Oauth2 Proxy virtual server
+enableVirtualServer: true
 
 oauth2-proxy:
   config:
