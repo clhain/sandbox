@@ -1,8 +1,25 @@
 Only in test/services/golden/default/helm-oauth-proxy/charts: dex
 Only in test/services/golden/default/helm-oauth-proxy/charts/oauth2-proxy/templates: configmap.yaml
+Only in test/services/golden/default/helm-oauth-proxy/templates: dex-config-secret.yaml
+diff -bur test/services/golden/default/helm-oauth-proxy/templates/oauth-proxy-secret.yaml test/services/golden/disable_local_auth/helm-oauth-proxy/templates/oauth-proxy-secret.yaml
+--- test/services/golden/default/helm-oauth-proxy/templates/oauth-proxy-secret.yaml	2022-10-10 22:41:40.935451441 +0000
++++ test/services/golden/disable_local_auth/helm-oauth-proxy/templates/oauth-proxy-secret.yaml	2022-10-10 22:41:43.091478816 +0000
+@@ -3,8 +3,8 @@
+ metadata:
+   name: oauth-proxy-creds
+ stringData:
+-  client-id: "XbYnn98kuWNWEMwBp9E7VCeV"
+-  client-secret: "sCJAsXyoBDmmqkxQZKacEVNJ"
+-  cookie-secret: "4oYkYILW3wkuT2dQyrLZKqbW"
+-  admin-password: "EyPlMxFnWZDb8aqTyxyCWgIn"
++  client-id: "QFsxyQLHKSj3okphU1ZAi7QQ"
++  client-secret: "zHYjULxfvBaR0U0cz2QDhaZn"
++  cookie-secret: "7VbpNXnTzxLmJx6S6FdvR2xX"
++  admin-password: "E12DHDqrqMR13czgGxj64iBa"
+ ---
 diff -bur test/services/golden/default/helm-oauth-proxy/templates/oauth-virtual-server.yaml test/services/golden/disable_local_auth/helm-oauth-proxy/templates/oauth-virtual-server.yaml
---- test/services/golden/default/helm-oauth-proxy/templates/oauth-virtual-server.yaml	2022-10-10 21:25:37.919276881 +0000
-+++ test/services/golden/disable_local_auth/helm-oauth-proxy/templates/oauth-virtual-server.yaml	2022-10-10 21:25:40.599515531 +0000
+--- test/services/golden/default/helm-oauth-proxy/templates/oauth-virtual-server.yaml	2022-10-10 22:41:40.959451746 +0000
++++ test/services/golden/disable_local_auth/helm-oauth-proxy/templates/oauth-virtual-server.yaml	2022-10-10 22:41:43.099478918 +0000
 @@ -32,25 +32,3 @@
        proxy_pass_request_body           off;
      action:

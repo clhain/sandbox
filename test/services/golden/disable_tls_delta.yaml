@@ -1,6 +1,6 @@
 diff -bur test/services/golden/default/helm-argo-virtual-server/templates/argo-virtual-server.yaml test/services/golden/disable_tls/helm-argo-virtual-server/templates/argo-virtual-server.yaml
---- test/services/golden/default/helm-argo-virtual-server/templates/argo-virtual-server.yaml	2022-10-10 21:25:39.519419351 +0000
-+++ test/services/golden/disable_tls/helm-argo-virtual-server/templates/argo-virtual-server.yaml	2022-10-10 21:25:44.855894550 +0000
+--- test/services/golden/default/helm-argo-virtual-server/templates/argo-virtual-server.yaml	2022-10-10 22:41:42.243468049 +0000
++++ test/services/golden/disable_tls/helm-argo-virtual-server/templates/argo-virtual-server.yaml	2022-10-10 22:41:46.635523815 +0000
 @@ -5,10 +5,6 @@
    namespace: argocd
  spec:
@@ -14,8 +14,8 @@ diff -bur test/services/golden/default/helm-argo-virtual-server/templates/argo-v
      route: argocd/argocd
 Only in test/services/golden/default/helm-cert-manager/templates: letsencrypt-issuer.yaml
 diff -bur test/services/golden/default/helm-grafana/templates/grafana-virtual-server.yaml test/services/golden/disable_tls/helm-grafana/templates/grafana-virtual-server.yaml
---- test/services/golden/default/helm-grafana/templates/grafana-virtual-server.yaml	2022-10-10 21:25:39.479415789 +0000
-+++ test/services/golden/disable_tls/helm-grafana/templates/grafana-virtual-server.yaml	2022-10-10 21:25:44.815890988 +0000
+--- test/services/golden/default/helm-grafana/templates/grafana-virtual-server.yaml	2022-10-10 22:41:42.211467643 +0000
++++ test/services/golden/disable_tls/helm-grafana/templates/grafana-virtual-server.yaml	2022-10-10 22:41:46.603523408 +0000
 @@ -5,10 +5,6 @@
    namespace: "grafana"
  spec:
@@ -28,9 +28,43 @@ diff -bur test/services/golden/default/helm-grafana/templates/grafana-virtual-se
    - path: /
      route: grafana/grafana
 Only in test/services/golden/default/helm-oauth-proxy/charts/oauth2-proxy/templates: configmap.yaml
+diff -bur test/services/golden/default/helm-oauth-proxy/templates/dex-config-secret.yaml test/services/golden/disable_tls/helm-oauth-proxy/templates/dex-config-secret.yaml
+--- test/services/golden/default/helm-oauth-proxy/templates/dex-config-secret.yaml	2022-10-10 22:41:40.935451441 +0000
++++ test/services/golden/disable_tls/helm-oauth-proxy/templates/dex-config-secret.yaml	2022-10-10 22:41:45.327507207 +0000
+@@ -4,7 +4,7 @@
+   name: dex-config-secret
+ stringData:
+   config.yaml: |
+-    issuer: https://dex.example.com/dex
++    issuer: http://dex.example.com/dex
+     storage:
+       type: kubernetes
+       config:
+@@ -21,16 +21,16 @@
+       skipApprovalScreen: false
+       alwaysShowLoginScreen: true
+     staticClients:
+-    - id: 0GUGnDpIYCMw1UmoNzbvglw4
++    - id: ghJ07OCuUOSAzhLiPQHe1tV7
+       redirectURIs:
+-      - 'https://auth.example.com/oauth2/callback'
+-      - 'https://argocd.example.com/auth/callback'
++      - 'http://auth.example.com/oauth2/callback'
++      - 'http://argocd.example.com/auth/callback'
+       name: 'OAuth2 Proxy'
+-      secret: "t0YaSwQrRdcWSw7GFRqG2YL5"
++      secret: "2NOwA8XtGIQk6t3eH0kkshEL"
+     enablePasswordDB: true
+     staticPasswords:
+     - email: "admin@example.com"
+-      hash: "$2a$10$RUlW1IPkhxMPCZ1orhRH7uZlX94gjQzHBqq9ThNMRC53KMaZ2NxIW"
++      hash: "$2a$10$bqkpwYXTiS3DPF9AB8ur/.4OXmFqArjTs2QMMDsAvldlZCbX.B8Ri"
+       username: "admin"
+       userID: "08a8684b-db88-4b73-90a9-3cd1661f5466"
+     logger:
 diff -bur test/services/golden/default/helm-oauth-proxy/templates/oauth-proxy-configmap.yaml test/services/golden/disable_tls/helm-oauth-proxy/templates/oauth-proxy-configmap.yaml
---- test/services/golden/default/helm-oauth-proxy/templates/oauth-proxy-configmap.yaml	2022-10-10 21:25:37.887274032 +0000
-+++ test/services/golden/disable_tls/helm-oauth-proxy/templates/oauth-proxy-configmap.yaml	2022-10-10 21:25:43.251751705 +0000
+--- test/services/golden/default/helm-oauth-proxy/templates/oauth-proxy-configmap.yaml	2022-10-10 22:41:40.939451492 +0000
++++ test/services/golden/disable_tls/helm-oauth-proxy/templates/oauth-proxy-configmap.yaml	2022-10-10 22:41:45.335507308 +0000
 @@ -10,9 +10,9 @@
        set_xauthrequest=true
        cookie_domains="example.com"
@@ -43,9 +77,25 @@ diff -bur test/services/golden/default/helm-oauth-proxy/templates/oauth-proxy-co
        skip_jwt_bearer_tokens=true
        pass_access_token=true
        pass_authorization_header=true
+diff -bur test/services/golden/default/helm-oauth-proxy/templates/oauth-proxy-secret.yaml test/services/golden/disable_tls/helm-oauth-proxy/templates/oauth-proxy-secret.yaml
+--- test/services/golden/default/helm-oauth-proxy/templates/oauth-proxy-secret.yaml	2022-10-10 22:41:40.935451441 +0000
++++ test/services/golden/disable_tls/helm-oauth-proxy/templates/oauth-proxy-secret.yaml	2022-10-10 22:41:45.331507258 +0000
+@@ -3,8 +3,8 @@
+ metadata:
+   name: oauth-proxy-creds
+ stringData:
+-  client-id: "XbYnn98kuWNWEMwBp9E7VCeV"
+-  client-secret: "sCJAsXyoBDmmqkxQZKacEVNJ"
+-  cookie-secret: "4oYkYILW3wkuT2dQyrLZKqbW"
+-  admin-password: "EyPlMxFnWZDb8aqTyxyCWgIn"
++  client-id: "8tvqfh831KouQ5IyxSVGD9Q7"
++  client-secret: "RfzRkLFIy3qNdT630NHeDCIV"
++  cookie-secret: "iEU87Ffr7rOAUYZCgxwYKhfQ"
++  admin-password: "0ZZUkdUC8LaDEA7zjiah8iy1"
+ ---
 diff -bur test/services/golden/default/helm-oauth-proxy/templates/oauth-virtual-server.yaml test/services/golden/disable_tls/helm-oauth-proxy/templates/oauth-virtual-server.yaml
---- test/services/golden/default/helm-oauth-proxy/templates/oauth-virtual-server.yaml	2022-10-10 21:25:37.919276881 +0000
-+++ test/services/golden/disable_tls/helm-oauth-proxy/templates/oauth-virtual-server.yaml	2022-10-10 21:25:43.275753843 +0000
+--- test/services/golden/default/helm-oauth-proxy/templates/oauth-virtual-server.yaml	2022-10-10 22:41:40.959451746 +0000
++++ test/services/golden/disable_tls/helm-oauth-proxy/templates/oauth-virtual-server.yaml	2022-10-10 22:41:45.355507562 +0000
 @@ -4,10 +4,6 @@
    name: oauth-auth-endpoint
  spec:   
