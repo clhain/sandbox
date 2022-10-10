@@ -14,4 +14,4 @@ maintainers:
   name: clhain
 name: helm-oauth-proxy
 type: application
-version: 0.1.2
+version: 0.1.3
