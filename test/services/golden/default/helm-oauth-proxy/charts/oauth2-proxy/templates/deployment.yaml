@@ -20,7 +20,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/config: b263afbb80b3407e5cfc20bd537fe274f51f5ba4fbe997fd01d8f410db12c590
+        checksum/config: 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b
         checksum/config-emails: 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b
         checksum/secret: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
         checksum/google-secret: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
@@ -101,7 +101,7 @@ spec:
       volumes:
       - configMap:
           defaultMode: 420
-          name: foo-oauth2-proxy
+          name: oauth2-proxy-config
         name: configmain
       tolerations:
         []

@@ -1,6 +1,6 @@
 # helm-oauth-proxy
 
-![Version: 0.1.1](https://img.shields.io/badge/Version-0.1.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
+![Version: 0.1.2](https://img.shields.io/badge/Version-0.1.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
 
 Proxy Chart for Sandbox Cluster compatible oauth-proxy installation
 
@@ -14,6 +14,7 @@ Proxy Chart for Sandbox Cluster compatible oauth-proxy installation
 
 | Repository | Name | Version |
 |------------|------|---------|
+| https://charts.dexidp.io | dex | 0.12.0 |
 | https://oauth2-proxy.github.io/manifests | oauth2-proxy | 6.2.7 |
 
 ## Values
@@ -21,8 +22,13 @@ Proxy Chart for Sandbox Cluster compatible oauth-proxy installation
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | clusterDomain | string | `"example.com"` |  |
+| clusterLocalAuth | bool | `true` |  |
+| clusterTLSInsecure | bool | `false` |  |
+| dex.configSecret.create | bool | `false` |  |
+| dex.configSecret.name | string | `"dex-config-secret"` |  |
+| dex.serviceMonitor.enabled | bool | `true` |  |
 | enableVirtualServer | bool | `true` |  |
-| oauth2-proxy.config.configFile | string | `"upstreams=[ \"file:///dev/null\" ]\nprovider=\"oidc\"\nhttp_address=\"0.0.0.0:4180\"\nset_xauthrequest=true\ncookie_secure=true\nskip_jwt_bearer_tokens=true\npass_access_token=true\npass_authorization_header=true\npass_user_headers=true\nset_authorization_header=true"` |  |
+| oauth2-proxy.config.existingConfig | string | `"oauth-proxy-config"` |  |
 | oauth2-proxy.config.existingSecret | string | `"oauth-proxy-creds"` |  |
 
 ----------------------------------------------

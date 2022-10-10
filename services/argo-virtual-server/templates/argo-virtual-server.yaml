@@ -6,10 +6,12 @@ metadata:
   namespace: argocd
 spec:
   host: "argocd.{{ .Values.clusterDomain }}"
+  {{- if not .Values.clusterTLSInsecure}}
   tls:
     cert-manager:
       cluster-issuer: letsencrypt-prod
     secret: argocd-cert
+  {{- end }}
   routes:
   - path: /
     route: argocd/argocd

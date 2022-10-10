@@ -1,4 +1,4 @@
-{{ if .Values.letsEncryptIssuer.enableStage }}
+{{ if and .Values.letsEncryptIssuer.enableStage (not .Values.clusterTLSInsecure) }}
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
@@ -19,7 +19,7 @@ spec:
           class:  nginx
 {{- end }}
 
-{{ if .Values.letsEncryptIssuer.enableProd }}
+{{ if and .Values.letsEncryptIssuer.enableProd (not .Values.clusterTLSInsecure)  }}
 ---
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer

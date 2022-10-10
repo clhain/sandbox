@@ -12,3 +12,6 @@ letsEncryptIssuer:
 cert-manager:
   # Tell the base chart to install the required CRDs.
   installCRDs: true
+
+# Disable all certificate generation and https auth callbacks (not recommended)
+clusterTLSInsecure: false

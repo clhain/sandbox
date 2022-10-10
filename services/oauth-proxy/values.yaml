@@ -1,17 +1,16 @@
 clusterDomain: example.com
 enableVirtualServer: true
+clusterTLSInsecure: false
+clusterLocalAuth: true
 
 oauth2-proxy:
   config:
     existingSecret: oauth-proxy-creds
-    configFile: |-
-      upstreams=[ "file:///dev/null" ]
-      provider="oidc"
-      http_address="0.0.0.0:4180"
-      set_xauthrequest=true
-      cookie_secure=true
-      skip_jwt_bearer_tokens=true
-      pass_access_token=true
-      pass_authorization_header=true
-      pass_user_headers=true
-      set_authorization_header=true
+    existingConfig: oauth2-proxy-config
+
+dex:
+  configSecret:
+    create: false
+    name: "dex-config-secret"
+  serviceMonitor:
+    enabled: true
