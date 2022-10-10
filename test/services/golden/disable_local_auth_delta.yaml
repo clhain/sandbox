@@ -1,7 +1,7 @@
 Only in test/services/golden/default/helm-oauth-proxy/charts/oauth2-proxy/templates: configmap.yaml
 diff -bur test/services/golden/default/helm-oauth-proxy/templates/oauth-virtual-server.yaml test/services/golden/disable_local_auth/helm-oauth-proxy/templates/oauth-virtual-server.yaml
---- test/services/golden/default/helm-oauth-proxy/templates/oauth-virtual-server.yaml	2022-10-07 19:24:24.853002433 +0000
-+++ test/services/golden/disable_local_auth/helm-oauth-proxy/templates/oauth-virtual-server.yaml	2022-10-07 19:24:27.036999960 +0000
+--- test/services/golden/default/helm-oauth-proxy/templates/oauth-virtual-server.yaml	2022-10-10 18:47:55.369805695 +0000
++++ test/services/golden/disable_local_auth/helm-oauth-proxy/templates/oauth-virtual-server.yaml	2022-10-10 18:47:57.569767065 +0000
 @@ -33,24 +33,3 @@
      action:
        pass: oauth2-proxy
