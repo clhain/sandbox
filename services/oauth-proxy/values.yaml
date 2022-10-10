@@ -12,6 +12,14 @@ oidcPermittedEmailDomains: "example.com"
 # Enable / disable the Oauth2 Proxy virtual server
 enableVirtualServer: true
 
+# Namespace to fetch existing OIDC secrets from
+authSecretNamespace: argocd
+# Secret name to fetch existing OIDC secrets from
+authSecretName: oauth-secret
+
+# Deploy auth secrets for oauthProxy
+oauthProxySecretEnable: true
+
 oauth2-proxy:
   config:
     existingSecret: oauth-proxy-creds
