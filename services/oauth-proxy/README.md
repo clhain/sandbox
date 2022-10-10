@@ -21,6 +21,8 @@ Proxy Chart for Sandbox Cluster compatible oauth-proxy installation
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
+| authSecretName | string | `"oauth-secret"` |  |
+| authSecretNamespace | string | `"argocd"` |  |
 | clusterDomain | string | `"example.com"` |  |
 | clusterLocalAuth | bool | `true` |  |
 | clusterTLSInsecure | bool | `false` |  |
@@ -30,6 +32,7 @@ Proxy Chart for Sandbox Cluster compatible oauth-proxy installation
 | enableVirtualServer | bool | `true` |  |
 | oauth2-proxy.config.existingConfig | string | `"oauth2-proxy-config"` |  |
 | oauth2-proxy.config.existingSecret | string | `"oauth-proxy-creds"` |  |
+| oauthProxySecretEnable | bool | `true` |  |
 | oidcIssuerURL | string | `""` |  |
 | oidcPermittedEmailDomains | string | `"example.com"` |  |
 
