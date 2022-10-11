@@ -10,7 +10,7 @@ mixins:
       clientVersion: 1.3.1
   - exec:
   - helm3:
-      clientVersion: v3.7.2
+      clientVersion: v3.8.2
       repositories:
         sandbox-charts:
           url: "https://clhain.github.io/sandbox-helm-charts"
@@ -186,7 +186,7 @@ parameters:
     description: The chart version of sandbox_base to deploy.
   - name: sandbox_apps_helm_revision
     type: string
-    default: sandbox-apps-0.0.7 # sandbox_apps_helm_revision (comment for automation, do not remove)
+    default: sandbox-apps-0.0.8 # sandbox_apps_helm_revision (comment for automation, do not remove)
     description: The Git Revision (i.e. HEAD or tag name of sandbox-apps helm chart to deploy).
   - name: sandbox_target_revision
     type: string
