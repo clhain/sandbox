@@ -21,7 +21,6 @@ spec:
       opentracing off;
       proxy_set_header X-Real-IP               $remote_addr;
       proxy_set_header X-Scheme                $scheme;
-      proxy_set_header X-Auth-Request-Redirect $scheme://$host$request_uri;
     action:
       pass: oauth2-proxy
   - path: /oauth2/auth
