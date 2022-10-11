@@ -8,8 +8,8 @@ data:
       provider="oidc"
       http_address="0.0.0.0:4180"
       set_xauthrequest=true
-      cookie_domains="{{.Values.clusterDomain}}"
-      whitelist_domains="{{.Values.clusterDomain}}"
+      cookie_domains=".{{.Values.clusterDomain}}"
+      whitelist_domains=".{{.Values.clusterDomain}}"
       cookie_secure={{ if .Values.clusterTLSInsecure }}false{{ else }}true{{ end }}
       email_domains="{{ if .Values.oidcPermittedEmailDomains }}{{ .Values.oidcPermittedEmailDomains }}{{ else }}example.com{{ end }}"
       oidc_issuer_url="{{ if .Values.oidcIssuerURL }}{{ .Values.oidcIssuerURL }}{{ else }}{{ if .Values.clusterTLSInsecure }}http://{{ else }}https://{{ end }}dex.{{.Values.clusterDomain}}/dex{{ end }}"
