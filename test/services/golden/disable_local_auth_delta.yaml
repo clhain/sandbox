@@ -1,11 +1,15 @@
+Only in test/services/golden/default/helm-oauth-proxy/charts: dex
 Only in test/services/golden/default/helm-oauth-proxy/charts/oauth2-proxy/templates: configmap.yaml
+Only in test/services/golden/default/helm-oauth-proxy/templates: dex-config-secret.yaml
+Only in test/services/golden/default/helm-oauth-proxy/templates: oauth-proxy-secret.yaml
 diff -bur test/services/golden/default/helm-oauth-proxy/templates/oauth-virtual-server.yaml test/services/golden/disable_local_auth/helm-oauth-proxy/templates/oauth-virtual-server.yaml
---- test/services/golden/default/helm-oauth-proxy/templates/oauth-virtual-server.yaml	2022-10-07 19:24:24.853002433 +0000
-+++ test/services/golden/disable_local_auth/helm-oauth-proxy/templates/oauth-virtual-server.yaml	2022-10-07 19:24:27.036999960 +0000
-@@ -33,24 +33,3 @@
+--- test/services/golden/default/helm-oauth-proxy/templates/oauth-virtual-server.yaml	2022-10-11 06:19:37.227617030 +0000
++++ test/services/golden/disable_local_auth/helm-oauth-proxy/templates/oauth-virtual-server.yaml	2022-10-11 06:19:39.983637595 +0000
+@@ -31,25 +31,3 @@
+       proxy_pass_request_body           off;
      action:
        pass: oauth2-proxy
- ---
+----
 -apiVersion: k8s.nginx.org/v1
 -kind: VirtualServer
 -metadata:
