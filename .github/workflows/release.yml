@@ -32,7 +32,7 @@ jobs:
 
       - name: Bump versions in files
         run: |
-          sed -i "s/version: .*/version: ${{ env.BUNDLE_VERSION}}/" ./bundle/porter.yaml
+          sed -i "s/^version: .*/version: ${{ env.BUNDLE_VERSION}}/" ./bundle/porter.yaml
           sed -i "s/default: .* # sandbox_target_revision/default: v${{ inputs.tag }} # sandbox_target_revision/" ./bundle/porter.yaml
           find examples/ -type f -name 'installation.yaml' | xargs sed -i "s/version: v.*/version: v${{ env.BUNDLE_VERSION}}/"
           sed -i "s/sandbox_porter_gke_version: .*/sandbox_porter_gke_version: ${{ env.BUNDLE_VERSION}}/" ./mkdocs.yml
