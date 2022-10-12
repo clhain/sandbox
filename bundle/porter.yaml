@@ -228,7 +228,7 @@ install:
       name: sandbox-base
       namespace: "{{ bundle.parameters.installation-namespace }}"
       chart: sandbox-charts/sandbox-base
-      version: 0.1.4
+      version: "{{ bundle.parameters.sandbox_base_chart_version }}"
       upsert: true
       wait: true
       set:
@@ -279,7 +279,7 @@ upgrade:
       name: sandbox-base
       namespace: "{{ bundle.parameters.installation-namespace }}"
       chart: sandbox-charts/sandbox-base
-      version: 0.1.4
+      version: "{{ bundle.parameters.sandbox_base_chart_version }}"
       upsert: true
       wait: true
       set:
