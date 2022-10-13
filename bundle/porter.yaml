@@ -64,13 +64,14 @@ parameters:
     type: string
     env: TF_VAR_project
     description: "The project ID where all resources will be launched."
-  - name: domain
-    type: string
-    description: The domain under which all proxied host records will be created
 # ---------------------------------------------------------------------------------------------------------------------
 # OPTIONAL PARAMETERS
 # These parameters have reasonable defaults.
 # ---------------------------------------------------------------------------------------------------------------------
+  - name: domain
+    type: string
+    default: localtest.me
+    description: The domain under which all proxied host records will be created
   - name: oidc_client_id
     env: oidc_client_id
     description: The oidc client id to use
