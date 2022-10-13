@@ -1,0 +1,4 @@
+gatekeeper:
+  psp:
+    # PSP is deprecated - explicitly disable as workaround for kind trying to deploy in clusters versions without.
+    enabled: false
