@@ -1,4 +1,4 @@
-{{- if not .Values.nginx-ingress.controller.service.loadBalancerIP }}
+{{- if not (index .Values "nginx-ingress" "controller" "service" "loadBalancerIP") }}
 ---
 apiVersion: v1
 kind: Service
