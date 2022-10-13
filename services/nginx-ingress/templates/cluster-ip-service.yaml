@@ -1,4 +1,5 @@
 {{- if not .Values.nginx-ingress.controller.service.loadBalancerIP }}
+---
 apiVersion: v1
 kind: Service
 metadata:
