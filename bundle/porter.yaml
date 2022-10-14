@@ -257,7 +257,7 @@ install:
         oidcPermittedEmailDomains: "{{ bundle.parameters.oidc_permitted_email_domains }}"
         appsHelmSourceTargetRevision: "{{ bundle.parameters.sandbox_apps_helm_revision }}"
         appsSourceTargetRevision: "{{ bundle.parameters.sandbox_target_revision }}"
-        adminPass: "{{ local_auth_admin_pass }}"
+        adminPass: "{{ bundle.parameters.local_auth_admin_pass }}"
       values:
         - /cnab/app/helm/sandbox-base/extra-values.yaml
 
@@ -309,7 +309,7 @@ upgrade:
         oidcPermittedEmailDomains: "{{ bundle.parameters.oidc_permitted_email_domains }}"
         appsHelmSourceTargetRevision: "{{ bundle.parameters.sandbox_apps_helm_revision }}"
         appsSourceTargetRevision: "{{ bundle.parameters.sandbox_target_revision }}"
-        adminPass: "{{ local_auth_admin_pass }}"
+        adminPass: "{{ bundle.parameters.local_auth_admin_pass }}"
       values:
         - /cnab/app/helm/sandbox-base/extra-values.yaml
 
