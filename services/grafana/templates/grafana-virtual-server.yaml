@@ -18,7 +18,7 @@ spec:
     {{- if .Values.enableOauthRoute }}
     location-snippets: |
       auth_request /oauth2/auth;
-      error_page 401 = https://auth.{{ .Values.clusterDomain }}/oauth2/start?rd=https://$host$uri;
+      error_page 401 = {{ if .Values.clusterTLSInsecure }}http{{ else }}https{{ end }}://auth.{{ .Values.clusterDomain }}/oauth2/start?rd=https://$host$uri;
       auth_request_set $user   $upstream_http_x_auth_request_user;
       auth_request_set $email  $upstream_http_x_auth_request_email;
       auth_request_set $auth_header $upstream_http_authorization;

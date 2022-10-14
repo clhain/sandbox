@@ -1,8 +1,9 @@
 # Sandbox Pre-Requisites
 
-The following things are required to enable all Sandbox functionality
-regardless of which deployment mechanism is used (see All-In-One and Bring
-Your Own Cluster guides for additional method-specific requirements).
+The following things are required to enable all Sandbox functionality. The [Quick Start](quick-start.md) based
+install (using kind) has no up-front requirements, but some features won't work. The requirements here are common
+for all fully-featured installations regardless of the install methd. Additional installation specific
+requirements can be found in the dedicated guides for the All-In-One and Bring Your Own Cluster guides.
 
 ## Cluster Requirements
 
