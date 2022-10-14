@@ -1,7 +1,7 @@
 # Deploy Your App To the Sandbox
 
 ## Background
-Once your Sandbox cluster is up and running (see [Installation Guides](../installation/choose-a-method.md)),
+Once your Sandbox cluster is up and running (see [Installation Guides](../installation/getting-started.md)),
 one of the first things you might want to do is deploy your own application code. Containerization and
 authoring your the various Kubernetes manifests needed are too big of topics to cover here,
 so we'll focus our attention on the specific benefits available for you that Sandbox provides.
@@ -17,7 +17,7 @@ applying that to the cluster. Future updates to the target git repo will automat
 This example from the [Examples Directory](https://github.com/clhain/sandbox/examples/simple-app-boutique) in
 the Sandbox GitHub project deploys an Application (from the app-helm directory of the examples folder) via helm:
 
-```
+```yaml
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
@@ -50,7 +50,7 @@ spec:
 
 In general, you can follow the pattern in that example directory for most simple deployments of the Sandbox and overlay apps:
 
-```
+```text
   /cluster/      # The configs needed to deploy the cluster / Sandbox Apps.
   /app/          # Helm charts, kustomize, raw manifests to deploy
   /your-app.yaml # The ArgoCD Application manifest that tells the instance to deploy the /app/ directory contents.
@@ -72,7 +72,7 @@ To seal a secret, the process is roughly this:
 
 > Note: Default helm install requires additional command line arguments to the kubeseal command as follows:
 
-```
+```text
 kubeseal --controller-name sealed-secrets --controller-namespace sealed-secrets < /tmp/secret.json > sealed-secret.json
 ```
 
@@ -83,10 +83,10 @@ The Sandbox cluster has several key Ingress features that should work "out of th
 
 ### Automated Cert Provisioning
 The NGINX Ingress Controller is configured to interoperate with Cert Manager to automatically provision Let's Encrypt certs
-for ingresses. To enable this functionality, all you need to do is set the tls properties under "spec" as illustrated in this 
+for ingresses. To enable this functionality, all you need to do is set the tls properties under "spec" as illustrated in this
 partial example for the cluster Grafana service.
 
-```
+```yaml
 apiVersion: k8s.nginx.org/v1
 kind: VirtualServer
 metadata:

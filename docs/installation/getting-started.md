@@ -1,13 +1,16 @@
-# Choose An Installation Method
+# Full Deployment (Choose Install Method)
 
-The Sandbox environment can be deployed several ways, depending on your needs.
+The full featured Sandbox environment can be deployed several ways, depending on your needs.
 Generally, this is broken down into whether or not you want to have the cluster deployed as part
 of the installation process, or you already have one available to you.
+
+Note: If you're just looking to get a feel for the environment, you can check out the [Quick Start](quick-start.md) guide
+for deploying to a local Kind cluster (with some features disabled).
 
 ## All-In-One Install
 
 The Sandbox project uses [Porter](https://porter.sh/) based [Cloud Native Application Bundles](https://cnab.io/)
-which can combine the deployment of the cluster with the steps to apply the sandbox application set. 
+which can combine the deployment of the cluster with the steps to apply the sandbox application set.
 
 ![All In One Deploy](../img/sandbox-all-in-one-gke.png)
 
@@ -34,18 +37,19 @@ In either case, it's strongly recommended that the cluster contain no services
 (other than ArgoCD for the second method) prior to installation of the Sandbox in order to reduce risk of conflicts.
 
 ### Using Helm
-There's a "Sandbox Base" Helm chart available that will deploy Argo and the full stack of Sandbox Apps to 
+There's a "Sandbox Base" Helm chart available that will deploy Argo and the full stack of Sandbox Apps to
 a pre-existing cluster. You should use this method if you have a cluster, but don't have ArgoCD installed on it.
+
+See more: [Helm Based Install](byoc-helm.md)
 
 ![Bring Your Own Cluster Deploy](../img/sandbox-byoc-helm.png)
 
-See more: [Helm Based Install](byoc-helm.md)
 
 ### Using ArgoCD
 If you have a cluster with ArgoCD deployed already, you can install the Sandbox application stack directly
 via ArgoCD application spec.
 
+* See more: [ArgoCD Based Install](byoc-argocd.md)
+
 ![Bring Your Own Cluster Deploy - ArgoCD](../img/sandbox-byoc-argo.png)
 
-
-* See more: [ArgoCD Based Install](byoc-argocd.md)

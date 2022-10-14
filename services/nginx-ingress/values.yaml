@@ -1,5 +1,7 @@
 enableIngressDashboard: true
 enableAppProtectDashboard: false
+# If loadbalancer IP is not provided, create an internal LB with static IP for use with static DNS.
+serviceClusterIP: 10.96.32.54
 
 nginx-ingress:
   controller:
