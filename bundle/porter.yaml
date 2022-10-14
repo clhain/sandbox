@@ -65,29 +65,9 @@ parameters:
     env: TF_VAR_project
     description: "The project ID where all resources will be launched."
 # ---------------------------------------------------------------------------------------------------------------------
-# OPTIONAL PARAMETERS
+# OPTIONAL CLUSTER PARAMETERS
 # These parameters have reasonable defaults.
 # ---------------------------------------------------------------------------------------------------------------------
-  - name: domain
-    type: string
-    default: localtest.me
-    description: The domain under which all proxied host records will be created
-  - name: oidc_client_id
-    env: oidc_client_id
-    description: The oidc client id to use
-    default: ''
-  - name: oidc_issuer_url
-    tpye: string
-    default: ''
-    description: The oidc issuer to use for validating tokens.
-  - name: oidc_email_domains
-    env: oidc_email_domains
-    description: The list of oidc permitted user email domains.
-    default: "*"
-  - name: letsencrypt-contact-email
-    type: string
-    description: The email address to use as contact for letsencrypt certs.
-    default: ''
   - name: cluster_name
     type: string
     default: my-sandbox-cluster
@@ -137,7 +117,7 @@ parameters:
     env: TF_VAR_preemptible_nodes
     default: "true"
     description: Whether to use GKE pre-emtible nodes.
-  - name: loadbalancer-type
+  - name: loadbalancer_type
     type: string
     default: "External"
     env: TF_VAR_cluster_ingress_ip_type
@@ -176,27 +156,62 @@ parameters:
     default: "/cnab/app/terraform/kubeconfig"
     description: The location to write the GKE kubeconfig after installed.
 
-  ## Sandbox-Base PARAMS
-  - name: installation-namespace
+# ---------------------------------------------------------------------------------------------------------------------
+# OPTIONAL SANDBOX PARAMETERS
+# These parameters have reasonable defaults.
+# ---------------------------------------------------------------------------------------------------------------------
+  - name: cluster_domain
+    type: string
+    default: localtest.me
+    description: The domain under which all proxied host records will be created
+  - name: cluster_tls_insecure
+    type: string
+    default: "false"
+    description: If True, disable Cert Manager Auto-cert and reference http:// endpoints for auth services.
+  - name: cluster_local_auth
+    type: string
+    default: "true"
+    description: If False, disable dex service installation.
+  - name: oidc_client_id
+    env: oidc_client_id
+    description: The oidc client id to use
+    default: ''
+  - name: oidc_issuer_url
+    tpye: string
+    default: ''
+    description: The oidc issuer to use for validating tokens.
+  - name: local_auth_admin_pass
+    type: string
+    default: ''
+    description: Set a password for the admin@example.com dex account. Leave blank to auto-generate.
+  - name: oidc_permitted_email_domains
+    env: oidc_permitted_email_domains
+    description: The list of oidc permitted user email domains.
+    default: "*"
+  - name: letsencrypt_contact_email
+    type: string
+    description: The email address to use as contact for letsencrypt certs.
+    default: ''
+  - name: installation_namespace
     type: string
     default: "argocd"
     description: The namespace to install Argo CD into.
   - name: sandbox_base_chart_version
     type: string
-    default: 0.0.9 # sandbox_base_helm_revision (comment for automation, do not remove)
+    default: 0.0.10 # sandbox_base_helm_revision (comment for automation, do not remove)
     description: The chart version of sandbox_base to deploy.
   - name: sandbox_apps_helm_revision
     type: string
-    default: sandbox-apps-0.0.8 # sandbox_apps_helm_revision (comment for automation, do not remove)
+    default: sandbox-apps-0.0.9 # sandbox_apps_helm_revision (comment for automation, do not remove)
     description: The Git Revision (i.e. HEAD or tag name of sandbox-apps helm chart to deploy).
   - name: sandbox_target_revision
     type: string
     default: v0.1.2 # sandbox_target_revision (comment for automation, do not remove)
     description: The Git Revision (i.e. HEAD or tag name of sandbox apps to deploy).
-
-  #
-  #  Helm Override Values Files
-  #
+# ---------------------------------------------------------------------------------------------------------------------
+# HELM Values Override PARAMETERS
+# Not required, useful for setting additional customization values.
+# ---------------------------------------------------------------------------------------------------------------------
   - name: sandbox-values
     type: string
     default: ''
@@ -227,21 +242,22 @@ install:
   - helm3:
       description: "Update Sandbox Base Apps on the cluster"
       name: sandbox-base
-      namespace: "{{ bundle.parameters.installation-namespace }}"
+      namespace: "{{ bundle.parameters.installation_namespace }}"
       chart: sandbox-charts/sandbox-base
       version: "{{ bundle.parameters.sandbox_base_chart_version }}"
       upsert: true
       wait: true
       set:
         clusterIngressIP: "{{ bundle.outputs.cluster_ingress_ip }}"
-        clusterDomain: "{{ bundle.parameters.domain }}"
+        clusterDomain: "{{ bundle.parameters.cluster_domain }}"
         oidcClientID: "{{ bundle.parameters.oidc_client_id }}"
         oidcClientSecret: "{{ bundle.credentials.oidc_client_secret }}"
         oidcIssuerURL: "{{ bundle.parameters.oidc_issuer_url }}"
-        letsEncryptContactEmail: "{{ bundle.parameters.letsencrypt-contact-email }}"
-        oidcPermittedEmailDomains: "{{ bundle.parameters.oidc_email_domains }}"
+        letsEncryptContactEmail: "{{ bundle.parameters.letsencrypt_contact_email }}"
+        oidcPermittedEmailDomains: "{{ bundle.parameters.oidc_permitted_email_domains }}"
         appsHelmSourceTargetRevision: "{{ bundle.parameters.sandbox_apps_helm_revision }}"
         appsSourceTargetRevision: "{{ bundle.parameters.sandbox_target_revision }}"
+        adminPass: "{{ local_auth_admin_pass }}"
       values:
         - /cnab/app/helm/sandbox-base/extra-values.yaml
 
@@ -252,8 +268,8 @@ install:
         - "success-message"
       envs: # Environment variables to be added to the command execution environment
         CLUSTER_NAME: "{{ bundle.parameters.cluster_name }}"
-        CLUSTER_DOMAIN: "{{ bundle.parameters.domain }}"
-        INSTALL_NS: "{{ bundle.parameters.installation-namespace }}"
+        CLUSTER_DOMAIN: "{{ bundle.parameters.cluster_domain }}"
+        INSTALL_NS: "{{ bundle.parameters.installation_namespace }}"
         INGRESS_IP: "{{ bundle.outputs.cluster_ingress_ip }}"
 
 upgrade:
@@ -278,21 +294,22 @@ upgrade:
   - helm3:
       description: "Update Sandbox Base Apps on the cluster"
       name: sandbox-base
-      namespace: "{{ bundle.parameters.installation-namespace }}"
+      namespace: "{{ bundle.parameters.installation_namespace }}"
       chart: sandbox-charts/sandbox-base
       version: "{{ bundle.parameters.sandbox_base_chart_version }}"
       upsert: true
       wait: true
       set:
         clusterIngressIP: "{{ bundle.outputs.cluster_ingress_ip }}"
-        clusterDomain: "{{ bundle.parameters.domain }}"
+        clusterDomain: "{{ bundle.parameters.cluster_domain }}"
         oidcClientID: "{{ bundle.parameters.oidc_client_id }}"
         oidcClientSecret: "{{ bundle.credentials.oidc_client_secret }}"
         oidcIssuerURL: "{{ bundle.parameters.oidc_issuer_url }}"
-        letsEncryptContactEmail: "{{ bundle.parameters.letsencrypt-contact-email }}"
-        oidcPermittedEmailDomains: "{{ bundle.parameters.oidc_email_domains }}"
+        letsEncryptContactEmail: "{{ bundle.parameters.letsencrypt_contact_email }}"
+        oidcPermittedEmailDomains: "{{ bundle.parameters.oidc_permitted_email_domains }}"
         appsHelmSourceTargetRevision: "{{ bundle.parameters.sandbox_apps_helm_revision }}"
         appsSourceTargetRevision: "{{ bundle.parameters.sandbox_target_revision }}"
+        adminPass: "{{ local_auth_admin_pass }}"
       values:
         - /cnab/app/helm/sandbox-base/extra-values.yaml
 
@@ -303,8 +320,8 @@ upgrade:
         - "success-message"
       envs:
         CLUSTER_NAME: "{{ bundle.parameters.cluster_name }}"
-        CLUSTER_DOMAIN: "{{ bundle.parameters.domain }}"
-        INSTALL_NS: "{{ bundle.parameters.installation-namespace }}"
+        CLUSTER_DOMAIN: "{{ bundle.parameters.cluster_domain }}"
+        INSTALL_NS: "{{ bundle.parameters.installation_namespace }}"
         INGRESS_IP: "{{ bundle.outputs.cluster_ingress_ip }}"
 
 uninstall:

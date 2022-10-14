@@ -105,12 +105,73 @@ sandbox-apps               Synced        Healthy
 temppo                     Synced        Healthy
 ```
 
+---
 
-## 3. Access Sandbox Services
+## 3. Verification
+
+If you have the argocd CLI utility [installed](https://argo-cd.readthedocs.io/en/stable/getting_started/#2-download-argo-cd-cli),
+you can use it to view additional information and troubleshoot issues as needed:
+
+1) Fetch the ArgoCD Admin Password
+```text
+kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo
+```
+
+2) Port Forward ArgoCD CLI Commands
+```text
+export ARGOCD_OPTS='--port-forward-namespace argocd'
+```
+
+3) Login To The ArgoCD Instance
+```text
+argocd login --port-forward --insecure
+```
+
+4) View App Rollout Progress
+```text
+argocd app get sandbox-apps
+```
+
+When complete you should see a list that looks like this (all items are Synced and Healthy/blank):
+
+```text
+GROUP        KIND         NAMESPACE    NAME                      STATUS  HEALTH   HOOK  MESSAGE
+             Secret       oauth-proxy  dex-config-secret         Synced                 secret/dex-config-secret configured
+argoproj.io  Application  argocd       cert-manager              Synced  Healthy        application.argoproj.io/cert-manager configured
+argoproj.io  Application  argocd       nginx-ingress             Synced  Healthy        application.argoproj.io/nginx-ingress configured
+             ConfigMap    kube-system  coredns                   Synced                 
+             Namespace                 oauth-proxy               Synced                 
+             Secret       oauth-proxy  oauth-proxy-creds         Synced                 
+argoproj.io  AppProject   argocd       cluster-services          Synced                 
+argoproj.io  Application  argocd       argo-virtual-server       Synced  Healthy        
+argoproj.io  Application  argocd       gatekeeper                Synced  Healthy        
+argoproj.io  Application  argocd       grafana                   Synced  Healthy        
+argoproj.io  Application  argocd       loki                      Synced  Healthy        
+argoproj.io  Application  argocd       nginx-mesh                Synced  Healthy        
+argoproj.io  Application  argocd       oauth-proxy               Synced  Healthy        
+argoproj.io  Application  argocd       opentelemetry-operator    Synced  Healthy        
+argoproj.io  Application  argocd       prometheus-operator       Synced  Healthy        
+argoproj.io  Application  argocd       prometheus-operator-crds  Synced  Healthy        
+argoproj.io  Application  argocd       sealed-secrets            Synced  Healthy        
+argoproj.io  Application  argocd       tempo                     Synced  Healthy
+```
+
+---
+
+## 4. Access Sandbox Services
 Once all services are in 'Synced, Healthy' state, and you've updated the DNS records as described [here](dns.md),
 you should be able to securely access the ArgoCD and Grafana services at:
 
-* https://argocd.YOUR_DOMAIN/
-* https://grafana.YOUR_DOMAIN/
+```text
+https://argocd.YOUR_DOMAIN/
+https://grafana.YOUR_DOMAIN/
+```
+
+If you're using the default Dex IDP, you can fetch the credentials for the admin@example.com domain
+from the cluster as follows:
+
+```text
+kubectl get secret -n oauth-proxy oauth-proxy-creds -o jsonpath="{.data.admin-password}" | base64 -d; echo
+```
 
 Please see the [troubleshooting](../troubleshooting.md) guide for investigating issues.

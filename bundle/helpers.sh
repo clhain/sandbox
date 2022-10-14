@@ -33,6 +33,13 @@ success-message(){
   echo
   echo "  - Check progress via the command line after connecting to your cluster with \"kubectl get apps -n ${INSTALL_NS}\""
   echo
+  echo "  - Check progress via the argocd CLI after connecting to your cluster with:"
+  echo
+  echo "        - kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath=\"{.data.password}\" | base64 -d; echo"
+  echo "        - export ARGOCD_OPTS='--port-forward-namespace argocd'"
+  echo "        - argocd login --port-forward --insecure"
+  echo "        - argocd app get sandbox-apps"
+  echo
   echo "  - Check progress via the gui:"
   echo
   echo "      - Fetch the admin password:"

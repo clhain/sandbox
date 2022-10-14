@@ -31,13 +31,23 @@ kind create cluster
 helm upgrade sandbox-base sandbox-charts/sandbox-base --install --namespace argocd --create-namespace --set clusterTLSInsecure=true
 ```
 
+## Troubleshooting
+If you see the child apps not progressing, and the following status condition on `argocd app get sandbox-apps`, it's the result of a race condition where
+helm applies the sandbox app before the argocd server is ready to handle it. It will eventually retry, but you can speed
+the process up by forcing a sync immediately with `argocd app sync sandbox-apps`.
+
+```text
+CONDITION        MESSAGE                                                                                                                                                  LAST TRANSITION
+ComparisonError  rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing dial tcp 10.96.150.135:8081: connect: connection refused"  2022-10-14 02:55:38 +0000 UTC
+```
+
 ## Verification
-Once the chart is applied, argocd will be deployed to finish the application of the sandbox app suite. This process typically takes
+Once the chart is applied, argocd will start the deployment of the sandbox app suite. This process typically takes
 10 or more minutes, and you can view the progress as follows:
 
 1) Fetch the ArgoCD Admin Password
 ```text
-$ kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo
+kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo
 ```
 
 2) Port Forward ArgoCD CLI Commands
@@ -55,7 +65,7 @@ argocd login --port-forward --insecure
 argocd app get sandbox-apps
 ```
 
-When complete you should see a list that looks approximately like this (where all items are Synced/Healthy):
+When complete you should see a list that looks like this (all items are Synced and Healthy/blank):
 
 ```text
 GROUP        KIND         NAMESPACE    NAME                      STATUS  HEALTH   HOOK  MESSAGE
@@ -80,14 +90,28 @@ argoproj.io  Application  argocd       tempo                     Synced  Healthy
 ```
 
 ## Connecting
-
-
-## Troubleshooting
-If you see the child apps not progressing, and the following status condition on `argocd app get sandbox-apps`, it's the result of a race condition where
-helm applies the sandbox app before the argocd server is ready to handle it. It will eventually retry, but you can speed
-the process up by forcing a sync immediately with `argocd app sync sandbox-apps`.
+For connecting to the web apps being served, you can use a combination of socat and kubectl to port-forward all port 80 traffic
+to the nginx-ingress service in the cluster. Run the following commands in different terminals and leave them running.
 
 ```text
-CONDITION        MESSAGE                                                                                                                                                  LAST TRANSITION
-ComparisonError  rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing dial tcp 10.96.150.135:8081: connect: connection refused"  2022-10-14 02:55:38 +0000 UTC
+kubectl port-forward -n nginx-ingress service/nginx-ingress-internal 8080:80
 ```
+
+***Forward Ports***
+```text
+sudo socat TCP-LISTEN:80,fork TCP:127.0.0.1:8080
+```
+
+To fetch the login password for the admin@example.com account, run the following:
+
+***Fetch Admin Account Password***
+```text
+kubectl get secret -n oauth-proxy oauth-proxy-creds -o jsonpath="{.data.admin-password}" | base64 -d; echo
+```
+
+***Login***
+
+You can login to view the included web interfaces with the admin@example.com username, and password from above.
+
+* [http://grafana.localtest.me](http://grafana.localtest.me)
+* [http://argocd.localtest.me](http://argocd.localtest.me)

@@ -1,7 +1,7 @@
 # Deploy Your App To the Sandbox
 
 ## Background
-Once your Sandbox cluster is up and running (see [Installation Guides](../installation/choose-a-method.md)),
+Once your Sandbox cluster is up and running (see [Installation Guides](../installation/getting-started.md)),
 one of the first things you might want to do is deploy your own application code. Containerization and
 authoring your the various Kubernetes manifests needed are too big of topics to cover here,
 so we'll focus our attention on the specific benefits available for you that Sandbox provides.

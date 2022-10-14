@@ -11,15 +11,15 @@ somewhere between a vanilla k8s cluster and one you should actually run user fac
 ---
 **Warning**
 
-> To Be Clear: while many of the necessary components are installed and configured, 
-> it must be stressed that this is **NOT** intended to carry production traffic without
-> extensive modification (if ever).
+> To Be Clear: while many of the necessary components are installed with some configuration, 
+> it must be stressed that this is **NOT** intended to carry production traffic.
 
 ---
 
 ## Quick Links
 
-* [Getting Started](installation/choose-a-method.md)
+* [Quick Start](installation/quick-start.md) (Local install, partial feature set)
+* [Getting Started](installation/getting-started.md) (Full feature set)
 * [Frequently Asked Questions](faq.md)
 
 ## What's Included

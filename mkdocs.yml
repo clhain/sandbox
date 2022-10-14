@@ -3,7 +3,8 @@ site_url: https://clhain.github.io/sandbox
 nav:
     - Home: index.md
     - Getting Started:
-        - Choose An Installation Method: installation/choose-a-method.md
+        - Quick Start: installation/quick-start.md
+        - Getting Started: installation/getting-started.md
         - Common Pre-Reqs: installation/pre-reqs.md
         - DNS Configuration: installation/dns.md
         - Bring Your Own Cluster (Helm): installation/byoc-helm.md
