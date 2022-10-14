@@ -21,4 +21,4 @@ directs `*.[your-ip].nip.io` to the ip specified by setting the Cluster Domain t
 This method isn't compatible with Automatic SSL Certs from LetsEncrypt, so you'll also need to either:
 
 * Disable the TLS endpoints with helm argument `--set clusterTLSInsecure=true`
-* Modify the cert-manager or virtual-servers to work with alternate settings (see [Customizing Default Services](customization/default-services.md))
+* Modify the cert-manager or virtual-servers to work with alternate settings (see [Customizing Default Services](../customization/default-services.md))
