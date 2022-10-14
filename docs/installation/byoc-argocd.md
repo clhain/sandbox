@@ -15,7 +15,7 @@ See the guide for [Common Sandbox Pre-Reqs](pre-reqs.md) for the set of paramete
 
 In short, they include:
 
-```
+```yaml
 clusterDomain:             # e.g. yourdomain.com
 clusterIngressIP:          # e.g. 1.2.3.4
 oidcClientID:              # e.g. some-client-id

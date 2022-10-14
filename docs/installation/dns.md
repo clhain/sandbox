@@ -7,7 +7,7 @@ and then additional CNAME records for the services which point at that cluster A
 
 ## Sample Zone File
 Example records for yourzone.com:
-```
+```text
 ingress        IN      A       <ingress ip address (kubectl get service -n nginx-ingress)>
 auth           IN      CNAME   ingress.yourzone.com.   # Required for oauth2 proxy
 argocd         IN      CNAME   ingress.yourzone.com.   # ArgoCD UI
