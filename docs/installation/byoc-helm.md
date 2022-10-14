@@ -36,7 +36,7 @@ helm repo add sandbox-charts https://clhain.github.io/sandbox-helm-charts
 
 We can pass a custom values.yaml file to the helm install command to set the parameters gathered in step 0 above.
 Copy the [Example Bring Your Own Cluster Config](https://github.com/clhain/sandbox/tree/main/examples/bring-your-own-cluster/install-with-helm-values.yaml)
-and modify as needed. 
+and modify as needed.
 
 The most common values needed look like this:
 
@@ -127,7 +127,7 @@ argoproj.io  Application  argocd       grafana                   Synced  Healthy
 argoproj.io  Application  argocd       loki                      Synced  Healthy
 argoproj.io  Application  argocd       nginx-mesh                Synced  Healthy
 argoproj.io  Application  argocd       oauth-proxy               Synced  Healthy
-argoproj.io  Application  argocd       opentelemetry-operator    Synced  Healthy 
+argoproj.io  Application  argocd       opentelemetry-operator    Synced  Healthy
 argoproj.io  Application  argocd       prometheus-operator       Synced  Healthy
 argoproj.io  Application  argocd       prometheus-operator-crds  Synced  Healthy
 argoproj.io  Application  argocd       sealed-secrets            Synced  Healthy

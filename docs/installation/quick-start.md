@@ -82,7 +82,7 @@ argoproj.io  Application  argocd       grafana                   Synced  Healthy
 argoproj.io  Application  argocd       loki                      Synced  Healthy
 argoproj.io  Application  argocd       nginx-mesh                Synced  Healthy
 argoproj.io  Application  argocd       oauth-proxy               Synced  Healthy
-argoproj.io  Application  argocd       opentelemetry-operator    Synced  Healthy 
+argoproj.io  Application  argocd       opentelemetry-operator    Synced  Healthy
 argoproj.io  Application  argocd       prometheus-operator       Synced  Healthy
 argoproj.io  Application  argocd       prometheus-operator-crds  Synced  Healthy
 argoproj.io  Application  argocd       sealed-secrets            Synced  Healthy

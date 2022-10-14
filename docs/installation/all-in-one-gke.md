@@ -193,7 +193,7 @@ parameters:
       path: ./sandbox-values.yaml
 ```
 
-Replace all instances of #### YOUR_X_HERE #### with the values obtained in steps 2 and 3 above. 
+Replace all instances of #### YOUR_X_HERE #### with the values obtained in steps 2 and 3 above.
 
 * You can remove all `oidc_` values if you're using the included local dex IDP.
 * You can remove `letsencrypt_contact_email` if you've set clusterTLSEnabled=false.

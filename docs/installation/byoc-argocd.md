@@ -29,11 +29,11 @@ letsEncryptContactEmail:   # e.g. "someone@yourdomain.com"
 
 We need to pass an ArgoCD Application spec to the cluster that details how to find and deploy the sandbox services.
 Copy the [Example Bring Your Own Cluster Spec (Argo)](https://github.com/clhain/sandbox/tree/main/examples/bring-your-own-cluster/install-with-argo.yaml)
-and modify as needed. 
+and modify as needed.
 
 The values look like this, and the spec.source.helm.parameters must be set based on the values gathered in step 0:
 
-```
+```yaml
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
@@ -60,7 +60,7 @@ spec:
         - name: oidcClientSecret
           value:                              # YOUR OIDC Client Secret String
         - name: oidcIssuerURL
-          value:                              # YOUR OIDC ISSUER URL (e.g. "https://login.microsoftonline.com/TENANT/v2.0") 
+          value:                              # YOUR OIDC ISSUER URL (e.g. "https://login.microsoftonline.com/TENANT/v2.0")
         - name: oidcPermittedEmailDomains
           value: "*"                          # YOUR PERMITTED OIDC EMAIL DOMAINS (e.g. example.com)
         - name: letsEncryptContactEmail
@@ -78,7 +78,7 @@ Additional customization is possible via the helm parameters. See [Customizing D
 
 ## 2. Install The Sandbox ArgoCD Application
 
-```
+```text
 kubectl apply -f /path/to/your/application.yaml
 ```
 
@@ -89,7 +89,7 @@ track the installation progress after connecting to the cluster with:
 
 Once you see the following, you should be good to go:
 
-```
+```text
 NAME                       SYNC STATUS   HEALTH STATUS
 argo-virtual-server        Synced        Healthy
 cert-manager               Synced        Healthy
@@ -149,7 +149,7 @@ argoproj.io  Application  argocd       grafana                   Synced  Healthy
 argoproj.io  Application  argocd       loki                      Synced  Healthy
 argoproj.io  Application  argocd       nginx-mesh                Synced  Healthy
 argoproj.io  Application  argocd       oauth-proxy               Synced  Healthy
-argoproj.io  Application  argocd       opentelemetry-operator    Synced  Healthy 
+argoproj.io  Application  argocd       opentelemetry-operator    Synced  Healthy
 argoproj.io  Application  argocd       prometheus-operator       Synced  Healthy
 argoproj.io  Application  argocd       prometheus-operator-crds  Synced  Healthy
 argoproj.io  Application  argocd       sealed-secrets            Synced  Healthy
