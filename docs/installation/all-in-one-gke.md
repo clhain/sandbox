@@ -300,20 +300,20 @@ GROUP        KIND         NAMESPACE    NAME                      STATUS  HEALTH 
              Secret       oauth-proxy  dex-config-secret         Synced                 secret/dex-config-secret configured
 argoproj.io  Application  argocd       cert-manager              Synced  Healthy        application.argoproj.io/cert-manager configured
 argoproj.io  Application  argocd       nginx-ingress             Synced  Healthy        application.argoproj.io/nginx-ingress configured
-             ConfigMap    kube-system  coredns                   Synced                 
-             Namespace                 oauth-proxy               Synced                 
-             Secret       oauth-proxy  oauth-proxy-creds         Synced                 
-argoproj.io  AppProject   argocd       cluster-services          Synced                 
-argoproj.io  Application  argocd       argo-virtual-server       Synced  Healthy        
-argoproj.io  Application  argocd       gatekeeper                Synced  Healthy        
-argoproj.io  Application  argocd       grafana                   Synced  Healthy        
-argoproj.io  Application  argocd       loki                      Synced  Healthy        
-argoproj.io  Application  argocd       nginx-mesh                Synced  Healthy        
-argoproj.io  Application  argocd       oauth-proxy               Synced  Healthy        
-argoproj.io  Application  argocd       opentelemetry-operator    Synced  Healthy        
-argoproj.io  Application  argocd       prometheus-operator       Synced  Healthy        
-argoproj.io  Application  argocd       prometheus-operator-crds  Synced  Healthy        
-argoproj.io  Application  argocd       sealed-secrets            Synced  Healthy        
+             ConfigMap    kube-system  coredns                   Synced
+             Namespace                 oauth-proxy               Synced
+             Secret       oauth-proxy  oauth-proxy-creds         Synced
+argoproj.io  AppProject   argocd       cluster-services          Synced
+argoproj.io  Application  argocd       argo-virtual-server       Synced  Healthy
+argoproj.io  Application  argocd       gatekeeper                Synced  Healthy
+argoproj.io  Application  argocd       grafana                   Synced  Healthy
+argoproj.io  Application  argocd       loki                      Synced  Healthy
+argoproj.io  Application  argocd       nginx-mesh                Synced  Healthy
+argoproj.io  Application  argocd       oauth-proxy               Synced  Healthy
+argoproj.io  Application  argocd       opentelemetry-operator    Synced  Healthy 
+argoproj.io  Application  argocd       prometheus-operator       Synced  Healthy
+argoproj.io  Application  argocd       prometheus-operator-crds  Synced  Healthy
+argoproj.io  Application  argocd       sealed-secrets            Synced  Healthy
 argoproj.io  Application  argocd       tempo                     Synced  Healthy
 ```
 

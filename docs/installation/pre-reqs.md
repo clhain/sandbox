@@ -25,7 +25,7 @@ In order to use the Lets Encrypt certificate issuer, the IP must be publicly acc
 If you don't wish to use this feature, you can either:
 
 * Disable the TLS endpoints with helm argument --set clusterTLSInsecure=true
-* Modify the cert-manager or virtual-servers to work with alternate settings (see [Customizing Default Services](customization/default-services.md))
+* Modify the cert-manager or virtual-servers to work with alternate settings (see [Customizing Default Services](../customization/default-services.md))
 
 
 ## DNS Zone and Records Access
@@ -44,7 +44,7 @@ directs `*.[your-ip].nip.io` to the ip specified by setting the Cluster Domain t
 This method isn't compatible with Automatic SSL Certs from LetsEncrypt, so you'll also need to either:
 
 * Disable the TLS endpoints with helm argument `--set clusterTLSInsecure=true`
-* Modify the cert-manager or virtual-servers to work with alternate settings (see [Customizing Default Services](customization/default-services.md))
+* Modify the cert-manager or virtual-servers to work with alternate settings (see [Customizing Default Services](../customization/default-services.md))
 
 ## Let's Encrypt Contact Email
 
