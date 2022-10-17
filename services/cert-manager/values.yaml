@@ -12,6 +12,25 @@ letsEncryptIssuer:
 cert-manager:
   # Tell the base chart to install the required CRDs.
   installCRDs: true
+  webhook:
+    # Avoids a race condition where webhook and nginx-mesh api are scheduled on the same node.
+    replicaCount: 2
+    affinity:
+      podAntiAffinity: 
+        preferredDuringSchedulingIgnoredDuringExecution: 
+        - weight: 100  
+          podAffinityTerm:
+            labelSelector:
+              matchExpressions:
+              - key: "app.kubernetes.io/instance" 
+                operator: In 
+                values:
+                - cert-manager
+              - key: "app.kubernetes.io/component" 
+                operator: In 
+                values:
+                - webhook
+            topologyKey: kubernetes.io/hostname
 
 # Disable all certificate generation and https auth callbacks (not recommended)
 clusterTLSInsecure: false
