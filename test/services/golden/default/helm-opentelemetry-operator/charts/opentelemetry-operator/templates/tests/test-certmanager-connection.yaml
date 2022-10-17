@@ -10,7 +10,7 @@ metadata:
 spec:
   containers:
     - name: wget
-      image: busybox
+      image: "busybox:latest"
       env:
         - name: CERT_MANAGER_CLUSTERIP
           value: "cert-manager-webhook"

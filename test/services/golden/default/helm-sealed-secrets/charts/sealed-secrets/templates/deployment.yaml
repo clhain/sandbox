@@ -5,10 +5,10 @@ metadata:
   namespace: default
   labels:
     app.kubernetes.io/name: sealed-secrets
-    helm.sh/chart: sealed-secrets-2.6.9
+    helm.sh/chart: sealed-secrets-2.7.0
     app.kubernetes.io/instance: foo
     app.kubernetes.io/managed-by: Helm
-    app.kubernetes.io/version: v0.18.5
+    app.kubernetes.io/version: v0.19.1
   annotations:
     grafana_folder: Sealed Secrets
 spec:
@@ -33,7 +33,7 @@ spec:
             - --update-status
             - --key-prefix
             - "sealed-secrets-key"
-          image: docker.io/bitnami/sealed-secrets-controller:v0.18.5
+          image: docker.io/bitnami/sealed-secrets-controller:v0.19.1
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080

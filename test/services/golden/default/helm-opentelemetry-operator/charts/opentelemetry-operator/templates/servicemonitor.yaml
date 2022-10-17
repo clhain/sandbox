@@ -4,7 +4,7 @@ metadata:
   name: opentelemetry-operator
   namespace: default
   labels:
-    helm.sh/chart: opentelemetry-operator-0.13.0
+    helm.sh/chart: opentelemetry-operator-0.15.0
     app.kubernetes.io/name: opentelemetry-operator
     app.kubernetes.io/instance: foo
     app.kubernetes.io/version: "0.60.0"

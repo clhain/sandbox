@@ -5,7 +5,7 @@ metadata:
   namespace: default
   labels:
     app.kubernetes.io/name: foo-nginx-ingress
-    helm.sh/chart: nginx-ingress-0.14.1
+    helm.sh/chart: nginx-ingress-0.15.0
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/instance: foo
 spec:
@@ -27,7 +27,7 @@ spec:
       terminationGracePeriodSeconds: 30
       hostNetwork: false
       containers:
-      - image: "nginx/nginx-ingress:2.3.1"
+      - image: nginx/nginx-ingress:2.4.0
         name: foo-nginx-ingress
         imagePullPolicy: "IfNotPresent"
         ports:
@@ -45,6 +45,7 @@ spec:
             path: /nginx-ready
             port: readiness-port
           periodSeconds: 1
+          initialDelaySeconds: 0
         resources:
           requests:
             cpu: 100m
@@ -91,6 +92,8 @@ spec:
           - -prometheus-tls-secret=
           - -enable-custom-resources=true
           - -enable-snippets=true
+          - -include-year=false
+          - -disable-ipv6=false
           - -enable-tls-passthrough=false
           - -enable-preview-policies=true
           - -enable-cert-manager=true

@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:    
-    helm.sh/chart: prometheus-adapter-3.4.0
+    helm.sh/chart: prometheus-adapter-3.4.1
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: metrics
     app.kubernetes.io/part-of: prometheus-adapter
@@ -25,7 +25,7 @@ spec:
   template:
     metadata:
       labels:        
-        helm.sh/chart: prometheus-adapter-3.4.0
+        helm.sh/chart: prometheus-adapter-3.4.1
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/component: metrics
         app.kubernetes.io/part-of: prometheus-adapter
@@ -34,7 +34,7 @@ spec:
         app.kubernetes.io/version: "v0.10.0"
       name: prometheus-adapter
       annotations:
-        checksum/config: 61315d712b8446b555a822fcf0a01aa5a99663c6df76f94043479f6d1e0483a7
+        checksum/config: 9fac1974efb01d0dbae5a24b6f56fdad517bf45c221d6e46fcf40f206162818c
     spec:
       serviceAccountName: foo-prometheus-adapter
       containers:

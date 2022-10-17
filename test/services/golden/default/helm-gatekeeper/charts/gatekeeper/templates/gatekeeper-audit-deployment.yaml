@@ -39,7 +39,7 @@ spec:
       automountServiceAccountToken: true
       containers:
       -
-        image: openpolicyagent/gatekeeper:v3.9.0
+        image: openpolicyagent/gatekeeper:v3.9.2
         args:
         - --audit-interval=60
         - --log-level=INFO
