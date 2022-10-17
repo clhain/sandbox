@@ -116,7 +116,7 @@ spec:
             readOnly: true
       containers:
         - name: kubectl-label
-          image: "openpolicyagent/gatekeeper-crds:v3.9.0"
+          image: "openpolicyagent/gatekeeper-crds:v3.9.2"
           imagePullPolicy: IfNotPresent
           args:
             - label

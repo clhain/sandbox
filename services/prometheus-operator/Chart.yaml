@@ -6,11 +6,11 @@ dependencies:
   version: 39.13.3
 - name: prometheus-adapter
   repository: https://prometheus-community.github.io/helm-charts
-  version: 3.4.0
+  version: 3.4.1
 description: Proxy Chart for Sandbox Cluster compatible Prometheus Operator installation
 maintainers:
 - email: clhain@gmail.com
   name: clhain
 name: helm-prometheus-operator
 type: application
-version: 0.1.1
+version: 0.1.2

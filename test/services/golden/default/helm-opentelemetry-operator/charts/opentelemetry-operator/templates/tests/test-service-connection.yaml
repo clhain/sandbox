@@ -10,7 +10,7 @@ metadata:
 spec:
   containers:
     - name: wget
-      image: busybox
+      image: "busybox:latest"
       env:
         - name: MANAGER_METRICS_SERVICE_CLUSTERIP
           value: "opentelemetry-operator-controller-manager-metrics-service"
