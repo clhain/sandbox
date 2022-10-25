@@ -1,6 +1,6 @@
 diff -bur test/services/golden/default/helm-argo-virtual-server/templates/argo-virtual-server.yaml test/services/golden/disable_tls/helm-argo-virtual-server/templates/argo-virtual-server.yaml
---- test/services/golden/default/helm-argo-virtual-server/templates/argo-virtual-server.yaml	2022-10-17 22:00:26.557185398 +0000
-+++ test/services/golden/disable_tls/helm-argo-virtual-server/templates/argo-virtual-server.yaml	2022-10-17 22:00:31.869337249 +0000
+--- test/services/golden/default/helm-argo-virtual-server/templates/argo-virtual-server.yaml	2022-10-25 18:46:09.035263347 +0000
++++ test/services/golden/disable_tls/helm-argo-virtual-server/templates/argo-virtual-server.yaml	2022-10-25 18:46:13.319371783 +0000
 @@ -5,10 +5,6 @@
    namespace: argocd
  spec:
@@ -15,8 +15,8 @@ diff -bur test/services/golden/default/helm-argo-virtual-server/templates/argo-v
 Only in test/services/golden/default/helm-cert-manager/templates: letsencrypt-issuer.yaml
 Only in test/services/golden/default/helm-gatekeeper/charts/gatekeeper/templates: gatekeeper-admin-podsecuritypolicy.yaml
 diff -bur test/services/golden/default/helm-grafana/templates/grafana-virtual-server.yaml test/services/golden/disable_tls/helm-grafana/templates/grafana-virtual-server.yaml
---- test/services/golden/default/helm-grafana/templates/grafana-virtual-server.yaml	2022-10-17 22:00:26.501183791 +0000
-+++ test/services/golden/disable_tls/helm-grafana/templates/grafana-virtual-server.yaml	2022-10-17 22:00:31.817335766 +0000
+--- test/services/golden/default/helm-grafana/templates/grafana-virtual-server.yaml	2022-10-25 18:46:07.687227160 +0000
++++ test/services/golden/disable_tls/helm-grafana/templates/grafana-virtual-server.yaml	2022-10-25 18:46:11.967342055 +0000
 @@ -5,16 +5,12 @@
    namespace: "grafana"
  spec:
@@ -38,8 +38,8 @@ diff -bur test/services/golden/default/helm-grafana/templates/grafana-virtual-se
 Only in test/services/golden/default/helm-oauth-proxy/charts/oauth2-proxy/templates: configmap.yaml
 Only in test/services/golden/default/helm-oauth-proxy/templates: dex-config-secret.yaml
 diff -bur test/services/golden/default/helm-oauth-proxy/templates/oauth-proxy-configmap.yaml test/services/golden/disable_tls/helm-oauth-proxy/templates/oauth-proxy-configmap.yaml
---- test/services/golden/default/helm-oauth-proxy/templates/oauth-proxy-configmap.yaml	2022-10-17 22:00:24.933138790 +0000
-+++ test/services/golden/disable_tls/helm-oauth-proxy/templates/oauth-proxy-configmap.yaml	2022-10-17 22:00:30.269291626 +0000
+--- test/services/golden/default/helm-oauth-proxy/templates/oauth-proxy-configmap.yaml	2022-10-25 18:46:09.499275802 +0000
++++ test/services/golden/disable_tls/helm-oauth-proxy/templates/oauth-proxy-configmap.yaml	2022-10-25 18:46:13.779380825 +0000
 @@ -10,9 +10,9 @@
        set_xauthrequest=true
        cookie_domains=".example.com"
@@ -54,8 +54,8 @@ diff -bur test/services/golden/default/helm-oauth-proxy/templates/oauth-proxy-co
        pass_authorization_header=true
 Only in test/services/golden/default/helm-oauth-proxy/templates: oauth-proxy-secret.yaml
 diff -bur test/services/golden/default/helm-oauth-proxy/templates/oauth-virtual-server.yaml test/services/golden/disable_tls/helm-oauth-proxy/templates/oauth-virtual-server.yaml
---- test/services/golden/default/helm-oauth-proxy/templates/oauth-virtual-server.yaml	2022-10-17 22:00:24.957139479 +0000
-+++ test/services/golden/disable_tls/helm-oauth-proxy/templates/oauth-virtual-server.yaml	2022-10-17 22:00:30.289292196 +0000
+--- test/services/golden/default/helm-oauth-proxy/templates/oauth-virtual-server.yaml	2022-10-25 18:46:09.519276339 +0000
++++ test/services/golden/disable_tls/helm-oauth-proxy/templates/oauth-virtual-server.yaml	2022-10-25 18:46:13.799381218 +0000
 @@ -4,10 +4,6 @@
    name: oauth-auth-endpoint
  spec:   

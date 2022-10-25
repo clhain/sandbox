@@ -4,8 +4,8 @@ Only in test/services/golden/default/helm-oauth-proxy/charts/oauth2-proxy/templa
 Only in test/services/golden/default/helm-oauth-proxy/templates: dex-config-secret.yaml
 Only in test/services/golden/default/helm-oauth-proxy/templates: oauth-proxy-secret.yaml
 diff -bur test/services/golden/default/helm-oauth-proxy/templates/oauth-virtual-server.yaml test/services/golden/disable_local_auth/helm-oauth-proxy/templates/oauth-virtual-server.yaml
---- test/services/golden/default/helm-oauth-proxy/templates/oauth-virtual-server.yaml	2022-10-17 22:00:24.957139479 +0000
-+++ test/services/golden/disable_local_auth/helm-oauth-proxy/templates/oauth-virtual-server.yaml	2022-10-17 22:00:27.605215475 +0000
+--- test/services/golden/default/helm-oauth-proxy/templates/oauth-virtual-server.yaml	2022-10-25 18:46:09.519276339 +0000
++++ test/services/golden/disable_local_auth/helm-oauth-proxy/templates/oauth-virtual-server.yaml	2022-10-25 18:46:11.639333250 +0000
 @@ -31,25 +31,3 @@
        proxy_pass_request_body           off;
      action:
