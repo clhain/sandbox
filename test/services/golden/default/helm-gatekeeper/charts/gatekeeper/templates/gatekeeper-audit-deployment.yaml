@@ -39,7 +39,7 @@ spec:
       automountServiceAccountToken: true
       containers:
       -
-        image: openpolicyagent/gatekeeper:v3.9.2
+        image: openpolicyagent/gatekeeper:v3.10.0
         args:
         - --audit-interval=60
         - --log-level=INFO
@@ -55,6 +55,7 @@ spec:
         - --health-addr=:9090
         - --prometheus-port=8888
         - --enable-external-data=false
+        - --enable-generator-resource-expansion=false
         - --metrics-backend=prometheus
         - --disable-cert-rotation=true
         command:
@@ -81,6 +82,7 @@ spec:
           httpGet:
             path: /healthz
             port: 9090
+          timeoutSeconds: 1
         name: manager
         ports:
         - containerPort: 8888
@@ -93,6 +95,7 @@ spec:
           httpGet:
             path: /readyz
             port: 9090
+          timeoutSeconds: 1
         resources:
           limits:
             cpu: 1000m
@@ -106,7 +109,7 @@ spec:
           allowPrivilegeEscalation: false
           capabilities:
             drop:
-            - all
+            - ALL
           readOnlyRootFilesystem: true
           runAsGroup: 999
           runAsNonRoot: true

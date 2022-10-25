@@ -69,12 +69,18 @@ spec:
       name: gatekeeper-update-crds-hook
       annotations:
         {}
+      labels:
+        app: 'gatekeeper'
+        chart: 'gatekeeper'
+        gatekeeper.sh/system: "yes"
+        heritage: 'Helm'
+        release: 'foo'
     spec:
       serviceAccountName: gatekeeper-admin-upgrade-crds
       restartPolicy: Never
       containers:
       - name: crds-upgrade
-        image: 'openpolicyagent/gatekeeper-crds:v3.9.2'
+        image: 'openpolicyagent/gatekeeper-crds:v3.10.0'
         imagePullPolicy: 'IfNotPresent'
         args:
         - apply
@@ -83,17 +89,19 @@ spec:
         resources:
           {}
         securityContext:
+          seccompProfile:
+            type: RuntimeDefault
           allowPrivilegeEscalation: false
           capabilities:
             drop:
-            - all
+            - ALL
           readOnlyRootFilesystem: true
           runAsGroup: 65532
           runAsNonRoot: true
           runAsUser: 65532
       affinity:
-        null
-      nodeSelector:
-        kubernetes.io/os: linux
+        {}
       tolerations:
         []
+      nodeSelector:
+        kubernetes.io/os: linux

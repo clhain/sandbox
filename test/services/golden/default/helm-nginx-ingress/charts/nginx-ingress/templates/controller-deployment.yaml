@@ -5,7 +5,7 @@ metadata:
   namespace: default
   labels:
     app.kubernetes.io/name: foo-nginx-ingress
-    helm.sh/chart: nginx-ingress-0.15.0
+    helm.sh/chart: nginx-ingress-0.15.1
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/instance: foo
 spec:
@@ -27,7 +27,7 @@ spec:
       terminationGracePeriodSeconds: 30
       hostNetwork: false
       containers:
-      - image: nginx/nginx-ingress:2.4.0
+      - image: nginx/nginx-ingress:2.4.1
         name: foo-nginx-ingress
         imagePullPolicy: "IfNotPresent"
         ports:

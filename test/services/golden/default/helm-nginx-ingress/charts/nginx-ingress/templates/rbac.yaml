@@ -4,7 +4,7 @@ metadata:
   name: foo-nginx-ingress
   labels:
     app.kubernetes.io/name: foo-nginx-ingress
-    helm.sh/chart: nginx-ingress-0.15.0
+    helm.sh/chart: nginx-ingress-0.15.1
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/instance: foo
 rules:
@@ -127,7 +127,7 @@ metadata:
   name: foo-nginx-ingress
   labels:
     app.kubernetes.io/name: foo-nginx-ingress
-    helm.sh/chart: nginx-ingress-0.15.0
+    helm.sh/chart: nginx-ingress-0.15.1
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/instance: foo
 subjects:

@@ -3,7 +3,7 @@ kind: StatefulSet
 metadata:
   name: foo-loki
   labels:
-    helm.sh/chart: loki-3.2.1
+    helm.sh/chart: loki-3.2.2
     app.kubernetes.io/name: loki
     app.kubernetes.io/instance: foo
     app.kubernetes.io/version: "2.6.1"
@@ -26,7 +26,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/config: a78d27b048070ed0c9d06916f538b81d7bc566e7ff2b8ea1ecf93e925638c8bc
+        checksum/config: f912b48e6cb894ddbd4db7804a78df9216cd853266aab66cff96a4134b0d6aa3
       labels:
         app.kubernetes.io/name: loki
         app.kubernetes.io/instance: foo

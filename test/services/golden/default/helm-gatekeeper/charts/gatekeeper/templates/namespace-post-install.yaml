@@ -11,7 +11,7 @@ metadata:
     "helm.sh/hook-delete-policy": hook-succeeded,before-hook-creation
 ---
 apiVersion: rbac.authorization.k8s.io/v1
-kind: Role
+kind: ClusterRole
 metadata:
   name: gatekeeper-update-namespace-label
   labels:
@@ -34,7 +34,7 @@ rules:
       - default
 ---
 apiVersion: rbac.authorization.k8s.io/v1
-kind: RoleBinding
+kind: ClusterRoleBinding
 metadata:
   name: gatekeeper-update-namespace-label
   labels:
@@ -46,7 +46,7 @@ metadata:
     "helm.sh/hook-delete-policy": hook-succeeded,before-hook-creation
 roleRef:
   apiGroup: rbac.authorization.k8s.io
-  kind: Role
+  kind: ClusterRole
   name: gatekeeper-update-namespace-label
 subjects:
   - kind: ServiceAccount
@@ -74,12 +74,13 @@ spec:
         {}
       labels:
         app: 'gatekeeper'
+        chart: 'gatekeeper'
+        gatekeeper.sh/system: "yes"
+        heritage: 'Helm'
         release: 'foo'
     spec:
       restartPolicy: OnFailure
       serviceAccount: gatekeeper-update-namespace-label
-      nodeSelector:
-        kubernetes.io/os: linux
       volumes:
         - name: cert
           secret:
@@ -89,6 +90,7 @@ spec:
           image: "curlimages/curl:7.83.1"
           imagePullPolicy: IfNotPresent
           args:
+            - "curl"
             - "--retry"
             - "99999"
             - "--retry-max-time"
@@ -101,11 +103,13 @@ spec:
             - /certs/ca.crt
             - "-v"
             - "https://gatekeeper-webhook-service.default.svc/v1/admitlabel?timeout=2s"
+          resources:
+            null
           securityContext:
             allowPrivilegeEscalation: false
             capabilities:
               drop:
-              - all
+              - ALL
             readOnlyRootFilesystem: true
             runAsGroup: 999
             runAsNonRoot: true
@@ -116,21 +120,37 @@ spec:
             readOnly: true
       containers:
         - name: kubectl-label
-          image: "openpolicyagent/gatekeeper-crds:v3.9.2"
+          image: "openpolicyagent/gatekeeper-crds:v3.10.0"
           imagePullPolicy: IfNotPresent
           args:
             - label
             - ns
             - default
             - admission.gatekeeper.sh/ignore=no-self-managing
+            - pod-security.kubernetes.io/audit=restricted
+            - pod-security.kubernetes.io/audit-version=latest
+            - pod-security.kubernetes.io/warn=restricted
+            - pod-security.kubernetes.io/warn-version=latest
+            - pod-security.kubernetes.io/enforce=restricted
+            - pod-security.kubernetes.io/enforce-version=v1.24
             - --overwrite
+          resources:
+            null
           securityContext:
+            seccompProfile:
+              type: RuntimeDefault
             allowPrivilegeEscalation: false
             capabilities:
               drop:
-              - all
+              - ALL
             readOnlyRootFilesystem: true
             runAsGroup: 999
             runAsNonRoot: true
             runAsUser: 1000
+      nodeSelector:
+        kubernetes.io/os: linux
+      affinity:
+        {}
+      tolerations:
+        []
 ---

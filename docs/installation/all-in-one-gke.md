@@ -38,7 +38,8 @@ deploy the cluster:
 ### Porter Deployer Service Account
 A [GCP service account JSON key](https://cloud.google.com/iam/docs/creating-managing-service-accounts#creating) is required to deploy the bundle.
 
-Required permissions for the deployer Service Account are:
+Required permissions for the deployer Service Account are found in a custom role definition file [deployer_role.yaml](https://github.com/clhain/sandbox/tree/master/bundle).
+You can also use the following Built-In Roles:
 
 * Compute Admin
 * Compute Network Admin
