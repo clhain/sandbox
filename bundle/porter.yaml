@@ -198,7 +198,7 @@ parameters:
     description: The namespace to install Argo CD into.
   - name: sandbox_base_chart_version
     type: string
-    default: 0.0.10 # sandbox_base_helm_revision (comment for automation, do not remove)
+    default: 0.0.11 # sandbox_base_helm_revision (comment for automation, do not remove)
     description: The chart version of sandbox_base to deploy.
   - name: sandbox_apps_helm_revision
     type: string
