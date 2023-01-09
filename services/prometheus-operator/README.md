@@ -1,6 +1,6 @@
 # helm-prometheus-operator
 
-![Version: 0.1.2](https://img.shields.io/badge/Version-0.1.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
+![Version: 0.1.4](https://img.shields.io/badge/Version-0.1.4-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
 
 Proxy Chart for Sandbox Cluster compatible Prometheus Operator installation
 
@@ -14,8 +14,8 @@ Proxy Chart for Sandbox Cluster compatible Prometheus Operator installation
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://prometheus-community.github.io/helm-charts | kube-prometheus-stack | 39.13.3 |
-| https://prometheus-community.github.io/helm-charts | prometheus-adapter | 3.4.1 |
+| https://prometheus-community.github.io/helm-charts | kube-prometheus-stack | 43.2.1 |
+| https://prometheus-community.github.io/helm-charts | prometheus-adapter | 3.5.0 |
 
 ## Values
 
