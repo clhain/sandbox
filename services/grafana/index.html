@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://clhain.github.io/sandbox/services/grafana/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Grafana - Sandbox Documentation</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Grafana";
+        var mkdocs_page_input_path = "services/grafana.md";
+        var mkdocs_page_url = "/sandbox/services/grafana/";
+      </script>
+    
+    <script src="../../js/jquery-3.6.0.min.js" defer></script>
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+      <script>hljs.initHighlightingOnLoad();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> Sandbox Documentation
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../installation/quick-start/">Quick Start</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../installation/getting-started/">Getting Started</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../installation/pre-reqs/">Common Pre-Reqs</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../installation/dns/">DNS Configuration</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../installation/byoc-helm/">Bring Your Own Cluster (Helm)</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../installation/byoc-argocd/">Bring Your Own Cluster (ArgoCD)</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../installation/all-in-one-gke/">All-In-One (GKE)</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Customization</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../customization/deploy-an-app/">Deploy Your App</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Sandbox Apps</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../argocd/">ArgoCD</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../cert-manager/">Cert Manager</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../gatekeeper/">OPA Gatekeeper</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="./">Grafana</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#quick-links">Quick Links</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#background">Background</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#sandbox-customizations">Sandbox Customizations</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#connecting-as-admin">Connecting as Admin</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#adding-dashboards">Adding Dashboards</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#adding-datasources">Adding Datasources</a>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../loki/">Loki</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../nginx-ingress/">NGINX Kubernetes Ingress</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../nginx-mesh/">NGINX Service Mesh</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../oauth-proxy/">Oauth2 Proxy</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../opentelemetry-operator/">Opentelemetry Operator</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../prometheus-operator/">Prometheus Operator</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../sealed-secrets/">Sealed Secrets</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../tempo/">Tempo</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Misc</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/">Troubleshooting</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../faq/">Frequently Asked Questions</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">Sandbox Documentation</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" alt="Docs"></a> &raquo;</li>
+          <li>Sandbox Apps &raquo;</li>
+      <li>Grafana</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="sandbox-service-grafana">Sandbox Service: Grafana</h1>
+<h2 id="quick-links">Quick Links</h2>
+<ul>
+<li><a href="https://grafana.com/">Project Site</a></li>
+<li><a href="https://github.com/grafana/grafana">Github Repo</a></li>
+<li><a href="https://github.com/grafana/helm-charts/tree/main/charts/grafana">Helm Chart</a></li>
+</ul>
+<h2 id="background">Background</h2>
+<p>Grafana is the default Observability Platform for the Sandbox. It comes configured out of the box with datasources
+for Logs, Metrics, and Traces provided via other Sandbox services. It also includes a number of out of the box
+dashboards which represent the health and state of the cluster as well as other Sandbox Apps (e.g. NGINX ingress, mesh)</p>
+<h2 id="sandbox-customizations">Sandbox Customizations</h2>
+<p>The Sandbox installation of grafana includes a mostly default installation with the following modifications:</p>
+<ul>
+<li>Adds a Virtual Server with Oauth2 proxy based authentication.</li>
+<li>Adds support for automatic provisionning of (viewer) user accounts based on the auth headers passed above.</li>
+<li>Allows viewers to edit but not save existing dashboards, and use the "Explore" tab.</li>
+<li>Enables sidecar services for automatic dashboard and datasource provisioning.</li>
+<li>Enables metrics collection by in-cluster prometheus instance via ServiceMonitor.</li>
+</ul>
+<p>The issuers can be disabled, and values can be passed to the official cert-manager chart (by adding them under the "grafana" key),
+as shown on line 5 of the values file here:</p>
+<pre><code class="language-yaml">enableVirtualServer: true
+enableOauthRoute: true
+clusterDomain: example.com
+
+grafana:
+  grafana.ini:
+    auth.proxy:
+      enabled: true
+      header_name: X-Auth-Request-Email
+      headers: Email:X-Auth-Request-Email Name:X-Auth-Request-Email
+    users:
+      viewers_can_edit: true
+  sidecar:
+    datasources:
+      enabled: true
+      searchNamespace: ALL
+    dashboards:
+      enabled: true
+      searchNamespace: ALL
+      folderAnnotation: grafana_folder
+      provider:
+        foldersFromFilesStructure: true
+
+  serviceMonitor:
+    enabled: true
+</code></pre>
+<p>See <a href="../../customization/default-services/">Customizing Default Services</a> for more information on overriding default values.</p>
+<h2 id="connecting-as-admin">Connecting as Admin</h2>
+<p>You can connect as the Grafana admin user, by fetching the password from the Kubernetes secret and decoding it as follows:</p>
+<pre><code class="language-bash">kubectl get secret grafana -o=jsonpath='{.data.admin-password}' | base64 -d
+</code></pre>
+<h2 id="adding-dashboards">Adding Dashboards</h2>
+<p>The Sandbox Grafana is configured with a sidecar that automatically detects Dashboard Configmaps in any namespace. To add a new
+Dashboard, simply add the datasource configuration as a Kubernetes ConfigMap with the label <code>grafana_dashboard: "1"</code>.</p>
+<p>You can also configure the folder using annotations, for example, the following will place the dashboard in a folder named "Boutique".</p>
+<pre><code class="language-yaml">  annotations:
+    grafana_folder: Boutique
+</code></pre>
+<p>Here's a (partial) example dashboard config:</p>
+<pre><code class="language-yaml">apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    grafana_dashboard: &quot;1&quot;
+  name: boutique-dashboard
+  annotations:
+    grafana_folder: Boutique
+data:
+  boutique-dashboard.json: |-
+    {
+      &quot;annotations&quot;: {
+        ...
+</code></pre>
+<blockquote>
+<p>Note: If you're deploying with helm, any Grafana variables in the dashboard spec (e.g. {{ .my-variable }}}}), need to be escaped
+as {{ .my-variable }}</p>
+</blockquote>
+<h2 id="adding-datasources">Adding Datasources</h2>
+<p>The Sandbox Grafana is configured with a sidecar that automatically detects Datasource Configmaps in any namespace. To add a new
+datasource, simply add the datasource configuration as a Kubernetes ConfigMap with the label 'grafana_datasource: "1"'.
+Here's an example that deploys a Jaeger Datasource:</p>
+<pre><code class="language-yaml">apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: jaeger-datasource
+  labels:
+     grafana_datasource: &quot;1&quot;
+data:
+  jaeger-datasource.yaml: |-
+    apiVersion: 1
+    datasources:
+        # This uses the same datasource uid as the disabled tempo source to keep
+        # the link from loki logs -&gt; jaeger working. If jaeger and tempo were both
+        # used for some reason this could be changed, the default loki datasource overriden etc.
+      - uid: XUcrGvZVk
+        orgId: 1
+        name: Jaeger
+        type: jaeger
+        typeName: Jaeger
+        typeLogoUrl: public/app/plugins/datasource/jaeger/img/jaeger_logo.svg
+        access: proxy
+        url: http://jaeger-query.jaeger.svc:16686
+        user: ''
+        database: ''
+        basicAuth: false
+        isDefault: false
+        jsonData:
+          tracesToLogs:
+            mapTagNamesEnabled: false
+        readOnly: false
+
+</code></pre>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../gatekeeper/" class="btn btn-neutral float-left" title="OPA Gatekeeper"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../loki/" class="btn btn-neutral float-right" title="Loki">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../gatekeeper/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../loki/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '../..';</script>
+    <script src="../../js/theme_extra.js" defer></script>
+    <script src="../../js/theme.js" defer></script>
+      <script src="../../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

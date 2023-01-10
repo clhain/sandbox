@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://clhain.github.io/sandbox/installation/quick-start/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Quick Start - Sandbox Documentation</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Quick Start";
+        var mkdocs_page_input_path = "installation/quick-start.md";
+        var mkdocs_page_url = "/sandbox/installation/quick-start/";
+      </script>
+    
+    <script src="../../js/jquery-3.6.0.min.js" defer></script>
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+      <script>hljs.initHighlightingOnLoad();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> Sandbox Documentation
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+              <ul class="current">
+                  <li class="toctree-l1 current"><a class="reference internal current" href="./">Quick Start</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#pre-reqs">Pre-Reqs</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#troubleshooting">Troubleshooting</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#verification">Verification</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#connecting">Connecting</a>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../getting-started/">Getting Started</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../pre-reqs/">Common Pre-Reqs</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../dns/">DNS Configuration</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../byoc-helm/">Bring Your Own Cluster (Helm)</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../byoc-argocd/">Bring Your Own Cluster (ArgoCD)</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../all-in-one-gke/">All-In-One (GKE)</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Customization</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../customization/deploy-an-app/">Deploy Your App</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Sandbox Apps</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../services/argocd/">ArgoCD</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../services/cert-manager/">Cert Manager</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../services/gatekeeper/">OPA Gatekeeper</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../services/grafana/">Grafana</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../services/loki/">Loki</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../services/nginx-ingress/">NGINX Kubernetes Ingress</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../services/nginx-mesh/">NGINX Service Mesh</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../services/oauth-proxy/">Oauth2 Proxy</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../services/opentelemetry-operator/">Opentelemetry Operator</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../services/prometheus-operator/">Prometheus Operator</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../services/sealed-secrets/">Sealed Secrets</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../services/tempo/">Tempo</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Misc</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/">Troubleshooting</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../faq/">Frequently Asked Questions</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">Sandbox Documentation</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" alt="Docs"></a> &raquo;</li>
+          <li>Getting Started &raquo;</li>
+      <li>Quick Start</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="quick-start">Quick Start</h1>
+<p>A local instance of the sandbox can be stood up on a <a href="https://kind.sigs.k8s.io/docs/user/quick-start/">kind</a>
+cluster to get a feel for it. Some of the components (SSL Auto-Certs for instance) rely on publicly reachable
+ingress addresses with DNS zones, so consider moving to a cloud provider to take full advantage.</p>
+<h2 id="pre-reqs">Pre-Reqs</h2>
+<ul>
+<li>Install Kind: <a href="https://kind.sigs.k8s.io/docs/user/quick-start/">Kind Quick Start</a>.</li>
+<li>Install Helm: <a href="https://helm.sh/docs/intro/install/">Helm Install Guide</a>.</li>
+<li>Install Kubectl: <a href="https://kubernetes.io/docs/tasks/tools/">Kubectl Install Guide</a>.</li>
+<li>Install ArgoCD CLI: <a href="https://argo-cd.readthedocs.io/en/stable/getting_started/#2-download-argo-cd-cli">Argo Getting Started Guide</a> (Optional)</li>
+</ul>
+<p>Approximate CPU and Memory utilization on an idle Sandbox cluster can be seen in the <a href="../pre-reqs/#cluster-requirements">Cluster Requirements</a>
+section of the docs.</p>
+<h2 id="installation">Installation</h2>
+<p>1) Add Helm Chart Repo</p>
+<pre><code class="language-text">helm repo add sandbox-charts https://clhain.github.io/sandbox-helm-charts
+</code></pre>
+<p>2) Create kind cluster</p>
+<pre><code class="language-text">kind create cluster
+</code></pre>
+<p>3) Install Sandbox-Base Helm Chart</p>
+<pre><code class="language-text">helm upgrade sandbox-base sandbox-charts/sandbox-base --install --namespace argocd --create-namespace --set clusterTLSInsecure=true
+</code></pre>
+<h2 id="troubleshooting">Troubleshooting</h2>
+<p>If you see the child apps not progressing, and the following status condition on <code>argocd app get sandbox-apps</code>, it's the result of a race condition where
+helm applies the sandbox app before the argocd server is ready to handle it. It will eventually retry, but you can speed
+the process up by forcing a sync immediately with <code>argocd app sync sandbox-apps</code>.</p>
+<pre><code class="language-text">CONDITION        MESSAGE                                                                                                                                                  LAST TRANSITION
+ComparisonError  rpc error: code = Unavailable desc = connection error: desc = &quot;transport: Error while dialing dial tcp 10.96.150.135:8081: connect: connection refused&quot;  2022-10-14 02:55:38 +0000 UTC
+</code></pre>
+<h2 id="verification">Verification</h2>
+<p>Once the chart is applied, argocd will start the deployment of the sandbox app suite. This process typically takes
+10 or more minutes, and you can view the progress as follows:</p>
+<p>1) Fetch the ArgoCD Admin Password</p>
+<pre><code class="language-text">kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath=&quot;{.data.password}&quot; | base64 -d; echo
+</code></pre>
+<p>2) Port Forward ArgoCD CLI Commands</p>
+<pre><code class="language-text">export ARGOCD_OPTS='--port-forward-namespace argocd'
+</code></pre>
+<p>3) Login To The ArgoCD Instance</p>
+<pre><code class="language-text">argocd login --port-forward --insecure
+</code></pre>
+<p>4) View App Rollout Progress</p>
+<pre><code class="language-text">argocd app get sandbox-apps
+</code></pre>
+<p>When complete you should see a list that looks like this (all items are Synced and Healthy/blank):</p>
+<pre><code class="language-text">GROUP        KIND         NAMESPACE    NAME                      STATUS  HEALTH   HOOK  MESSAGE
+             Secret       oauth-proxy  dex-config-secret         Synced                 secret/dex-config-secret configured
+argoproj.io  Application  argocd       cert-manager              Synced  Healthy        application.argoproj.io/cert-manager configured
+argoproj.io  Application  argocd       nginx-ingress             Synced  Healthy        application.argoproj.io/nginx-ingress configured
+             ConfigMap    kube-system  coredns                   Synced
+             Namespace                 oauth-proxy               Synced
+             Secret       oauth-proxy  oauth-proxy-creds         Synced
+argoproj.io  AppProject   argocd       cluster-services          Synced
+argoproj.io  Application  argocd       argo-virtual-server       Synced  Healthy
+argoproj.io  Application  argocd       gatekeeper                Synced  Healthy
+argoproj.io  Application  argocd       grafana                   Synced  Healthy
+argoproj.io  Application  argocd       loki                      Synced  Healthy
+argoproj.io  Application  argocd       nginx-mesh                Synced  Healthy
+argoproj.io  Application  argocd       oauth-proxy               Synced  Healthy
+argoproj.io  Application  argocd       opentelemetry-operator    Synced  Healthy
+argoproj.io  Application  argocd       prometheus-operator       Synced  Healthy
+argoproj.io  Application  argocd       prometheus-operator-crds  Synced  Healthy
+argoproj.io  Application  argocd       sealed-secrets            Synced  Healthy
+argoproj.io  Application  argocd       tempo                     Synced  Healthy
+</code></pre>
+<h2 id="connecting">Connecting</h2>
+<p>For connecting to the web apps being served, you can use a combination of socat and kubectl to port-forward all port 80 traffic
+to the nginx-ingress service in the cluster. Run the following commands in different terminals and leave them running.</p>
+<pre><code class="language-text">kubectl port-forward -n nginx-ingress service/nginx-ingress-internal 8080:80
+</code></pre>
+<p><strong><em>Forward Ports</em></strong></p>
+<pre><code class="language-text">sudo socat TCP-LISTEN:80,fork TCP:127.0.0.1:8080
+</code></pre>
+<p>To fetch the login password for the admin@example.com account, run the following:</p>
+<p><strong><em>Fetch Admin Account Password</em></strong></p>
+<pre><code class="language-text">kubectl get secret -n oauth-proxy oauth-proxy-creds -o jsonpath=&quot;{.data.admin-password}&quot; | base64 -d; echo
+</code></pre>
+<p><strong><em>Login</em></strong></p>
+<p>You can login to view the included web interfaces with the admin@example.com username, and password from above.</p>
+<ul>
+<li><a href="http://grafana.localtest.me">http://grafana.localtest.me</a></li>
+<li><a href="http://argocd.localtest.me">http://argocd.localtest.me</a></li>
+</ul>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../.." class="btn btn-neutral float-left" title="Home"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../getting-started/" class="btn btn-neutral float-right" title="Getting Started">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../.." style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../getting-started/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '../..';</script>
+    <script src="../../js/theme_extra.js" defer></script>
+    <script src="../../js/theme.js" defer></script>
+      <script src="../../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

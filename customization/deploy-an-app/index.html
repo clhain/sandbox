@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://clhain.github.io/sandbox/customization/deploy-an-app/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Deploy Your App - Sandbox Documentation</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Deploy Your App";
+        var mkdocs_page_input_path = "customization/deploy-an-app.md";
+        var mkdocs_page_url = "/sandbox/customization/deploy-an-app/";
+      </script>
+    
+    <script src="../../js/jquery-3.6.0.min.js" defer></script>
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+      <script>hljs.initHighlightingOnLoad();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> Sandbox Documentation
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../installation/quick-start/">Quick Start</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../installation/getting-started/">Getting Started</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../installation/pre-reqs/">Common Pre-Reqs</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../installation/dns/">DNS Configuration</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../installation/byoc-helm/">Bring Your Own Cluster (Helm)</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../installation/byoc-argocd/">Bring Your Own Cluster (ArgoCD)</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../installation/all-in-one-gke/">All-In-One (GKE)</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Customization</span></p>
+              <ul class="current">
+                  <li class="toctree-l1 current"><a class="reference internal current" href="./">Deploy Your App</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#background">Background</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#automated-deployment">Automated Deployment</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#secure-your-secrets">Secure Your Secrets</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#secure-your-ingress">Secure Your Ingress</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#automated-cert-provisioning">Automated Cert Provisioning</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#observe-your-app">Observe Your App</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#service-mesh">Service Mesh</a>
+    </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Sandbox Apps</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../services/argocd/">ArgoCD</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../services/cert-manager/">Cert Manager</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../services/gatekeeper/">OPA Gatekeeper</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../services/grafana/">Grafana</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../services/loki/">Loki</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../services/nginx-ingress/">NGINX Kubernetes Ingress</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../services/nginx-mesh/">NGINX Service Mesh</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../services/oauth-proxy/">Oauth2 Proxy</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../services/opentelemetry-operator/">Opentelemetry Operator</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../services/prometheus-operator/">Prometheus Operator</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../services/sealed-secrets/">Sealed Secrets</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../services/tempo/">Tempo</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Misc</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/">Troubleshooting</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../faq/">Frequently Asked Questions</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">Sandbox Documentation</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" alt="Docs"></a> &raquo;</li>
+          <li>Customization &raquo;</li>
+      <li>Deploy Your App</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="deploy-your-app-to-the-sandbox">Deploy Your App To the Sandbox</h1>
+<h2 id="background">Background</h2>
+<p>Once your Sandbox cluster is up and running (see <a href="../../installation/getting-started/">Installation Guides</a>),
+one of the first things you might want to do is deploy your own application code. Containerization and
+authoring your the various Kubernetes manifests needed are too big of topics to cover here,
+so we'll focus our attention on the specific benefits available for you that Sandbox provides.</p>
+<h2 id="automated-deployment">Automated Deployment</h2>
+<p>While you can deploy your Application kubernetes manifests manually (or using whatever deployment mechanism you prefer),
+the Sandbox cluster includes an ArgoCD instance you can use to automate the process. More information
+on the Sandbox installation of ArgoCD can be found in <a href="../../services/argocd/">Services - ArgoCD</a>.</p>
+<p>In general, the process for this is to define an ArgoCD Application that defines where / what to deploy, and then
+applying that to the cluster. Future updates to the target git repo will automatically propagate to the cluster.</p>
+<p>This example from the <a href="https://github.com/clhain/sandbox/examples/simple-app-boutique">Examples Directory</a> in
+the Sandbox GitHub project deploys an Application (from the app-helm directory of the examples folder) via helm:</p>
+<pre><code class="language-yaml">---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: boutique-app
+  namespace: argocd
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+  project: default
+  source:
+    repoURL: https://github.com/clhain/sandbox.git
+    path: examples/simple-app-boutique/app-helm
+    targetRevision: HEAD
+    helm:
+      parameters:
+        # UPDATE WITH DESIRED HOST / DOMAIN INFO (the below will configure for app.example.com)
+        - name: hostRecordName
+          value: app
+        - name: hostRecordDomain
+          value: example.com
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
+</code></pre>
+<p>In general, you can follow the pattern in that example directory for most simple deployments of the Sandbox and overlay apps:</p>
+<pre><code class="language-text">  /cluster/      # The configs needed to deploy the cluster / Sandbox Apps.
+  /app/          # Helm charts, kustomize, raw manifests to deploy
+  /your-app.yaml # The ArgoCD Application manifest that tells the instance to deploy the /app/ directory contents.
+</code></pre>
+<p>If you don't already have a strategy for managing the Secrets you're interested in applying to the cluster,
+make sure to check out the following section on Sealed Secrets, which is one way to do it that works very nicely with
+GitOps based App deployment.</p>
+<h2 id="secure-your-secrets">Secure Your Secrets</h2>
+<p>Handling secure secret values in the Kubernetes world is a pretty broad topic with a lot of potential ways to deal with them.
+The Sandbox cluster includes Sealed Secrets from Bitnami Labs (but should work just fine with alternate methods should you prefer).
+More information on the Sandbox installation of Sealed Secrets can be found in <a href="../../services/sealed-secrets/">Services - Sealed Secrets</a>.</p>
+<p>To seal a secret, the process is roughly this:</p>
+<ol>
+<li><a href="https://github.com/bitnami-labs/sealed-secrets#installation">Install the kubeseal binary</a></li>
+<li><a href="https://github.com/bitnami-labs/sealed-secrets#usage">Follow The Usage Directions To Secure a Secret</a></li>
+</ol>
+<blockquote>
+<p>Note: Default helm install requires additional command line arguments to the kubeseal command as follows:</p>
+</blockquote>
+<pre><code class="language-text">kubeseal --controller-name sealed-secrets --controller-namespace sealed-secrets &lt; /tmp/secret.json &gt; sealed-secret.json
+</code></pre>
+<p>Once your Sealed Secret is ready, you can check it in alongside your application code for deployment with ArgoCD as described above.</p>
+<h2 id="secure-your-ingress">Secure Your Ingress</h2>
+<p>The Sandbox cluster has several key Ingress features that should work "out of the box".</p>
+<h3 id="automated-cert-provisioning">Automated Cert Provisioning</h3>
+<p>The NGINX Ingress Controller is configured to interoperate with Cert Manager to automatically provision Let's Encrypt certs
+for ingresses. To enable this functionality, all you need to do is set the tls properties under "spec" as illustrated in this
+partial example for the cluster Grafana service.</p>
+<pre><code class="language-yaml">apiVersion: k8s.nginx.org/v1
+kind: VirtualServer
+metadata:
+  name: grafana
+  namespace: &quot;grafana&quot;
+spec:
+  host: &quot;grafana.mysandbox.exampple.com&quot;
+  ### This section here uses the letsencrypt-prod ClusterIssuer to provision a cert for
+  ### grafana.mysandbox.example.com. The NGINX Ingress will automatically handle the HTTP
+  ### challenge to verify the domain. You can also use the letsencrypt-staging Issuer if
+  ### you're in development mode to avoid the 5 request / week throttling from LE.
+  tls:
+    cert-manager:
+      cluster-issuer: letsencrypt-prod
+    secret: grafana-cert
+...
+</code></pre>
+<h2 id="observe-your-app">Observe Your App</h2>
+<h2 id="service-mesh">Service Mesh</h2>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../../installation/all-in-one-gke/" class="btn btn-neutral float-left" title="All-In-One (GKE)"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../../services/argocd/" class="btn btn-neutral float-right" title="ArgoCD">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../../installation/all-in-one-gke/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../../services/argocd/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '../..';</script>
+    <script src="../../js/theme_extra.js" defer></script>
+    <script src="../../js/theme.js" defer></script>
+      <script src="../../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>
