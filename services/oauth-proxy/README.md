@@ -1,6 +1,6 @@
 # helm-oauth-proxy
 
-![Version: 0.1.5](https://img.shields.io/badge/Version-0.1.5-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
+![Version: 0.1.7](https://img.shields.io/badge/Version-0.1.7-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
 
 Proxy Chart for Sandbox Cluster compatible oauth-proxy installation
 
@@ -14,8 +14,8 @@ Proxy Chart for Sandbox Cluster compatible oauth-proxy installation
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://charts.dexidp.io | dex | 0.12.1 |
-| https://oauth2-proxy.github.io/manifests | oauth2-proxy | 6.3.0 |
+| https://charts.dexidp.io | dex | 0.13.0 |
+| https://oauth2-proxy.github.io/manifests | oauth2-proxy | 6.8.0 |
 
 ## Values
 
