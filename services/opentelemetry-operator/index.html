@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://clhain.github.io/sandbox/services/opentelemetry-operator/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Opentelemetry Operator - Sandbox Documentation</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Opentelemetry Operator";
+        var mkdocs_page_input_path = "services/opentelemetry-operator.md";
+        var mkdocs_page_url = "/sandbox/services/opentelemetry-operator/";
+      </script>
+    
+    <script src="../../js/jquery-3.6.0.min.js" defer></script>
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+      <script>hljs.initHighlightingOnLoad();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> Sandbox Documentation
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../installation/quick-start/">Quick Start</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../installation/getting-started/">Getting Started</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../installation/pre-reqs/">Common Pre-Reqs</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../installation/dns/">DNS Configuration</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../installation/byoc-helm/">Bring Your Own Cluster (Helm)</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../installation/byoc-argocd/">Bring Your Own Cluster (ArgoCD)</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../installation/all-in-one-gke/">All-In-One (GKE)</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Customization</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../customization/deploy-an-app/">Deploy Your App</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Sandbox Apps</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../argocd/">ArgoCD</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../cert-manager/">Cert Manager</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../gatekeeper/">OPA Gatekeeper</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../grafana/">Grafana</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../loki/">Loki</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../nginx-ingress/">NGINX Kubernetes Ingress</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../nginx-mesh/">NGINX Service Mesh</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../oauth-proxy/">Oauth2 Proxy</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="./">Opentelemetry Operator</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#quick-links">Quick Links</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#background">Background</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#sandbox-customizations">Sandbox Customizations</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#default-collector-config">Default Collector Config</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#customizing-collector-configs">Customizing Collector Configs</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#send-trace-otlp-data-to-the-collector">Send Trace / OTLP data to the Collector</a>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../prometheus-operator/">Prometheus Operator</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../sealed-secrets/">Sealed Secrets</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../tempo/">Tempo</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Misc</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/">Troubleshooting</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../faq/">Frequently Asked Questions</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">Sandbox Documentation</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" alt="Docs"></a> &raquo;</li>
+          <li>Sandbox Apps &raquo;</li>
+      <li>Opentelemetry Operator</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="sandbox-service-opentelemtry-operator">Sandbox Service: Opentelemtry Operator</h1>
+<h2 id="quick-links">Quick Links</h2>
+<ul>
+<li><a href="https://opentelemetry.io/">Project Site</a></li>
+<li><a href="https://github.com/open-telemetry/opentelemetry-operator">Github Repo</a></li>
+<li><a href="https://github.com/open-telemetry/opentelemetry-helm-charts/tree/main/charts/opentelemetry-operator">Helm Chart</a></li>
+</ul>
+<h2 id="background">Background</h2>
+<p>Opentelemetry Operator is used to deploy Opentelemetry Collectors, which act as a central point of collection for
+platform telemetry. In the default sandbox config, all applicable services are configured to send distributed trace
+data to the Opentelemetry Collector, which is the forwarded to backend storage (Grafana Tempo). The default installation
+includes listeners for OTLP, Zipkin, Jaeger. Any OTLP based metrics are forwarded to the cluster Prometheus instance.</p>
+<h2 id="sandbox-customizations">Sandbox Customizations</h2>
+<p>The Sandbox installation of Oauth2 Proxy includes a mostly default installation with the following modifications:</p>
+<ul>
+<li>Enables a Grafana dashboard for Collector Metrics visualization.</li>
+<li>Enables a ServiceMonitor for automated Prometheus metrics collection.</li>
+<li>Enables RBAC policies necessary for the K8S Attributes processor.</li>
+<li>Enables a default collector (with config shown below) in the opentelemetry-operator namespace.</li>
+</ul>
+<p>Values can be passed to the official opentelemetry-operator chart (by adding them under the "opentelemetry-operator" key),
+as shown on line 6 of the values file here:</p>
+<pre><code>enableDashboard: true
+enableServiceMonitor: true
+enableRBAC: true
+
+enableDeployment: true
+opentelemetry-operator:
+  manager:
+    serviceMonitor:
+      enabled: true
+</code></pre>
+<p>See <a href="../../customization/default-services/">Customizing Default Services</a> for more information on overriding default values.</p>
+<h2 id="default-collector-config">Default Collector Config</h2>
+<p>The default Opentelemetry Collector instance is configured as follows:</p>
+<pre><code>receivers:
+    otlp:
+    protocols:
+        grpc:
+        http:
+    zipkin:
+    endpoint: 0.0.0.0:9411
+    jaeger:
+    protocols:
+        thrift_http:
+        endpoint: 0.0.0.0:14268
+processors:
+    batch:
+    send_batch_size: 10000
+    timeout: 10s
+    k8sattributes:
+    passthrough: false
+    extract:
+        metadata:
+        - k8s.pod.name
+        - k8s.namespace.name
+    pod_association:
+        - from: resource_attribute
+        name: k8s.pod.ip
+        - from: connection
+exporters:
+    logging:
+    logging/debug:
+    loglevel: debug
+    otlp/tempo:
+    endpoint: tempo.tempo.svc.cluster.local:4317
+    tls:
+        insecure: true
+    prometheusremotewrite:
+    endpoint:  &quot;http://prometheus-operator-kube-p-prometheus.prometheus-operator.svc:9090/api/v1/write&quot; 
+
+service:
+    telemetry:
+    metrics:
+        level: detailed
+        address: 0.0.0.0:8888
+    pipelines:
+    traces:
+        receivers: [jaeger, zipkin, otlp]
+        processors: [k8sattributes, batch]
+        exporters: [otlp/tempo, logging]
+    metrics: 
+        receivers: [otlp]
+        processors: []
+        exporters: [logging, prometheusremotewrite]
+</code></pre>
+<h2 id="customizing-collector-configs">Customizing Collector Configs</h2>
+<p>Collector config customization can be done in 2 ways:</p>
+<ol>
+<li>Disable the default collector and add your own OpentelemetryCollector Resource spec (not recommended).</li>
+<li>Add an additional Opentelemetry Collector dedicated to your specific needs, and leave the default one as-is.</li>
+</ol>
+<h2 id="send-trace-otlp-data-to-the-collector">Send Trace / OTLP data to the Collector</h2>
+<p>The default sandbox install includes OTLP (metrics + traces) / Jaeger / Zipkin endpoints, all accessible at
+otc-collector.opentelemetry-operator.svc. Configure your telemetry sources to send data to the associated ports
+at that endpoint for processing in accordance with the collector config above.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../oauth-proxy/" class="btn btn-neutral float-left" title="Oauth2 Proxy"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../prometheus-operator/" class="btn btn-neutral float-right" title="Prometheus Operator">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../oauth-proxy/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../prometheus-operator/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '../..';</script>
+    <script src="../../js/theme_extra.js" defer></script>
+    <script src="../../js/theme.js" defer></script>
+      <script src="../../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

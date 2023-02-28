@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://clhain.github.io/sandbox/installation/byoc-helm/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Bring Your Own Cluster (Helm) - Sandbox Documentation</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Bring Your Own Cluster (Helm)";
+        var mkdocs_page_input_path = "installation/byoc-helm.md";
+        var mkdocs_page_url = "/sandbox/installation/byoc-helm/";
+      </script>
+    
+    <script src="../../js/jquery-3.6.0.min.js" defer></script>
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+      <script>hljs.initHighlightingOnLoad();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> Sandbox Documentation
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../quick-start/">Quick Start</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../getting-started/">Getting Started</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../pre-reqs/">Common Pre-Reqs</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../dns/">DNS Configuration</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="./">Bring Your Own Cluster (Helm)</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#0-pre-requisites">0. Pre-Requisites</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#1-install-helm">1. Install Helm</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#2-add-the-sandbox-chart-repo">2. Add the Sandbox Chart Repo</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#3-configure-the-installation-valuesyaml">3. Configure the installation values.yaml</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#4-install-the-sandbox-base-helm-chart">4. Install The Sandbox Base Helm Chart</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#5-verification">5. Verification</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#6-access-sandbox-services">6. Access Sandbox Services</a>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../byoc-argocd/">Bring Your Own Cluster (ArgoCD)</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../all-in-one-gke/">All-In-One (GKE)</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Customization</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../customization/deploy-an-app/">Deploy Your App</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Sandbox Apps</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../services/argocd/">ArgoCD</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../services/cert-manager/">Cert Manager</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../services/gatekeeper/">OPA Gatekeeper</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../services/grafana/">Grafana</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../services/loki/">Loki</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../services/nginx-ingress/">NGINX Kubernetes Ingress</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../services/nginx-mesh/">NGINX Service Mesh</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../services/oauth-proxy/">Oauth2 Proxy</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../services/opentelemetry-operator/">Opentelemetry Operator</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../services/prometheus-operator/">Prometheus Operator</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../services/sealed-secrets/">Sealed Secrets</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../services/tempo/">Tempo</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Misc</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/">Troubleshooting</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../faq/">Frequently Asked Questions</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">Sandbox Documentation</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" alt="Docs"></a> &raquo;</li>
+          <li>Getting Started &raquo;</li>
+      <li>Bring Your Own Cluster (Helm)</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="bring-your-own-cluster-helm">Bring Your Own Cluster (HELM)</h1>
+<p>If you already have a cluster ready to deploy the Sandbox apps set to, you can do so with Helm.</p>
+<p>If you're installing on a local Kind cluster, check the <a href="../quick-start/">Quick Start</a> guide for local
+cluster specific instructions.</p>
+<p><img alt="Bring Your Own Cluster Deploy" src="../../img/sandbox-byoc-helm.png" /></p>
+<h2 id="0-pre-requisites">0. Pre-Requisites</h2>
+<p>See the guide for <a href="../pre-reqs/">Common Sandbox Pre-Reqs</a> for the set of parameters you'll need to have available.</p>
+<p>In short, they include:</p>
+<pre><code class="language-yaml">clusterDomain:             # e.g. yourdomain.com
+clusterIngressIP:          # e.g. 1.2.3.4
+oidcClientID:              # e.g. some-client-id (optional if using Local Dex)
+oidcClientSecret:          # e.g. some-secret-value (optional if using Local Dex)
+oidcIssuerURL:             # e.g. &quot;https://login.microsoftonline.com/TENANT/v2.0&quot; (optional if using Local Dex)
+oidcPermittedEmailDomains: # e.g. &quot;yourdomain.com&quot; (optional if using Local Dex)
+letsEncryptContactEmail:   # e.g. &quot;someone@yourdomain.com&quot;
+</code></pre>
+<h2 id="1-install-helm">1. Install Helm</h2>
+<p>See the Helm <a href="https://helm.sh/docs/intro/install/">Installation Guide</a> for instructions.</p>
+<h2 id="2-add-the-sandbox-chart-repo">2. Add the Sandbox Chart Repo</h2>
+<pre><code class="language-text">helm repo add sandbox-charts https://clhain.github.io/sandbox-helm-charts
+</code></pre>
+<h2 id="3-configure-the-installation-valuesyaml">3. Configure the installation values.yaml</h2>
+<p>We can pass a custom values.yaml file to the helm install command to set the parameters gathered in step 0 above.
+Copy the <a href="https://github.com/clhain/sandbox/tree/main/examples/bring-your-own-cluster/install-with-helm-values.yaml">Example Bring Your Own Cluster Config</a>
+and modify as needed.</p>
+<p>The most common values needed look like this:</p>
+<pre><code class="language-yaml">clusterDomain:             # e.g. yourdomain.com
+clusterIngressIP:          # e.g. 1.2.3.4
+oidcClientID:              # e.g. some-client-id
+oidcClientSecret:          # e.g. some-secret-value
+oidcIssuerURL:             # e.g. &quot;https://login.microsoftonline.com/TENANT/v2.0&quot;
+oidcPermittedEmailDomains: # e.g. &quot;yourdomain.com&quot;
+letsEncryptContactEmail:   # e.g. &quot;someone@yourdomain.com&quot;
+
+</code></pre>
+<ul>
+<li>You can remove all <code>oidc*</code> values if you're using the included local dex IDP.</li>
+<li>You can remove <code>letsEncryptContactEmail</code> if you've set clusterTLSEnabled=false.</li>
+</ul>
+<h2 id="4-install-the-sandbox-base-helm-chart">4. Install The Sandbox Base Helm Chart</h2>
+<pre><code class="language-text">helm upgrade --install sandbox sandbox-charts/sandbox-base --namespace argocd --values sandbox-values.yaml --wait --atomic --create-namespace
+</code></pre>
+<p>Following that, the individual sandbox components will be installed by ArgoCD over the next 10-20 minutes. You can
+track the installation progress after connecting to the cluster with:</p>
+<p><code>kubectl get application -n argocd</code></p>
+<p>Once you see the following, you should be good to go (see verification step below):</p>
+<pre><code class="language-text">NAME                       SYNC STATUS   HEALTH STATUS
+argo-virtual-server        Synced        Healthy
+cert-manager               Synced        Healthy
+grafana                    Synced        Healthy
+loki                       Synced        Healthy
+nginx-ingress              Synced        Healthy
+nginx-mesh                 Synced        Healthy
+oauth-proxy                Synced        Healthy
+opentelemetry-operator     Synced        Healthy
+prometheus-operator        Synced        Healthy
+prometheus-operator-crds   Synced        Healthy
+sandbox-apps               Synced        Healthy
+temppo                     Synced        Healthy
+</code></pre>
+<hr />
+<h3 id="5-verification">5. Verification</h3>
+<p>If you have the argocd CLI utility <a href="https://argo-cd.readthedocs.io/en/stable/getting_started/#2-download-argo-cd-cli">installed</a>,
+you can use it to view additional information and troubleshoot issues as needed:</p>
+<p>1) Fetch the ArgoCD Admin Password</p>
+<pre><code class="language-text">kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath=&quot;{.data.password}&quot; | base64 -d; echo
+</code></pre>
+<p>2) Port Forward ArgoCD CLI Commands</p>
+<pre><code class="language-text">export ARGOCD_OPTS='--port-forward-namespace argocd'
+</code></pre>
+<p>3) Login To The ArgoCD Instance</p>
+<pre><code class="language-text">argocd login --port-forward --insecure
+</code></pre>
+<p>4) View App Rollout Progress</p>
+<pre><code class="language-text">argocd app get sandbox-apps
+</code></pre>
+<p>When complete you should see a list that looks like this (all items are Synced and Healthy/blank):</p>
+<pre><code class="language-text">GROUP        KIND         NAMESPACE    NAME                      STATUS  HEALTH   HOOK  MESSAGE
+             Secret       oauth-proxy  dex-config-secret         Synced                 secret/dex-config-secret configured
+argoproj.io  Application  argocd       cert-manager              Synced  Healthy        application.argoproj.io/cert-manager configured
+argoproj.io  Application  argocd       nginx-ingress             Synced  Healthy        application.argoproj.io/nginx-ingress configured
+             ConfigMap    kube-system  coredns                   Synced
+             Namespace                 oauth-proxy               Synced
+             Secret       oauth-proxy  oauth-proxy-creds         Synced
+argoproj.io  AppProject   argocd       cluster-services          Synced
+argoproj.io  Application  argocd       argo-virtual-server       Synced  Healthy
+argoproj.io  Application  argocd       gatekeeper                Synced  Healthy
+argoproj.io  Application  argocd       grafana                   Synced  Healthy
+argoproj.io  Application  argocd       loki                      Synced  Healthy
+argoproj.io  Application  argocd       nginx-mesh                Synced  Healthy
+argoproj.io  Application  argocd       oauth-proxy               Synced  Healthy
+argoproj.io  Application  argocd       opentelemetry-operator    Synced  Healthy
+argoproj.io  Application  argocd       prometheus-operator       Synced  Healthy
+argoproj.io  Application  argocd       prometheus-operator-crds  Synced  Healthy
+argoproj.io  Application  argocd       sealed-secrets            Synced  Healthy
+argoproj.io  Application  argocd       tempo                     Synced  Healthy
+</code></pre>
+<hr />
+<h2 id="6-access-sandbox-services">6. Access Sandbox Services</h2>
+<p>Once all services are in 'Synced, Healthy' state, and you've updated the DNS records as described <a href="../dns/">here</a>,
+you should be able to securely access the ArgoCD and Grafana services at:</p>
+<pre><code class="language-text">https://argocd.YOUR_DOMAIN/
+https://grafana.YOUR_DOMAIN/
+</code></pre>
+<p>If you're using the default Dex IDP, you can fetch the credentials for the admin@example.com domain
+from the cluster as follows:</p>
+<pre><code class="language-text">kubectl get secret -n oauth-proxy oauth-proxy-creds -o jsonpath=&quot;{.data.admin-password}&quot; | base64 -d; echo
+</code></pre>
+<p>Please see the <a href="../../troubleshooting/">troubleshooting</a> guide for investigating issues.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../dns/" class="btn btn-neutral float-left" title="DNS Configuration"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../byoc-argocd/" class="btn btn-neutral float-right" title="Bring Your Own Cluster (ArgoCD)">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../dns/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../byoc-argocd/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '../..';</script>
+    <script src="../../js/theme_extra.js" defer></script>
+    <script src="../../js/theme.js" defer></script>
+      <script src="../../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>
