@@ -5,14 +5,14 @@ metadata:
   namespace: default
   annotations:
     "helm.sh/hook": post-install,post-upgrade
-    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded   
   labels:
     app: kube-prometheus-stack-admission-patch    
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/instance: foo
-    app.kubernetes.io/version: "39.13.3"
+    app.kubernetes.io/version: "45.4.0"
     app.kubernetes.io/part-of: kube-prometheus-stack
-    chart: kube-prometheus-stack-39.13.3
+    chart: kube-prometheus-stack-45.4.0
     release: "foo"
     heritage: "Helm"
 spec:
@@ -23,22 +23,22 @@ spec:
         app: kube-prometheus-stack-admission-patch        
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/instance: foo
-        app.kubernetes.io/version: "39.13.3"
+        app.kubernetes.io/version: "45.4.0"
         app.kubernetes.io/part-of: kube-prometheus-stack
-        chart: kube-prometheus-stack-39.13.3
+        chart: kube-prometheus-stack-45.4.0
         release: "foo"
         heritage: "Helm"
     spec:
       containers:
         - name: patch
-          image: k8s.gcr.io/ingress-nginx/kube-webhook-certgen:v1.2.0
+          image: registry.k8s.io/ingress-nginx/kube-webhook-certgen:v20221220-controller-v1.5.1-58-g787ea74b6
           imagePullPolicy: IfNotPresent
           args:
             - patch
             - --webhook-name=foo-kube-prometheus-stack-admission
             - --namespace=default
             - --secret-name=foo-kube-prometheus-stack-admission
-            - --patch-failure-policy=Fail
+            - --patch-failure-policy=
           securityContext:
           
             {}

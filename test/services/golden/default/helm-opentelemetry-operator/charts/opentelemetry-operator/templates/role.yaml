@@ -2,8 +2,13 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   labels:
+    helm.sh/chart: opentelemetry-operator-0.24.0
     app.kubernetes.io/name: opentelemetry-operator
-  name: opentelemetry-operator-leader-election-role
+    app.kubernetes.io/version: "0.70.0"
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/instance: foo
+    app.kubernetes.io/component: controller-manager
+  name: foo-opentelemetry-operator-leader-election
   namespace: default
 rules:
   - apiGroups:

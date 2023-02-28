@@ -106,6 +106,8 @@ spec:
           resources:
             null
           securityContext:
+            seccompProfile:
+              type: RuntimeDefault
             allowPrivilegeEscalation: false
             capabilities:
               drop:
@@ -120,7 +122,7 @@ spec:
             readOnly: true
       containers:
         - name: kubectl-label
-          image: "openpolicyagent/gatekeeper-crds:v3.10.0"
+          image: "openpolicyagent/gatekeeper-crds:v3.11.0"
           imagePullPolicy: IfNotPresent
           args:
             - label

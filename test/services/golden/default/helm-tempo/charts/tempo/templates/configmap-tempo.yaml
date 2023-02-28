@@ -4,10 +4,10 @@ metadata:
   name: tempo
   namespace: default
   labels:
-    helm.sh/chart: tempo-0.16.2
+    helm.sh/chart: tempo-1.0.0
     app.kubernetes.io/name: tempo
     app.kubernetes.io/instance: foo
-    app.kubernetes.io/version: "1.5.0"
+    app.kubernetes.io/version: "2.0.0"
     app.kubernetes.io/managed-by: Helm
 data:
   overrides.yaml: |
@@ -15,11 +15,11 @@ data:
       {}
   tempo.yaml: |
     multitenancy_enabled: false
-    search_enabled: false
-    metrics_generator_enabled: false
+    usage_report:
+      reporting_enabled: true
     compactor:
       compaction:
-        compacted_block_retention: 24h
+        block_retention: 24h
     distributor:
       receivers:
             jaeger:

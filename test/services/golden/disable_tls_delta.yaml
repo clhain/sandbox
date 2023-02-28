@@ -1,6 +1,6 @@
 diff -bur test/services/golden/default/helm-argo-virtual-server/templates/argo-virtual-server.yaml test/services/golden/disable_tls/helm-argo-virtual-server/templates/argo-virtual-server.yaml
---- test/services/golden/default/helm-argo-virtual-server/templates/argo-virtual-server.yaml	2022-10-25 18:46:09.035263347 +0000
-+++ test/services/golden/disable_tls/helm-argo-virtual-server/templates/argo-virtual-server.yaml	2022-10-25 18:46:13.319371783 +0000
+--- test/services/golden/default/helm-argo-virtual-server/templates/argo-virtual-server.yaml	2023-02-28 19:23:14.917664002 +0000
++++ test/services/golden/disable_tls/helm-argo-virtual-server/templates/argo-virtual-server.yaml	2023-02-28 19:23:19.593604633 +0000
 @@ -5,10 +5,6 @@
    namespace: argocd
  spec:
@@ -14,9 +14,11 @@ diff -bur test/services/golden/default/helm-argo-virtual-server/templates/argo-v
      route: argocd/argocd
 Only in test/services/golden/default/helm-cert-manager/templates: letsencrypt-issuer.yaml
 Only in test/services/golden/default/helm-gatekeeper/charts/gatekeeper/templates: gatekeeper-admin-podsecuritypolicy.yaml
+Only in test/services/golden/default/helm-grafana/charts/grafana/templates/tests: test-role.yaml
+Only in test/services/golden/default/helm-grafana/charts/grafana/templates/tests: test-rolebinding.yaml
 diff -bur test/services/golden/default/helm-grafana/templates/grafana-virtual-server.yaml test/services/golden/disable_tls/helm-grafana/templates/grafana-virtual-server.yaml
---- test/services/golden/default/helm-grafana/templates/grafana-virtual-server.yaml	2022-10-25 18:46:07.687227160 +0000
-+++ test/services/golden/disable_tls/helm-grafana/templates/grafana-virtual-server.yaml	2022-10-25 18:46:11.967342055 +0000
+--- test/services/golden/default/helm-grafana/templates/grafana-virtual-server.yaml	2023-02-28 19:23:14.665665218 +0000
++++ test/services/golden/disable_tls/helm-grafana/templates/grafana-virtual-server.yaml	2023-02-28 19:23:19.345606023 +0000
 @@ -5,16 +5,12 @@
    namespace: "grafana"
  spec:
@@ -35,11 +37,15 @@ diff -bur test/services/golden/default/helm-grafana/templates/grafana-virtual-se
        auth_request_set $user   $upstream_http_x_auth_request_user;
        auth_request_set $email  $upstream_http_x_auth_request_email;
        auth_request_set $auth_header $upstream_http_authorization;
+Only in test/services/golden/default/: helm-loki
+Only in test/services/golden/default/helm-nginx-mesh/charts/nginx-service-mesh/templates: post-upgrade-hook.yaml
+Only in test/services/golden/default/helm-nginx-mesh/charts/nginx-service-mesh/templates: pre-install-hook.yaml
+Only in test/services/golden/default/helm-nginx-mesh/charts/nginx-service-mesh/templates: pre-upgrade-hook.yaml
 Only in test/services/golden/default/helm-oauth-proxy/charts/oauth2-proxy/templates: configmap.yaml
 Only in test/services/golden/default/helm-oauth-proxy/templates: dex-config-secret.yaml
 diff -bur test/services/golden/default/helm-oauth-proxy/templates/oauth-proxy-configmap.yaml test/services/golden/disable_tls/helm-oauth-proxy/templates/oauth-proxy-configmap.yaml
---- test/services/golden/default/helm-oauth-proxy/templates/oauth-proxy-configmap.yaml	2022-10-25 18:46:09.499275802 +0000
-+++ test/services/golden/disable_tls/helm-oauth-proxy/templates/oauth-proxy-configmap.yaml	2022-10-25 18:46:13.779380825 +0000
+--- test/services/golden/default/helm-oauth-proxy/templates/oauth-proxy-configmap.yaml	2023-02-28 19:23:14.861664272 +0000
++++ test/services/golden/disable_tls/helm-oauth-proxy/templates/oauth-proxy-configmap.yaml	2023-02-28 19:23:19.537604947 +0000
 @@ -10,9 +10,9 @@
        set_xauthrequest=true
        cookie_domains=".example.com"
@@ -54,8 +60,8 @@ diff -bur test/services/golden/default/helm-oauth-proxy/templates/oauth-proxy-co
        pass_authorization_header=true
 Only in test/services/golden/default/helm-oauth-proxy/templates: oauth-proxy-secret.yaml
 diff -bur test/services/golden/default/helm-oauth-proxy/templates/oauth-virtual-server.yaml test/services/golden/disable_tls/helm-oauth-proxy/templates/oauth-virtual-server.yaml
---- test/services/golden/default/helm-oauth-proxy/templates/oauth-virtual-server.yaml	2022-10-25 18:46:09.519276339 +0000
-+++ test/services/golden/disable_tls/helm-oauth-proxy/templates/oauth-virtual-server.yaml	2022-10-25 18:46:13.799381218 +0000
+--- test/services/golden/default/helm-oauth-proxy/templates/oauth-virtual-server.yaml	2023-02-28 19:23:14.881664176 +0000
++++ test/services/golden/disable_tls/helm-oauth-proxy/templates/oauth-virtual-server.yaml	2023-02-28 19:23:19.557604835 +0000
 @@ -4,10 +4,6 @@
    name: oauth-auth-endpoint
  spec:   

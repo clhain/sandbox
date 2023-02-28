@@ -3,7 +3,7 @@ appVersion: "1.0"
 dependencies:
 - name: oauth2-proxy
   repository: https://oauth2-proxy.github.io/manifests
-  version: 6.8.0
+  version: 6.9.1
 - condition: clusterLocalAuth
   name: dex
   repository: https://charts.dexidp.io
@@ -14,4 +14,4 @@ maintainers:
   name: clhain
 name: helm-oauth-proxy
 type: application
-version: 0.1.7
+version: 0.1.8

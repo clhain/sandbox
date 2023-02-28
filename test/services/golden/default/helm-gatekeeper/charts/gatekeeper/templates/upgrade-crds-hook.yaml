@@ -80,7 +80,7 @@ spec:
       restartPolicy: Never
       containers:
       - name: crds-upgrade
-        image: 'openpolicyagent/gatekeeper-crds:v3.10.0'
+        image: 'openpolicyagent/gatekeeper-crds:v3.11.0'
         imagePullPolicy: 'IfNotPresent'
         args:
         - apply

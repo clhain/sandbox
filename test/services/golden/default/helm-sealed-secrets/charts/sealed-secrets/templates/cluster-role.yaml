@@ -4,10 +4,11 @@ metadata:
   name: secrets-unsealer
   labels:
     app.kubernetes.io/name: sealed-secrets
-    helm.sh/chart: sealed-secrets-2.7.0
+    helm.sh/chart: sealed-secrets-2.7.4
     app.kubernetes.io/instance: foo
     app.kubernetes.io/managed-by: Helm
-    app.kubernetes.io/version: v0.19.1
+    app.kubernetes.io/version: v0.19.5
+    app.kubernetes.io/part-of: sealed-secrets
 rules:
   - apiGroups:
       - bitnami.com

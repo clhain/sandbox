@@ -22,23 +22,15 @@ metadata:
     "helm.sh/hook-delete-policy": hook-succeeded,hook-failed
     "helm.sh/hook-weight": "-5"
 rules:
-- apiGroups:
-  - ''
-  resources:
-  - namespaces
-  verbs:
-  - get
-  - list
-  - patch
-- apiGroups:
-  - spiffeid.spiffe.io
-  resources:
-  - spiffeids
-  verbs:
-  - get
-  - list
-  - patch
-  - update
+- apiGroups: [""]
+  resources: ["secrets"]
+  verbs: ["delete"]
+- apiGroups: [""]
+  resources: ["namespaces"]
+  verbs: ["list"]
+- apiGroups: ["spiffeid.spiffe.io"]
+  resources: ["spiffeids"]
+  verbs: ["get", "list", "patch", "update"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -81,44 +73,16 @@ spec:
         image: bitnami/kubectl
         imagePullPolicy: IfNotPresent
         securityContext:
-          runAsUser: 0
+          allowPrivilegeEscalation: false
+          privileged: false
+          runAsUser: 101 #nginx
         command:
         - /bin/sh
         - -c
         - |
-          for ns in $(kubectl get ns | awk '{print $1}' | tail -n +2); do
+          for ns in $(kubectl get ns --no-headers -o custom-columns=":metadata.name"); do
             if [ $(kubectl get spiffeids -n $ns 2>/dev/null | wc -l) -ne 0 ]; then
               kubectl patch spiffeid $(kubectl get spiffeids -n $ns | awk '{print $1}' | tail -n +2) --type='merge' -p '{"metadata":{"finalizers":null}}' -n $ns
             fi
           done
----
-apiVersion: batch/v1
-kind: Job
-metadata:
-  name: remove-namespace-label
-  labels:
-    app.kubernetes.io/part-of: nginx-service-mesh
-  annotations:
-    "helm.sh/hook": post-delete
-    "helm.sh/hook-delete-policy": hook-succeeded,hook-failed
-    "helm.sh/hook-weight": "0"
-spec:
-  template:
-    metadata:
-      name: remove-namespace-label
-    spec:
-      restartPolicy: Never
-      serviceAccountName: post-delete
-      containers:
-      - name: remove-namespace-label
-        image: bitnami/kubectl
-        imagePullPolicy: IfNotPresent
-        securityContext:
-          runAsUser: 0
-        command:
-        - /bin/sh
-        - -c
-        - |
-          kubectl label namespace kube-system injector.nsm.nginx.com/auto-inject-
-          kubectl label namespace default injector.nsm.nginx.com/auto-inject- app.kubernetes.io/part-of-
 ---

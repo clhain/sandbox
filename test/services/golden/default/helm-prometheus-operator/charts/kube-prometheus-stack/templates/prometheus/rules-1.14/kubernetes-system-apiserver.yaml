@@ -8,9 +8,9 @@ metadata:
     
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/instance: foo
-    app.kubernetes.io/version: "39.13.3"
+    app.kubernetes.io/version: "45.4.0"
     app.kubernetes.io/part-of: kube-prometheus-stack
-    chart: kube-prometheus-stack-39.13.3
+    chart: kube-prometheus-stack-45.4.0
     release: "foo"
     heritage: "Helm"
 spec:
@@ -23,6 +23,7 @@ spec:
         runbook_url: https://runbooks.prometheus-operator.dev/runbooks/kubernetes/kubeclientcertificateexpiration
         summary: Client certificate is about to expire.
       expr: apiserver_client_certificate_expiration_seconds_count{job="apiserver"} > 0 and on(job) histogram_quantile(0.01, sum by (job, le) (rate(apiserver_client_certificate_expiration_seconds_bucket{job="apiserver"}[5m]))) < 604800
+      for: 5m
       labels:
         severity: warning
     - alert: KubeClientCertificateExpiration
@@ -31,6 +32,7 @@ spec:
         runbook_url: https://runbooks.prometheus-operator.dev/runbooks/kubernetes/kubeclientcertificateexpiration
         summary: Client certificate is about to expire.
       expr: apiserver_client_certificate_expiration_seconds_count{job="apiserver"} > 0 and on(job) histogram_quantile(0.01, sum by (job, le) (rate(apiserver_client_certificate_expiration_seconds_bucket{job="apiserver"}[5m]))) < 86400
+      for: 5m
       labels:
         severity: critical
     - alert: KubeAggregatedAPIErrors

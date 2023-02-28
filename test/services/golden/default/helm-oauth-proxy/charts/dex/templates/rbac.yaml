@@ -3,7 +3,7 @@ kind: ClusterRole
 metadata:
   name: foo-dex
   labels:
-    helm.sh/chart: dex-0.12.1
+    helm.sh/chart: dex-0.13.0
     app.kubernetes.io/name: dex
     app.kubernetes.io/instance: foo
     app.kubernetes.io/version: "2.35.3"
@@ -18,7 +18,7 @@ kind: ClusterRoleBinding
 metadata:
   name: foo-dex-cluster
   labels:
-    helm.sh/chart: dex-0.12.1
+    helm.sh/chart: dex-0.13.0
     app.kubernetes.io/name: dex
     app.kubernetes.io/instance: foo
     app.kubernetes.io/version: "2.35.3"
@@ -37,7 +37,7 @@ kind: Role
 metadata:
   name: foo-dex
   labels:
-    helm.sh/chart: dex-0.12.1
+    helm.sh/chart: dex-0.13.0
     app.kubernetes.io/name: dex
     app.kubernetes.io/instance: foo
     app.kubernetes.io/version: "2.35.3"
@@ -52,7 +52,7 @@ kind: RoleBinding
 metadata:
   name: foo-dex
   labels:
-    helm.sh/chart: dex-0.12.1
+    helm.sh/chart: dex-0.13.0
     app.kubernetes.io/name: dex
     app.kubernetes.io/instance: foo
     app.kubernetes.io/version: "2.35.3"

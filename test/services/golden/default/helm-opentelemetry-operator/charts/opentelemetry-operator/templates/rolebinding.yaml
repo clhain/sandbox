@@ -2,15 +2,20 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   labels:
+    helm.sh/chart: opentelemetry-operator-0.24.0
     app.kubernetes.io/name: opentelemetry-operator
-  name: opentelemetry-operator-leader-election-rolebinding
+    app.kubernetes.io/version: "0.70.0"
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/instance: foo
+    app.kubernetes.io/component: controller-manager
+  name: foo-opentelemetry-operator-leader-election
   namespace: default
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
-  name: opentelemetry-operator-leader-election-role
+  name: foo-opentelemetry-operator-leader-election
 subjects:
   - kind: ServiceAccount
-    name: opentelemetry-operator-controller-manager
+    name: opentelemetry-operator
     namespace: default
 ---

@@ -11,9 +11,9 @@ metadata:
     
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/instance: foo
-    app.kubernetes.io/version: "39.13.3"
+    app.kubernetes.io/version: "45.4.0"
     app.kubernetes.io/part-of: kube-prometheus-stack
-    chart: kube-prometheus-stack-39.13.3
+    chart: kube-prometheus-stack-45.4.0
     release: "foo"
     heritage: "Helm"
 data:
@@ -816,7 +816,7 @@ data:
                 "steppedLine": false,
                 "targets": [
                     {
-                        "expr": "histogram_quantile(0.99, sum(rate(kubelet_pod_start_duration_seconds_count{cluster=\"$cluster\",job=\"kubelet\", metrics_path=\"/metrics\",instance=~\"$instance\"}[$__rate_interval])) by (instance, le))",
+                        "expr": "histogram_quantile(0.99, sum(rate(kubelet_pod_start_duration_seconds_bucket{cluster=\"$cluster\",job=\"kubelet\", metrics_path=\"/metrics\",instance=~\"$instance\"}[$__rate_interval])) by (instance, le))",
                         "format": "time_series",
                         "intervalFactor": 2,
                         "legendFormat": "{{instance}} pod",
