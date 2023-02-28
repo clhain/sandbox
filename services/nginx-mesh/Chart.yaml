@@ -3,11 +3,11 @@ appVersion: "1.0"
 dependencies:
 - name: nginx-service-mesh
   repository: https://helm.nginx.com/stable
-  version: 0.6.0
+  version: 0.7.0
 description: Proxy Chart for Sandbox Cluster compatible nginx-mesh installation
 maintainers:
 - email: clhain@gmail.com
   name: clhain
 name: helm-nginx-mesh
 type: application
-version: 0.1.2
+version: 0.1.3
