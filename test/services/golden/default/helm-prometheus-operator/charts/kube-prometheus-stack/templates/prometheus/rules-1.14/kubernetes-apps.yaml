@@ -8,9 +8,9 @@ metadata:
     
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/instance: foo
-    app.kubernetes.io/version: "39.13.3"
+    app.kubernetes.io/version: "45.4.0"
     app.kubernetes.io/part-of: kube-prometheus-stack
-    chart: kube-prometheus-stack-39.13.3
+    chart: kube-prometheus-stack-45.4.0
     release: "foo"
     heritage: "Helm"
 spec:
@@ -34,7 +34,7 @@ spec:
       expr: |-
         sum by (namespace, pod, cluster) (
           max by(namespace, pod, cluster) (
-            kube_pod_status_phase{job="kube-state-metrics", namespace=~".*", phase=~"Pending|Unknown"}
+            kube_pod_status_phase{job="kube-state-metrics", namespace=~".*", phase=~"Pending|Unknown|Failed"}
           ) * on(namespace, pod, cluster) group_left(owner_kind) topk by(namespace, pod, cluster) (
             1, max by(namespace, pod, owner_kind, cluster) (kube_pod_owner{owner_kind!="Job"})
           )
@@ -214,7 +214,7 @@ spec:
       annotations:
         description: HPA {{ $labels.namespace }}/{{ $labels.horizontalpodautoscaler  }} has not matched the desired number of replicas for longer than 15 minutes.
         runbook_url: https://runbooks.prometheus-operator.dev/runbooks/kubernetes/kubehpareplicasmismatch
-        summary: HPA has not matched descired number of replicas.
+        summary: HPA has not matched desired number of replicas.
       expr: |-
         (kube_horizontalpodautoscaler_status_desired_replicas{job="kube-state-metrics", namespace=~".*"}
           !=

@@ -5,7 +5,7 @@ metadata:
   namespace: default
   labels:
     app.kubernetes.io/name: foo-nginx-ingress
-    helm.sh/chart: nginx-ingress-0.15.1
+    helm.sh/chart: nginx-ingress-0.16.2
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/instance: foo
 spec:
@@ -26,8 +26,9 @@ spec:
       automountServiceAccountToken: true
       terminationGracePeriodSeconds: 30
       hostNetwork: false
+      dnsPolicy: ClusterFirst
       containers:
-      - image: nginx/nginx-ingress:2.4.1
+      - image: nginx/nginx-ingress:3.0.2
         name: foo-nginx-ingress
         imagePullPolicy: "IfNotPresent"
         ports:
@@ -90,6 +91,9 @@ spec:
           - -enable-prometheus-metrics=true
           - -prometheus-metrics-listen-port=9113
           - -prometheus-tls-secret=
+          - -enable-service-insight=false
+          - -service-insight-listen-port=9114
+          - -service-insight-tls-secret=
           - -enable-custom-resources=true
           - -enable-snippets=true
           - -include-year=false

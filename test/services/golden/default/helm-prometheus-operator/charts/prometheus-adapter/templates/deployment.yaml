@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:    
-    helm.sh/chart: prometheus-adapter-3.4.1
+    helm.sh/chart: prometheus-adapter-4.1.1
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: metrics
     app.kubernetes.io/part-of: prometheus-adapter
@@ -25,7 +25,7 @@ spec:
   template:
     metadata:
       labels:        
-        helm.sh/chart: prometheus-adapter-3.4.1
+        helm.sh/chart: prometheus-adapter-4.1.1
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/component: metrics
         app.kubernetes.io/part-of: prometheus-adapter
@@ -34,12 +34,12 @@ spec:
         app.kubernetes.io/version: "v0.10.0"
       name: prometheus-adapter
       annotations:
-        checksum/config: 9fac1974efb01d0dbae5a24b6f56fdad517bf45c221d6e46fcf40f206162818c
+        checksum/config: b42fc84959646ea020fe84df9ed04bcc0be05122643c7dfba69ea4ad24993ed5
     spec:
       serviceAccountName: foo-prometheus-adapter
       containers:
       - name: prometheus-adapter
-        image: "k8s.gcr.io/prometheus-adapter/prometheus-adapter:v0.10.0"
+        image: "registry.k8s.io/prometheus-adapter/prometheus-adapter:v0.10.0"
         imagePullPolicy: IfNotPresent
         args:
         - /adapter
@@ -70,10 +70,13 @@ spec:
         securityContext:
           allowPrivilegeEscalation: false
           capabilities:
-            drop: ["all"]
+            drop:
+            - all
           readOnlyRootFilesystem: true
           runAsNonRoot: true
           runAsUser: 10001
+          seccompProfile:
+            type: RuntimeDefault
         volumeMounts:
         - mountPath: /etc/adapter/
           name: config

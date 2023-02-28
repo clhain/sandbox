@@ -49,7 +49,7 @@ spec:
       automountServiceAccountToken: true
       containers:
       -
-        image: openpolicyagent/gatekeeper:v3.10.0
+        image: openpolicyagent/gatekeeper:v3.11.0
         args:
         - --port=8443
         - --health-addr=:9090
@@ -60,13 +60,14 @@ spec:
         - --log-level=INFO
         - --exempt-namespace=default
         - --operation=webhook
-        - --enable-external-data=false
+        - --enable-external-data=true
         - --enable-generator-resource-expansion=false
         - --log-mutations=false
         - --mutation-annotations=false
         - --disable-cert-rotation=false
         - --max-serving-threads=-1
         - --tls-min-version=1.3
+        
         - --metrics-backend=prometheus
         
         - --operation=mutation-webhook
@@ -114,11 +115,10 @@ spec:
           timeoutSeconds: 1
         resources:
           limits:
-            cpu: 1000m
             memory: 512Mi
           requests:
             cpu: 100m
-            memory: 256Mi
+            memory: 512Mi
         securityContext:
           seccompProfile:
             type: RuntimeDefault

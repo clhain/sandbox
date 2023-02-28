@@ -39,7 +39,7 @@ spec:
       automountServiceAccountToken: true
       containers:
       -
-        image: openpolicyagent/gatekeeper:v3.10.0
+        image: openpolicyagent/gatekeeper:v3.11.0
         args:
         - --audit-interval=60
         - --log-level=INFO
@@ -54,7 +54,7 @@ spec:
         - --logtostderr
         - --health-addr=:9090
         - --prometheus-port=8888
-        - --enable-external-data=false
+        - --enable-external-data=true
         - --enable-generator-resource-expansion=false
         - --metrics-backend=prometheus
         - --disable-cert-rotation=true
@@ -98,11 +98,10 @@ spec:
           timeoutSeconds: 1
         resources:
           limits:
-            cpu: 1000m
             memory: 512Mi
           requests:
             cpu: 100m
-            memory: 256Mi
+            memory: 512Mi
         securityContext:
           seccompProfile:
             type: RuntimeDefault

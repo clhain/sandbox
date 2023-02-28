@@ -3,53 +3,62 @@ kind: DaemonSet
 metadata:
   name: foo-prometheus-node-exporter
   namespace: default
-  labels:     
-    app: prometheus-node-exporter
-    heritage: Helm
-    release: foo
-    chart: prometheus-node-exporter-3.3.1
+  labels:
+    helm.sh/chart: prometheus-node-exporter-4.14.0
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/component: metrics
+    app.kubernetes.io/part-of: prometheus-node-exporter
+    app.kubernetes.io/name: prometheus-node-exporter
+    app.kubernetes.io/instance: foo
+    app.kubernetes.io/version: "1.5.0"
     jobLabel: node-exporter
+    release: foo
 spec:
   selector:
     matchLabels:
-      app: prometheus-node-exporter
-      release: foo
+      app.kubernetes.io/name: prometheus-node-exporter
+      app.kubernetes.io/instance: foo
   updateStrategy:
     rollingUpdate:
       maxUnavailable: 1
     type: RollingUpdate
   template:
     metadata:
-      labels:         
-        app: prometheus-node-exporter
-        heritage: Helm
-        release: foo
-        chart: prometheus-node-exporter-3.3.1
-        jobLabel: node-exporter
       annotations:
         cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
+      labels:
+        helm.sh/chart: prometheus-node-exporter-4.14.0
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/component: metrics
+        app.kubernetes.io/part-of: prometheus-node-exporter
+        app.kubernetes.io/name: prometheus-node-exporter
+        app.kubernetes.io/instance: foo
+        app.kubernetes.io/version: "1.5.0"
+        jobLabel: node-exporter
+        release: foo
     spec:
       automountServiceAccountToken: false
-      serviceAccountName: foo-prometheus-node-exporter
       securityContext:
         fsGroup: 65534
         runAsGroup: 65534
         runAsNonRoot: true
         runAsUser: 65534
+      serviceAccountName: foo-prometheus-node-exporter
       containers:
         - name: node-exporter
-          image: quay.io/prometheus/node-exporter:v1.3.1
+          image: quay.io/prometheus/node-exporter:v1.5.0
           imagePullPolicy: IfNotPresent
           args:
             - --path.procfs=/host/proc
             - --path.sysfs=/host/sys
             - --path.rootfs=/host/root
+            - --path.udev.data=/host/root/run/udev/data
             - --web.listen-address=[$(HOST_IP)]:9100
             - --collector.filesystem.mount-points-exclude=^/(dev|proc|sys|var/lib/docker/.+|var/lib/kubelet/.+)($|/)
             - --collector.filesystem.fs-types-exclude=^(autofs|binfmt_misc|bpf|cgroup2?|configfs|debugfs|devpts|devtmpfs|fusectl|hugetlbfs|iso9660|mqueue|nsfs|overlay|proc|procfs|pstore|rpc_pipefs|securityfs|selinuxfs|squashfs|sysfs|tracefs)$
           env:
-          - name: HOST_IP
-            value: 0.0.0.0
+            - name: HOST_IP
+              value: 0.0.0.0
           ports:
             - name: http-metrics
               containerPort: 9100
@@ -76,8 +85,6 @@ spec:
             periodSeconds: 10
             successThreshold: 1
             timeoutSeconds: 1
-          resources:
-            {}
           volumeMounts:
             - name: proc
               mountPath: /host/proc

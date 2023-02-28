@@ -4,10 +4,10 @@ metadata:
   name: foo-tempo
   namespace: default
   labels:
-    helm.sh/chart: tempo-0.16.2
+    helm.sh/chart: tempo-1.0.0
     app.kubernetes.io/name: tempo
     app.kubernetes.io/instance: foo
-    app.kubernetes.io/version: "1.5.0"
+    app.kubernetes.io/version: "2.0.0"
     app.kubernetes.io/managed-by: Helm
 spec:
   replicas: 1
@@ -22,7 +22,7 @@ spec:
         app.kubernetes.io/name: tempo
         app.kubernetes.io/instance: foo
       annotations:
-        checksum/config: bd3120d99a817079443054605f745587849716abf5c29cb25e7cd4782e8f107e
+        checksum/config: 2940ead786774aa32e9a0feb43ad924426a31e4d45df4e5262a1e681fa5e2c63
     spec:
       serviceAccountName: foo-tempo
       automountServiceAccountToken: true
@@ -30,7 +30,7 @@ spec:
       - args:
         - -config.file=/conf/tempo.yaml
         - -mem-ballast-size-mbs=1024
-        image: grafana/tempo:1.5.0
+        image: grafana/tempo:2.0.0
         imagePullPolicy: IfNotPresent
         name: tempo
         ports:
@@ -65,7 +65,7 @@ spec:
       - args:
         - --query.base-path=/
         - --grpc-storage-plugin.configuration-file=/conf/tempo-query.yaml
-        image: grafana/tempo-query:1.5.0
+        image: grafana/tempo-query:2.0.0
         imagePullPolicy: IfNotPresent
         name: tempo-query
         ports:
@@ -75,7 +75,7 @@ spec:
           name: jaeger-metrics
         env:
         resources:
-          null
+          {}
         volumeMounts:
         - mountPath: /conf
           name: tempo-query-conf

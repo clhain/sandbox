@@ -1,10 +1,15 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: "opentelemetry-operator-controller-manager-metrics-test-connection"
+  name: "foo-opentelemetry-operator-metrics"
   namespace: default
   labels:
-    control-plane: controller-manager
+    helm.sh/chart: opentelemetry-operator-0.24.0
+    app.kubernetes.io/name: opentelemetry-operator
+    app.kubernetes.io/version: "0.70.0"
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/instance: foo
+    app.kubernetes.io/component: controller-manager
   annotations:
     "helm.sh/hook": test
 spec:
@@ -13,7 +18,7 @@ spec:
       image: "busybox:latest"
       env:
         - name: MANAGER_METRICS_SERVICE_CLUSTERIP
-          value: "opentelemetry-operator-controller-manager-metrics-service"
+          value: "foo-opentelemetry-operator"
         - name: MANAGER_METRICS_SERVICE_PORT
           value: "8443"
       command:
@@ -32,19 +37,24 @@ spec:
 apiVersion: v1
 kind: Pod
 metadata:
-  name: "opentelemetry-operator-webhook-test-connection"
+  name: "foo-opentelemetry-operator-webhook"
   namespace: default
   labels:
-    control-plane: controller-manager
+    helm.sh/chart: opentelemetry-operator-0.24.0
+    app.kubernetes.io/name: opentelemetry-operator
+    app.kubernetes.io/version: "0.70.0"
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/instance: foo
+    app.kubernetes.io/component: controller-manager
   annotations:
     "helm.sh/hook": test
 spec:
   containers:
     - name: wget
-      image: busybox
+      image: "busybox:latest"
       env:
         - name: WEBHOOK_SERVICE_CLUSTERIP
-          value: "opentelemetry-operator-webhook-service"
+          value: "foo-opentelemetry-operator-webhook"
         - name: WEBHOOK_SERVICE_PORT
           value: "443"
       command:

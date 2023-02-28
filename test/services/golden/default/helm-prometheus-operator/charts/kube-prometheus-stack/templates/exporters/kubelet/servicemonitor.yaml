@@ -7,12 +7,13 @@ metadata:
     app: kube-prometheus-stack-kubelet    
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/instance: foo
-    app.kubernetes.io/version: "39.13.3"
+    app.kubernetes.io/version: "45.4.0"
     app.kubernetes.io/part-of: kube-prometheus-stack
-    chart: kube-prometheus-stack-39.13.3
+    chart: kube-prometheus-stack-45.4.0
     release: "foo"
     heritage: "Helm"
 spec:
+  
   endpoints:
   - port: https-metrics
     scheme: https
@@ -22,7 +23,8 @@ spec:
     bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
     honorLabels: true
     relabelings:
-    - sourceLabels:
+    - action: replace
+      sourceLabels:
       - __metrics_path__
       targetLabel: metrics_path
   - port: https-metrics
@@ -60,7 +62,8 @@ spec:
       - id
       - pod
     relabelings:
-    - sourceLabels:
+    - action: replace
+      sourceLabels:
       - __metrics_path__
       targetLabel: metrics_path
   - port: https-metrics
@@ -72,7 +75,8 @@ spec:
       insecureSkipVerify: true
     bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
     relabelings:
-    - sourceLabels:
+    - action: replace
+      sourceLabels:
       - __metrics_path__
       targetLabel: metrics_path
   jobLabel: k8s-app

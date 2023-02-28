@@ -1,11 +1,17 @@
 Only in test/services/golden/default/helm-gatekeeper/charts/gatekeeper/templates: gatekeeper-admin-podsecuritypolicy.yaml
+Only in test/services/golden/default/helm-grafana/charts/grafana/templates/tests: test-role.yaml
+Only in test/services/golden/default/helm-grafana/charts/grafana/templates/tests: test-rolebinding.yaml
+Only in test/services/golden/default/: helm-loki
+Only in test/services/golden/default/helm-nginx-mesh/charts/nginx-service-mesh/templates: post-upgrade-hook.yaml
+Only in test/services/golden/default/helm-nginx-mesh/charts/nginx-service-mesh/templates: pre-install-hook.yaml
+Only in test/services/golden/default/helm-nginx-mesh/charts/nginx-service-mesh/templates: pre-upgrade-hook.yaml
 Only in test/services/golden/default/helm-oauth-proxy/charts: dex
 Only in test/services/golden/default/helm-oauth-proxy/charts/oauth2-proxy/templates: configmap.yaml
 Only in test/services/golden/default/helm-oauth-proxy/templates: dex-config-secret.yaml
 Only in test/services/golden/default/helm-oauth-proxy/templates: oauth-proxy-secret.yaml
 diff -bur test/services/golden/default/helm-oauth-proxy/templates/oauth-virtual-server.yaml test/services/golden/disable_local_auth/helm-oauth-proxy/templates/oauth-virtual-server.yaml
---- test/services/golden/default/helm-oauth-proxy/templates/oauth-virtual-server.yaml	2022-10-25 18:46:09.519276339 +0000
-+++ test/services/golden/disable_local_auth/helm-oauth-proxy/templates/oauth-virtual-server.yaml	2022-10-25 18:46:11.639333250 +0000
+--- test/services/golden/default/helm-oauth-proxy/templates/oauth-virtual-server.yaml	2023-02-28 19:23:14.881664176 +0000
++++ test/services/golden/disable_local_auth/helm-oauth-proxy/templates/oauth-virtual-server.yaml	2023-02-28 19:23:17.217636212 +0000
 @@ -31,25 +31,3 @@
        proxy_pass_request_body           off;
      action:
