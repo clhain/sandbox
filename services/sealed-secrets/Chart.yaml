@@ -3,11 +3,11 @@ appVersion: "1.0"
 dependencies:
 - name: sealed-secrets
   repository: https://bitnami-labs.github.io/sealed-secrets
-  version: 2.7.4
+  version: 2.15.0
 description: Proxy Chart for Sandbox Cluster compatible sealed secrets installation
 maintainers:
 - email: clhain@gmail.com
   name: clhain
 name: helm-sealed-secrets
 type: application
-version: 0.1.4
+version: 0.1.5
