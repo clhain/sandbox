@@ -3,14 +3,14 @@ appVersion: "1.0"
 dependencies:
 - name: kube-prometheus-stack
   repository: https://prometheus-community.github.io/helm-charts
-  version: 45.4.0
+  version: 56.7.0
 - name: prometheus-adapter
   repository: https://prometheus-community.github.io/helm-charts
-  version: 4.1.1
+  version: 4.9.0
 description: Proxy Chart for Sandbox Cluster compatible Prometheus Operator installation
 maintainers:
 - email: clhain@gmail.com
   name: clhain
 name: helm-prometheus-operator
 type: application
-version: 0.1.5
+version: 0.1.7

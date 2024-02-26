@@ -3,11 +3,11 @@ appVersion: "1.0"
 dependencies:
 - name: loki
   repository: https://grafana.github.io/helm-charts
-  version: 4.7.0
+  version: 5.43.1
 description: Proxy Chart for Sandbox Cluster compatible Loki installation
 maintainers:
 - email: clhain@gmail.com
   name: clhain
 name: helm-loki
 type: application
-version: 0.1.8
+version: 0.1.9
