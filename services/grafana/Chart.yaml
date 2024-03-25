@@ -3,11 +3,11 @@ appVersion: "1.0"
 dependencies:
 - name: grafana
   repository: https://grafana.github.io/helm-charts
-  version: 6.51.1
+  version: 7.3.7
 description: Proxy Chart for Sandbox Cluster compatible grafana installation
 maintainers:
 - email: clhain@gmail.com
   name: clhain
 name: helm-grafana
 type: application
-version: 0.1.7
+version: 0.1.8
